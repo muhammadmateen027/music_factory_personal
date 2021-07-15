@@ -31,6 +31,7 @@ class SearchArtistBloc extends Bloc<SearchArtistEvent, SearchArtistState> {
           currentPage: int.parse(artists.results!.query!.startPage!),
           totalResult: int.parse(artists.results!.totalResults!),
         ));
+        return;
       }
 
       final response = await musicService.searchArtist(

@@ -22,13 +22,18 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<SearchArtistBloc>().add(SearchArtists());
-
     return Material(
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Search'),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(50.0),
+              child: BlocProvider.value(
+                value: _artistBloc,
+                child: SearchBar(),
+              ),
+            ),
           ),
           body: _getList(),
         ),
@@ -70,7 +75,7 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
               controller: _scrollController,
             );
           default:
-            return const Center(child: CircularProgressIndicator());
+            return const Center();
         }
       },
     );
@@ -79,7 +84,7 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
   void _onScroll() {
     if (_isBottom) {
       _artistBloc.add(
-        const SearchArtists(query: 'arch'),
+        const SearchArtists(),
       );
     }
   }
