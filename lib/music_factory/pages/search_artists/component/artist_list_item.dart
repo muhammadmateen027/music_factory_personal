@@ -14,6 +14,13 @@ class ArtistListItem extends StatelessWidget {
         isThreeLine: true,
         subtitle: Text(artist.listeners!),
         dense: true,
+        leading: SizedBox(
+          width: 50,
+          height: 50,
+          child: artist.image![1].text!.isEmpty
+              ? const FlutterLogo()
+              : Image.network(artist.image![1].text!),
+        ),
       ),
     );
   }
