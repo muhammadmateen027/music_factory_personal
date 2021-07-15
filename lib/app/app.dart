@@ -5,8 +5,10 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:music_factory/config/config.dart';
 import 'package:music_factory/l10n/l10n.dart';
@@ -19,6 +21,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final routeGenerator = RouteGenerator(locator<MusicService>());
     return RepositoryProvider.value(
       value: locator<MusicService>(),
       child: MultiBlocProvider(
@@ -36,9 +39,11 @@ class App extends StatelessWidget {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
           ],
+          builder: EasyLoading.init(builder: BotToastInit()),
           supportedLocales: AppLocalizations.supportedLocales,
           initialRoute: RoutesName.initial,
-          onGenerateRoute: RouteGenerator.generateRoute,
+          navigatorKey: navigationService.navigationKey,
+          onGenerateRoute: routeGenerator.generateRoute,
         ),
       ),
     );

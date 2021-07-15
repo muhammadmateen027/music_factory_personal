@@ -10,9 +10,11 @@ class MusicRepository implements MusicService {
   final NetworkClient client;
 
   @override
-  Future<Response> loadAlbums(String artist) async {
+  Future<Response> loadArtists(String artist) async {
     var queryParameters = <String, String>{
-      'method': 'artist.gettopalbums',
+      'method': 'artist.search',
+      'format': 'json',
+      'api_key': dotenv.env['API_KEY'].toString(),
       'artist': artist
     };
     var url = dotenv.env['API_URL'];

@@ -13,7 +13,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   void _loadAlbums(LoadAlbums event, Emit<DashboardState> emit) async {
     emit(DashboardLoading());
 
-
     emit(const AlbumLoaded(artist: ''));
   }
 }
