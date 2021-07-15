@@ -7,4 +7,10 @@ abstract class SearchArtistEvent {
   List<Object> get props => [];
 }
 
-class SearchArtists extends SearchArtistEvent {}
+class SearchArtists extends SearchArtistEvent {
+  const SearchArtists({this.query = ''});
+  final String query;
+
+  @override
+  List<Object> get props => [query];
+}

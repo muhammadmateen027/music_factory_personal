@@ -22,9 +22,17 @@ class MusicRepository implements MusicService {
   }
 
   @override
-  Future<Response> searchArtist(String artistName) {
-    // TODO: implement searchArtist
-    throw UnimplementedError();
+  Future<Response> searchArtist(String artistName, [int index = 1]) async{
+
+    var queryParameters = <String, String>{
+      'method': 'artist.search',
+      'format': 'json',
+      'api_key': dotenv.env['API_KEY'].toString(),
+      'artist': artistName,
+      'page': '$index'
+    };
+    var url = dotenv.env['API_URL'];
+    return await client.get(url!, '', queryParameters: queryParameters);
   }
 
 }

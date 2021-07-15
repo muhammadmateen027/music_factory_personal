@@ -14,7 +14,7 @@ class LoggingInterceptors extends Interceptor {
     }
 
     ++currentRequests;
-    EasyLoading.show(maskType: EasyLoadingMaskType.custom);
+    EasyLoading.show(maskType: EasyLoadingMaskType.black);
     super.onRequest(options, handler);
   }
 
@@ -35,17 +35,18 @@ class LoggingInterceptors extends Interceptor {
   void onError(DioError err, ErrorInterceptorHandler handler) {
     BotToast.showText(
       text: NetworkException(err).getDetail(),
-      backgroundColor: Colors.red,
+      contentColor: Colors.red,
     );
-
-    if (err.response!.extra['customProgress'] == false) {
-      return super.onError(err, handler);
-    }
 
     --currentRequests;
     if (0 >= currentRequests) {
       EasyLoading.dismiss();
     }
+
+    if (err.response!.extra['customProgress'] == false) {
+      return super.onError(err, handler);
+    }
+
     super.onError(err, handler);
   }
 }
