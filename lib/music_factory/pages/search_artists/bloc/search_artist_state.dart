@@ -1,44 +1,44 @@
 part of 'search_artist_bloc.dart';
 
-enum SearchArtistStatus { initial, success, failure }
+// enum SearchArtistStatus { initial, success, failure }
 
-class SearchArtistState extends Equatable {
-  const SearchArtistState({
-    this.status = SearchArtistStatus.initial,
-    this.artists = const <Artist>[],
-    this.hasReachedMax = false,
-    this.currentPage = 1,
-    this.totalResult = 0,
-  });
+@immutable
+abstract class ArtistState {
 
-  final SearchArtistStatus status;
-  final List<Artist> artists;
-  final bool hasReachedMax;
-  final int currentPage;
-  final int totalResult;
+  const ArtistState();
 
-  SearchArtistState copyWith({
-    SearchArtistStatus? status,
-    List<Artist>? artists,
-    bool? hasReachedMax,
-    int? currentPage,
-    int? totalResult,
-  }) {
-    return SearchArtistState(
-      status: status ?? this.status,
-      artists: artists ?? this.artists,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-      currentPage: currentPage ?? this.currentPage,
-      totalResult: totalResult ?? this.totalResult,
-    );
-  }
+  List<Object> get props => [];
+}
+
+class SearchArtistInitial extends ArtistState {}
+
+class SearchArtistLoading extends ArtistState {}
+
+class ArtistsListEnds extends ArtistState {}
+
+class SearchArtistFailure extends ArtistState {
+  const SearchArtistFailure(this.error);
+  final String error;
 
   @override
-  List<Object> get props => [
-        status,
-        artists,
-        hasReachedMax,
-        currentPage,
-        totalResult,
-      ];
+  List<Object> get props => [error];
 }
+
+class LoadedArtists extends ArtistState {
+  const LoadedArtists({
+    this.query,
+    this.artists,
+    this.currentPage,
+    this.reachedMaximum = false,
+  });
+
+  final String? query;
+  final List<Artist>? artists;
+  final int? currentPage;
+  final bool reachedMaximum;
+
+  @override
+  List<Object> get props => [query!, artists!, currentPage!, reachedMaximum];
+}
+
+class NoMoreArtists extends ArtistState {}

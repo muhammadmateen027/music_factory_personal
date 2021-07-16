@@ -17,8 +17,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const DashboardPage());
       case RoutesName.searchPage:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider<SearchArtistBloc>(
-            create: (_) => SearchArtistBloc(musicService: musicService),
+          builder: (_) => BlocProvider<ArtistBloc>(
+            create: (_) => ArtistBloc(musicService: musicService),
             child: SearchArtistPage(),
           ),
         );

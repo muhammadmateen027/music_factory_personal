@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'component/component.dart';
 
@@ -10,14 +11,14 @@ class SearchArtistPage extends StatefulWidget {
 }
 
 class _SearchArtistPageState extends State<SearchArtistPage> {
-  final _scrollController = ScrollController();
-  late SearchArtistBloc _artistBloc;
+  late RefreshController _refreshController;
+  late ArtistBloc _artistBloc;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
-    _artistBloc = context.read<SearchArtistBloc>();
+    _refreshController = RefreshController();
+    _artistBloc = context.read<ArtistBloc>();
   }
 
   @override
@@ -35,64 +36,84 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
               ),
             ),
           ),
-          body: _getList(),
+          body: _getBody(),
         ),
       ),
     );
   }
 
-  Widget _getList() {
-    return BlocBuilder<SearchArtistBloc, SearchArtistState>(
-      builder: (context, state) {
-        switch (state.status) {
-          case SearchArtistStatus.failure:
-            return GestureDetector(
-              onTap: () => _artistBloc.add(const SearchArtists()),
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.refresh),
-                    Text('failed to fetch artists')
-                  ],
-                ),
-              ),
-            );
-          case SearchArtistStatus.success:
-            if (state.artists.isEmpty) {
-              return const Center(child: Text('no artists'));
-            }
-            return ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                return index >= state.artists.length
-                    ? BottomLoader()
-                    : ArtistListItem(artist: state.artists[index]);
-              },
-              itemCount: state.hasReachedMax
-                  ? state.artists.length
-                  : state.artists.length + 1,
-              controller: _scrollController,
-            );
-          default:
-            return const Center();
+  Widget _getBody() {
+    return BlocConsumer<ArtistBloc, ArtistState>(
+      listener: (_, state) {
+        if (state is SearchArtistFailure) {
+          _refreshController.loadComplete();
         }
+        if (state is SearchArtistInitial) {
+          _refreshController.resetNoData();
+        }
+        if (state is ArtistsListEnds) {
+          _refreshController.loadComplete();
+          return;
+        }
+        if (state is LoadedArtists) {
+          if (state.artists!.isEmpty) {
+            _refreshController.resetNoData();
+          }
+
+        }
+      },
+      buildWhen: (pre, curr) {
+        if (curr is SearchArtistInitial) {
+          return true;
+        }
+        if(curr is LoadedArtists) {
+          if (curr.reachedMaximum) {
+            _refreshController.loadComplete();
+            return false;
+          }
+          return true;
+        }
+        return false;
+      },
+      builder: (context, state) {
+        if (state is SearchArtistInitial) {
+          return const Center(child: Text('no artists'));
+        }
+
+        if (state is LoadedArtists) {
+          _refreshController.loadComplete();
+          if (state.reachedMaximum) {
+            _refreshController.loadNoData();
+          }
+          return _getList(state);
+        }
+
+        return const Center();
       },
     );
   }
 
-  void _onScroll() {
-    if (_isBottom) {
-      _artistBloc.add(
-        const SearchArtists(),
-      );
-    }
+  Widget _getList(LoadedArtists state) {
+    return SmartRefresher(
+      enablePullDown: false,
+      enablePullUp: true,
+      controller: _refreshController,
+      onLoading: loadRequests,
+      child: ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return index >= state.artists!.length
+              ? BottomLoader()
+              : ArtistListItem(artist: state.artists![index]);
+        },
+        itemCount: state.artists!.length,
+      ),
+    );
   }
 
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.9);
+
+  void loadRequests() {
+    _refreshController.requestLoading();
+    _artistBloc.add(LoadArtists());
+    return;
   }
 }

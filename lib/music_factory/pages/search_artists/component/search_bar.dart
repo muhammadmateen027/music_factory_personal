@@ -7,10 +7,10 @@ typedef VoidCallback = void Function();
 typedef ValueChanged<T> = void Function(T value);
 
 class SearchBar extends StatelessWidget {
-  SearchBar({Key? key}) : super(key: key);
+  SearchBar({Key? key, this.onPressed, this.onSubmitted}) : super(key: key);
 
-  // final VoidCallback? onPressed;
-  // final ValueChanged? onSubmitted;
+  final VoidCallback? onPressed;
+  final ValueChanged? onSubmitted;
 
   final TextEditingController controller = TextEditingController();
 
@@ -23,7 +23,7 @@ class SearchBar extends StatelessWidget {
         child: TextField(
           controller: controller,
           onSubmitted: (value) {
-            context.read<SearchArtistBloc>().add(SearchArtists(query: value));
+            context.read<ArtistBloc>().add(SearchArtists(query: value));
           },
           autofocus: true,
           decoration: InputDecoration(
@@ -38,7 +38,7 @@ class SearchBar extends StatelessWidget {
                 size: 30,
               ),
               onPressed: () {
-                context.read<SearchArtistBloc>().add(
+                context.read<ArtistBloc>().add(
                       SearchArtists(query: controller.text),
                     );
               },
