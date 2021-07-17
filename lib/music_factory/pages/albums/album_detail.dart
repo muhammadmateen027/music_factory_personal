@@ -30,12 +30,6 @@ class AlbumDetail extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   BlocBuilder<DashboardBloc, DashboardState>(
-                    buildWhen: (curr, state) {
-                      if (curr is AlbumDetailLoaded) {
-                        return true;
-                      }
-                      return false;
-                    },
                     builder: (_, state) {
                       if (state is AlbumDetailLoaded) {
                         return Column(
