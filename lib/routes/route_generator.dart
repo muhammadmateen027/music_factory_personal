@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
+import 'package:music_factory/music_factory/pages/albums/albums.dart';
 import 'package:music_factory/repository/repository.dart';
 
 import 'routes_name.dart';
+import 'transition_animation/transition_animation.dart';
 
 class RouteGenerator {
   RouteGenerator(this.musicService);
@@ -14,14 +17,20 @@ class RouteGenerator {
     final args = setting.arguments;
     switch (setting.name) {
       case RoutesName.initial:
-        return MaterialPageRoute(builder: (_) => const DashboardPage());
+        return AppRoutes.slideUpRoute(const DashboardPage());
       case RoutesName.searchPage:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider<ArtistBloc>(
-            create: (_) => ArtistBloc(musicService: musicService),
-            child: SearchArtistPage(),
-          ),
+        Widget page = BlocProvider<ArtistBloc>(
+          create: (_) => ArtistBloc(musicService: musicService),
+          child: SearchArtistPage(),
         );
+        return AppRoutes.slideUpRoute(page);
+
+      case RoutesName.albumsPage:
+        Widget page = BlocProvider<AlbumsBloc>(
+          create: (_) => AlbumsBloc(musicService),
+          child: TopAlbumsPage(artist: args as Artist),
+        );
+        return AppRoutes.slideUpRoute(page);
 
       default:
         return _errorRoute();

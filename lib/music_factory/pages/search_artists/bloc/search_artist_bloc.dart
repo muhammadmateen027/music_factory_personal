@@ -18,8 +18,7 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
 
   void _searchArtist(SearchArtists event, Emit<ArtistState> emit) async {
     try {
-      if (state is LoadedArtists) {
-        // var currentState = (state as LoadedArtists);
+      if (state is ArtistsLoadedState) {
         emit(SearchArtistInitial());
       }
 
@@ -27,11 +26,10 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
       var artists = Artists.fromJson(response.data);
 
       if (artists.results!.totalResults == '0') {
-        print('-----------------------');
         emit(SearchArtistInitial());
         return;
       }
-      emit(LoadedArtists(
+      emit(ArtistsLoadedState(
         query: event.query,
         artists: artists.results!.artistmatches!.artist!,
         currentPage: int.parse(artists.results!.query!.startPage!),
@@ -47,15 +45,15 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
 
   void _loadArtist(LoadArtists event, Emit<ArtistState> emit) async {
     try {
-      if (state is LoadedArtists) {
-        var currentState = (state as LoadedArtists);
+      if (state is ArtistsLoadedState) {
+        var currentState = (state as ArtistsLoadedState);
         if(currentState.reachedMaximum) {
           emit(ArtistsListEnds());
           return;
         }
 
         if (currentState.query!.isEmpty) {
-          emit(const LoadedArtists(reachedMaximum: true, artists: []));
+          emit(const ArtistsLoadedState(reachedMaximum: true, artists: []));
           return;
         }
 
@@ -66,7 +64,7 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
 
         Artists? artists = Artists.fromJson(response.data);
         if (artists.results == null) {
-          emit(const LoadedArtists(
+          emit(const ArtistsLoadedState(
             reachedMaximum: true,
             artists: [],
           ));
@@ -76,7 +74,7 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
         List<Artist>? list = List.of(currentState.artists!)
           ..addAll(artists.results!.artistmatches!.artist!);
 
-        emit(LoadedArtists(
+        emit(ArtistsLoadedState(
           query: currentState.query!,
           artists: list,
           currentPage: (int.parse(artists.results!.query!.startPage!)),

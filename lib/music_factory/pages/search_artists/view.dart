@@ -55,7 +55,7 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
           _refreshController.loadComplete();
           return;
         }
-        if (state is LoadedArtists) {
+        if (state is ArtistsLoadedState) {
           if (state.artists!.isEmpty) {
             _refreshController.resetNoData();
           }
@@ -66,7 +66,7 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
         if (curr is SearchArtistInitial) {
           return true;
         }
-        if(curr is LoadedArtists) {
+        if(curr is ArtistsLoadedState) {
           if (curr.reachedMaximum) {
             _refreshController.loadComplete();
             return false;
@@ -80,7 +80,7 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
           return const Center(child: Text('no artists'));
         }
 
-        if (state is LoadedArtists) {
+        if (state is ArtistsLoadedState) {
           _refreshController.loadComplete();
           if (state.reachedMaximum) {
             _refreshController.loadNoData();
@@ -93,7 +93,7 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
     );
   }
 
-  Widget _getList(LoadedArtists state) {
+  Widget _getList(ArtistsLoadedState state) {
     return SmartRefresher(
       enablePullDown: false,
       enablePullUp: true,

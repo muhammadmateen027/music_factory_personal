@@ -24,8 +24,8 @@ class SearchArtistFailure extends ArtistState {
   List<Object> get props => [error];
 }
 
-class LoadedArtists extends ArtistState {
-  const LoadedArtists({
+class ArtistsLoadedState extends ArtistState {
+  const ArtistsLoadedState({
     this.query,
     this.artists,
     this.currentPage,

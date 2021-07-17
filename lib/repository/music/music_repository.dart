@@ -27,9 +27,23 @@ class MusicRepository implements MusicService {
     var queryParameters = <String, String>{
       'method': 'artist.search',
       'format': 'json',
-      'api_key': dotenv.env['API_KEY'].toString(),
+      'api_key': dotenv.env['API_KEY']!,
       'artist': artistName,
       'page': '$index'
+    };
+    var url = dotenv.env['API_URL'];
+    return await client.get(url!, '', queryParameters: queryParameters);
+  }
+
+  @override
+  Future<Response> loadTopTags(String artistName) async{
+
+    var queryParameters = <String, String>{
+      'method': 'artist.gettopalbums',
+      'artist': artistName,
+      'format': 'json',
+      'api_key': dotenv.env['API_KEY']!,
+
     };
     var url = dotenv.env['API_URL'];
     return await client.get(url!, '', queryParameters: queryParameters);

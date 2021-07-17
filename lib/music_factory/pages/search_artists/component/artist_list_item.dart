@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_factory/model/global/artist.dart';
+import 'package:music_factory/routes/routes.dart';
 
 class ArtistListItem extends StatelessWidget {
   const ArtistListItem({Key? key, required this.artist}) : super(key: key);
@@ -10,6 +11,12 @@ class ArtistListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: ListTile(
+        onTap: () {
+          navigationService.pushNamed(
+            RoutesName.albumsPage,
+            arguments: artist,
+          );
+        },
         title: Text(artist.name!),
         isThreeLine: true,
         subtitle: Text(artist.listeners!),
