@@ -1,15 +1,18 @@
+import 'dart:developer';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive/hive.dart';
 import 'package:music_factory/model/model.dart';
-import 'package:path_provider/path_provider.dart';
 
 part 'storage_service.dart';
 
 class Storage implements StorageService {
-
   @override
   void registerAlbumAdapter() {
-    return Hive.registerAdapter(AlbumAdapter());
+    Hive.registerAdapter(AlbumAdapter());
+    Hive.registerAdapter(ArtistDetailAdapter());
+    Hive.registerAdapter(ImageAdapter());
+    return;
   }
 
   @override
@@ -24,8 +27,11 @@ class Storage implements StorageService {
 
   @override
   Future<int> insert(Album album) async {
+    log('------>>>> 123');
     final contactsBox = await Hive.openBox(dotenv.env['ALBUMS']!);
-    return await contactsBox.add(album);
+    log('---->>>>   1234567');
+    await contactsBox.add(album);
+    return 1;
   }
 
   @override
@@ -33,8 +39,9 @@ class Storage implements StorageService {
     List<Album> albums = List<Album>.empty(growable: true);
     final contactsBox = await Hive.openBox(dotenv.env['ALBUMS']!);
 
+    log(contactsBox.length.toString());
     for (int index = 0; index < contactsBox.length; index++) {
-      albums.add(contactsBox.get(contactsBox.getAt(index) as Album));
+      albums.add(contactsBox.get(index) as Album);
     }
 
     return albums;
@@ -55,5 +62,11 @@ class Storage implements StorageService {
   @override
   Future<void> closeHiveBoxes() {
     return Hive.close();
+  }
+
+  @override
+  Future<void> deleteAll() async{
+    final contactsBox = await Hive.openBox(dotenv.env['ALBUMS']!);
+    await contactsBox.deleteFromDisk();
   }
 }

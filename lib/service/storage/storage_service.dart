@@ -20,6 +20,8 @@ abstract class StorageService {
   // returned. This should be 1 as long as the row exists.
   Future<void> delete(Album album);
 
+  Future<void> deleteAll();
+
   Future<void> closeHiveBoxes();
 
   void registerAlbumAdapter();

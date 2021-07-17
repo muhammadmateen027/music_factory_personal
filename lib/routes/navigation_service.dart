@@ -21,7 +21,10 @@ class NavigationService {
   }
 
   Future<dynamic> pushReplacementNamed(String routeName, {dynamic arguments}) {
-    return _navigationKey.currentState!.pushReplacementNamed(routeName, arguments: arguments);
+    return _navigationKey.currentState!.pushReplacementNamed(
+      routeName,
+      arguments: arguments,
+    );
   }
 
   /// if removeUntilNamed is null,
@@ -37,7 +40,7 @@ class NavigationService {
     } else {
       return _navigationKey.currentState!.pushNamedAndRemoveUntil(
         pushNamed,
-            (route) => false,
+        (route) => false,
         arguments: arguments,
       );
     }

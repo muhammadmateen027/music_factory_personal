@@ -67,7 +67,10 @@ class AlbumDetail extends StatelessWidget {
                       return const Center(child: CircularProgressIndicator());
                     },
                   ),
-                  ActionButton(album: album),
+                  BlocProvider.value(
+                    value: context.read<DashboardBloc>(),
+                    child: ActionButton(album: album),
+                  )
                 ],
               ),
             ),

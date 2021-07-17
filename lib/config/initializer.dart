@@ -53,6 +53,7 @@ class Initialization {
     Hive.init(appDocumentDir.path);
     // Inject service
     locator.registerLazySingleton<StorageService>(() => Storage());
+    locator<StorageService>().registerAlbumAdapter();
 
   }
 

@@ -4,7 +4,7 @@ import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 
 class ActionButton extends StatelessWidget {
-  ActionButton({Key? key, required this.album}) : super(key: key);
+  const ActionButton({Key? key, required this.album}) : super(key: key);
 
   final Album album;
 
@@ -15,6 +15,9 @@ class ActionButton extends StatelessWidget {
         return Center(
           child: OutlinedButton.icon(
             onPressed: () {
+              print('--------1-----------');
+              context.read<DashboardBloc>().add(SaveAlbum(album));
+              print('--------2-----------');
             },
             icon: const Icon(Icons.save),
             label: const Text('Save'),
