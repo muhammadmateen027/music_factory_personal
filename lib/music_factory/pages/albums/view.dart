@@ -83,16 +83,23 @@ class _AlbumsPageState extends State<TopAlbumsPage> {
   Widget _getList(TopTagsLoaded state) {
     return SmartRefresher(
       enablePullDown: false,
-      enablePullUp: false,
+      enablePullUp: true,
+      onLoading: loadRequests,
       controller: _refreshController,
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           return AlbumListItem(
-            album: state.topAlbumsModel!.topalbums!.album![index],
+            album: state.album![index],
           );
         },
-        itemCount: state.topAlbumsModel!.topalbums!.album!.length,
+        itemCount: state.album!.length,
       ),
     );
+  }
+
+  void loadRequests() {
+    _refreshController.requestLoading();
+    context.read<AlbumsBloc>().add(LoadTopTags(widget.artist));
+    return;
   }
 }

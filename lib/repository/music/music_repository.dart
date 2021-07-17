@@ -36,13 +36,14 @@ class MusicRepository implements MusicService {
   }
 
   @override
-  Future<Response> loadTopTags(String artistName) async{
+  Future<Response> loadTopTags(String artistName, [int index = 1]) async{
 
     var queryParameters = <String, String>{
       'method': 'artist.gettopalbums',
       'artist': artistName,
       'format': 'json',
       'api_key': dotenv.env['API_KEY']!,
+      'page': '$index'
 
     };
     var url = dotenv.env['API_URL'];

@@ -12,10 +12,12 @@ class AlbumsInitial extends AlbumsState {}
 class SearchArtistLoading extends AlbumsState {}
 
 class TopTagsLoaded extends AlbumsState {
-  const TopTagsLoaded({this.topAlbumsModel});
+  const TopTagsLoaded({this.album, this.attr});
 
-  final TopAlbumsModel? topAlbumsModel;
+  final List<Album>? album;
+  final Attr? attr;
+
 
   @override
-  List<Object> get props => [topAlbumsModel!];
+  List<Object> get props => [album!, attr!];
 }
