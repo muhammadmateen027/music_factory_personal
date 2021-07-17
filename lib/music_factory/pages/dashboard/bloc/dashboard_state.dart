@@ -11,11 +11,11 @@ class DashboardInitial extends DashboardState {}
 class DashboardLoading extends DashboardState {}
 
 class AlbumLoaded extends DashboardState {
-  const AlbumLoaded({required this.artist});
+  const AlbumLoaded({required this.albums});
 
-  final String artist;
+  final List<Album> albums;
 
   @override
-  List<Object> get props => [artist];
+  List<Object> get props => [albums];
 
 }

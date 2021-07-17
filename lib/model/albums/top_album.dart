@@ -1,4 +1,4 @@
-import 'album.dart';
+import 'package:music_factory/model/global/album.dart';
 import 'attr.dart';
 
 /// album : [{'name':'Hope to See Another Day','playcount':91257,'mbid':'95039e73-8d41-4cd6-904b-04e7132f7558','url':'https://www.last.fm/music/Believe/Hope+to+See+Another+Day','artist':{'name':'Believe','mbid':'60566db9-5b17-47c4-9980-d3d39664e768','url':'https://www.last.fm/music/Believe'},'image':[{'text':'https://lastfm.freetls.fastly.net/i/u/34s/56880ca4c9d742838a96edbd3ead894e.png','size':'small'},{'text':'https://lastfm.freetls.fastly.net/i/u/64s/56880ca4c9d742838a96edbd3ead894e.png','size':'medium'},{'text':'https://lastfm.freetls.fastly.net/i/u/174s/56880ca4c9d742838a96edbd3ead894e.png','size':'large'},{'text':'https://lastfm.freetls.fastly.net/i/u/300x300/56880ca4c9d742838a96edbd3ead894e.png','size':'extralarge'}]}]

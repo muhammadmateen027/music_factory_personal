@@ -11,18 +11,37 @@ class DashboardPage extends StatelessWidget {
     context.read<DashboardBloc>().add(LoadAlbums());
 
     return Material(
+      color: Theme.of(context).primaryColor,
       child: SafeArea(
-        child: Center(
-          child: GestureDetector(
-            onTap: () {
-              navigationService.pushNamed(RoutesName.searchPage);
-            },
-            child: const FlutterLogo(
-              size: 100,
-              style: FlutterLogoStyle.stacked,
+        child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Music factory'),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    navigationService.pushNamed(RoutesName.searchPage);
+                  },
+                  icon: const Icon(Icons.search),
+                ),
+              ],
             ),
-          ),
-        ),
+            body: BlocBuilder<DashboardBloc, DashboardState>(
+              builder: (_, state) {
+                if (state is AlbumLoaded) {
+                  return ListView.builder(
+                    itemCount: state.albums.length,
+                    itemBuilder: (_, index) {
+                      return ListTile(
+                        title: Text(state.albums[index].name!),
+                      );
+                    },
+                  );
+                }
+                return const Center(
+                  child: Text('No album available'),
+                );
+              },
+            )),
       ),
     );
   }

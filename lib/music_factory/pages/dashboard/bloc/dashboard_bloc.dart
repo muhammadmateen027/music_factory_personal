@@ -1,18 +1,34 @@
 import 'package:bloc/bloc.dart';
+import 'package:music_factory/config/config.dart';
+import 'package:music_factory/model/model.dart';
 import 'package:music_factory/repository/repository.dart';
+import 'package:music_factory/service/service.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc({required this.musicService}) : super(DashboardInitial()) {
+    locator<StorageService>().registerAlbumAdapter();
+
     on<LoadAlbums>(_loadAlbums);
   }
   final MusicService musicService;
 
   void _loadAlbums(LoadAlbums event, Emit<DashboardState> emit) async {
     emit(DashboardLoading());
+    List<Album>? albums= await locator<StorageService>().queryAllRows();
 
-    emit(const AlbumLoaded(artist: ''));
+    if (albums.isEmpty) {
+      return;
+    }
+    emit(AlbumLoaded(albums: albums));
+  }
+
+
+  @override
+  Future<void> close() async{
+    await locator<StorageService>().closeHiveBoxes();
+    return super.close();
   }
 }
