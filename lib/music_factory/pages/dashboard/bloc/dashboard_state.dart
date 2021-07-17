@@ -17,5 +17,13 @@ class AlbumLoaded extends DashboardState {
 
   @override
   List<Object> get props => [albums];
+}
 
+class AlbumDetailLoaded extends DashboardState {
+  const AlbumDetailLoaded({required this.album});
+
+  final Album album;
+
+  @override
+  List<Object> get props => [album];
 }

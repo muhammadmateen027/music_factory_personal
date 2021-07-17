@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/model/model.dart' as art;
+import 'package:music_factory/music_factory/music_factory.dart';
+
+import 'component/component.dart';
 
 class AlbumDetail extends StatelessWidget {
   const AlbumDetail({Key? key, required this.album}) : super(key: key);
@@ -8,6 +12,8 @@ class AlbumDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<DashboardBloc>().add(LoadAlbumDetail(album));
+
     final theme = Theme.of(context);
     return Material(
       color: Colors.green,
@@ -23,27 +29,45 @@ class AlbumDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    child: album.image![3].text!.isEmpty
-                        ? const FlutterLogo(size: 200)
-                        : Image.network(album.image![3].text!),
+                  BlocBuilder<DashboardBloc, DashboardState>(
+                    buildWhen: (curr, state) {
+                      if (curr is AlbumDetailLoaded) {
+                        return true;
+                      }
+                      return false;
+                    },
+                    builder: (_, state) {
+                      if (state is AlbumDetailLoaded) {
+                        return Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              child: state.album.image![3].text!.isEmpty
+                                  ? const FlutterLogo(size: 200)
+                                  : Image.network(state.album.image![3].text!),
+                            ),
+                            const SizedBox(height: 30),
+                            Text(
+                              state.album.name!,
+                              style: theme.textTheme.headline6,
+                            ),
+                            Text(
+                              state.album.artist!.name!,
+                              style: theme.textTheme.bodyText1,
+                            ),
+                            Text(
+                              state.album.playcount!.toString(),
+                              style: theme.textTheme.headline4,
+                            ),
+                            const SizedBox(height: 40),
+                          ],
+                        );
+                      }
+
+                      return const Center(child: CircularProgressIndicator());
+                    },
                   ),
-                  const SizedBox(height: 30),
-                  Text(album.name!, style: theme.textTheme.headline6),
-                  Text(album.artist!.name!, style: theme.textTheme.bodyText1),
-                  Text(
-                    album.playcount!.toString(),
-                    style: theme.textTheme.headline4,
-                  ),
-                  const SizedBox(height: 40),
-                  Center(
-                    child: OutlinedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.save),
-                      label: const Text('Save'),
-                    ),
-                  )
+                  ActionButton(album: album),
                 ],
               ),
             ),

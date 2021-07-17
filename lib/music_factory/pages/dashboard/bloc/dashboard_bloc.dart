@@ -12,6 +12,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     locator<StorageService>().registerAlbumAdapter();
 
     on<LoadAlbums>(_loadAlbums);
+    on<LoadAlbumDetail>(_albumDetail);
   }
   final MusicService musicService;
 
@@ -23,6 +24,11 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       return;
     }
     emit(AlbumLoaded(albums: albums));
+  }
+
+  void _albumDetail(LoadAlbumDetail event, Emit<DashboardState> emit) async {
+
+    emit(AlbumDetailLoaded(album: event.album));
   }
 
 

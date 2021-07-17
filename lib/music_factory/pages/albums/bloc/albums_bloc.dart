@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
@@ -61,7 +59,5 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
 
 // A function that converts a response body into a TopAlbumsModel
 TopAlbumsModel parseUserDetail(dynamic responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
-  return TopAlbumsModel.fromJson(parsed);
+  return TopAlbumsModel.fromJson(responseBody);
 }
