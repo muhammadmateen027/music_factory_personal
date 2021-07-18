@@ -27,7 +27,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               IconButton(
                 onPressed: () {
-                  context.read<DashboardBloc>().add(DeleteAlbums());
+                  context.read<DashboardBloc>().add(TruncateTable());
                 },
                 icon: const Icon(Icons.delete),
               ),

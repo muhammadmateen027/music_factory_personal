@@ -12,7 +12,7 @@ class AlbumDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<DashboardBloc>().add(LoadAlbumDetail(album));
+    context.read<DashboardBloc>().add(LoadButtonState(album));
 
     final theme = Theme.of(context);
     Widget image = const FlutterLogo(size: 200);

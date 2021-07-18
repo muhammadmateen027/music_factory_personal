@@ -7,7 +7,15 @@ abstract class DashboardEvent {
 }
 
 class LoadAlbums extends DashboardEvent {}
-class DeleteAlbums extends DashboardEvent {}
+class TruncateTable extends DashboardEvent {}
+
+class DeleteItem extends DashboardEvent {
+  const DeleteItem(this.album);
+  final Album album;
+
+  @override
+  List<Object> get props => [album];
+}
 
 class SaveAlbum extends DashboardEvent {
   const SaveAlbum(this.album);
@@ -17,8 +25,8 @@ class SaveAlbum extends DashboardEvent {
   List<Object> get props => [album];
 }
 
-class LoadAlbumDetail extends DashboardEvent {
-  const LoadAlbumDetail(this.album);
+class LoadButtonState extends DashboardEvent {
+  const LoadButtonState(this.album);
   final Album album;
 
   @override

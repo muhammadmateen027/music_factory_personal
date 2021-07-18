@@ -134,7 +134,6 @@ class Storage {
         images.add(image);
       }
 
-
       final artistDetail = ArtistDetail(
         name: result[index][ARTIST_NAME],
         url: result[index][ARTIST_URL],
@@ -173,6 +172,16 @@ class Storage {
       return false;
     }
     return true;
+  }
+
+  Future<void> deleteAlbum(Album album) async {
+    var dbClient = await db;
+    await dbClient.delete(
+      TABLE,
+        where: '$ALBUM_NAME = ?',
+        whereArgs: [album.name]
+    );
+    return;
   }
 
   Future<void> update(Album album) async {

@@ -18,10 +18,11 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     // Initialize database
 
     on<LoadAlbums>(_loadAlbums);
-    on<DeleteAlbums>(_deleteAlbums);
-    on<LoadAlbumDetail>(_albumDetail);
+    on<TruncateTable>(_deleteDatabase);
+    on<LoadButtonState>(_albumDetail);
 
     on<SaveAlbum>(_saveAlbum);
+    on<DeleteItem>(_deleteAlbum);
   }
 
   final MusicService musicService;
@@ -31,14 +32,28 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     _fetchAlbums();
   }
 
-  void _deleteAlbums(DeleteAlbums event, Emit<DashboardState> emit) async {
+  void _deleteDatabase(TruncateTable event, Emit<DashboardState> emit) async {
     emit(DashboardLoading());
     await _dbHelper.deleteAll();
     _fetchAlbums();
   }
 
-  void _albumDetail(LoadAlbumDetail event, Emit<DashboardState> emit) async {
-    emit(AlbumDetailLoaded(album: event.album));
+  void _albumDetail(LoadButtonState event, Emit<DashboardState> emit) async {
+
+    if (await _dbHelper.isExists(event.album)) {
+      log('Item exists');
+      emit(AlbumExistState());
+      return;
+    }
+    log('Item Not exists');
+    emit(AlbumNotExistState());
+  }
+
+  void _deleteAlbum(DeleteItem event, Emit<DashboardState> emit) async {
+
+    log('--------------------');
+    await _dbHelper.delete(event.album);
+    emit(AlbumNotExistState());
   }
 
   void _saveAlbum(SaveAlbum event, Emit<DashboardState> emit) async {
@@ -52,13 +67,19 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     if (newAlbum.images!.isNotEmpty) {
       List<Image>? images = [];
       if (newAlbum.images![0].text!.isNotEmpty) {
-        String? imageUrl = newAlbum.images![0].text! as String;
+        var imagetext = newAlbum.images![0].text!;
+        if(newAlbum.images![0].text!.runtimeType == String) {
+          String? imageUrl = newAlbum.images![0].text! as String;
 
-        final imageData =
-            await NetworkAssetBundle(Uri.parse(imageUrl)).load('');
-        final bytes = imageData.buffer.asUint8List();
+          final imageData =
+          await NetworkAssetBundle(Uri.parse(imageUrl)).load('');
+          final bytes = imageData.buffer.asUint8List();
+
+          imagetext = bytes;
+        }
+
         final image = Image(
-          text: bytes,
+          text: imagetext,
           size: newAlbum.images![0].size!,
         );
 
@@ -70,6 +91,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     }
 
     _fetchAlbums();
+
+    emit(AlbumExistState());
   }
 
   Future<File> getImageFromNetwork(String url) async {
@@ -78,6 +101,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   }
 
   void _fetchAlbums() async {
+    print('------------');
+
     var albums = await _dbHelper.queryAllRows();
     if (albums.isEmpty) {
       emit(EmptyAlbums());

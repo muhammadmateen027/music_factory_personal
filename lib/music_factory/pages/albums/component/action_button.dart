@@ -11,15 +11,46 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DashboardBloc, DashboardState>(
+      buildWhen: (pre, curr) {
+        if (curr is AlbumExistState) {
+          return true;
+        }
+        if (curr is AlbumNotExistState) {
+          return true;
+        }
+        return false;
+      },
       builder: (_, state) {
-        return Center(
-          child: OutlinedButton.icon(
-            onPressed: () {
-              context.read<DashboardBloc>().add(SaveAlbum(album));
-            },
-            icon: const Icon(Icons.save),
-            label: const Text('Save'),
-          ),
+        if (state is AlbumExistState) {
+          return Center(
+            child: MaterialButton(
+              color: Theme.of(context).errorColor,
+              onPressed: () {
+                context.read<DashboardBloc>().add(DeleteItem(album));
+
+              },
+              textColor: Theme.of(context).colorScheme.background,
+              textTheme: Theme.of(context).buttonTheme.textTheme,
+              child: const Text(
+                'Delete',
+              ),
+            ),
+          );
+        }
+
+        if (state is AlbumNotExistState) {
+          return Center(
+            child: OutlinedButton.icon(
+              onPressed: () {
+                context.read<DashboardBloc>().add(SaveAlbum(album));
+              },
+              icon: const Icon(Icons.save),
+              label: const Text('Save'),
+            ),
+          );
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
         );
       },
     );
