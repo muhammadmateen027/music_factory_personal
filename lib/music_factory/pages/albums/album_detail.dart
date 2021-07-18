@@ -15,6 +15,24 @@ class AlbumDetail extends StatelessWidget {
     context.read<DashboardBloc>().add(LoadAlbumDetail(album));
 
     final theme = Theme.of(context);
+    Widget image = const FlutterLogo(size: 200);
+
+    if (album.images!.isNotEmpty) {
+      if (album.images![0].text!.isNotEmpty) {
+        if (album.images![0].text!.runtimeType == String) {
+          image = Image.network(album.images![3].text!);
+        } else {
+          image = Image.memory(
+            album.images![0].text!,
+            width: double.maxFinite,
+            height: 200,
+            scale: 0.1,
+          );
+        }
+      }
+    }
+
+
     return Material(
       color: Colors.green,
       child: SafeArea(
@@ -29,46 +47,27 @@ class AlbumDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BlocBuilder<DashboardBloc, DashboardState>(
-                    buildWhen: (pre, curr) {
-                      if (curr is AlbumDetailLoaded) {
-                        return true;
-                      }
-                      if (pre is AlbumDetailLoaded) {
-                        return true;
-                      }
-                      return true;
-                    },
-                    builder: (_, state) {
-                      if (state is AlbumDetailLoaded) {
-                        return Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              child: state.album.images![3].text!.isEmpty
-                                  ? const FlutterLogo(size: 200)
-                                  : Image.network(state.album.images![3].text!),
-                            ),
-                            const SizedBox(height: 30),
-                            Text(
-                              state.album.name!,
-                              style: theme.textTheme.headline6,
-                            ),
-                            Text(
-                              state.album.artist!.name!,
-                              style: theme.textTheme.bodyText1,
-                            ),
-                            Text(
-                              state.album.playcount!.toString(),
-                              style: theme.textTheme.headline4,
-                            ),
-                            const SizedBox(height: 40),
-                          ],
-                        );
-                      }
-
-                      return const Center(child: CircularProgressIndicator());
-                    },
+                  Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        child: image,
+                      ),
+                      const SizedBox(height: 30),
+                      Text(
+                        album.name!,
+                        style: theme.textTheme.headline6,
+                      ),
+                      Text(
+                        album.artist!.name!,
+                        style: theme.textTheme.bodyText1,
+                      ),
+                      Text(
+                        album.playcount!.toString(),
+                        style: theme.textTheme.headline4,
+                      ),
+                      const SizedBox(height: 40),
+                    ],
                   ),
                   BlocProvider.value(
                     value: context.read<DashboardBloc>(),

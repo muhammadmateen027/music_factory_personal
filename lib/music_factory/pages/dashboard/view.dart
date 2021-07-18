@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
@@ -64,6 +63,12 @@ class _DashboardPageState extends State<DashboardPage> {
                     }
 
                     return ListTile(
+                      onTap: () {
+                        navigationService.pushNamed(
+                          RoutesName.albumDetail,
+                          arguments: state.albums[index],
+                        );
+                      },
                       title: Text(state.albums[index].name!),
                       leading: SizedBox(
                         width: 50,
