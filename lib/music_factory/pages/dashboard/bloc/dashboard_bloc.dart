@@ -98,11 +98,11 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
 Future<Album> _setImageData(Album newAlbum) async{
   List<Image>? images = [];
-  if (newAlbum.images!.isNotEmpty) {
-    if (newAlbum.images![0].text!.isNotEmpty) {
-      var imagetext = newAlbum.images![0].text!;
-      if(newAlbum.images![0].text!.runtimeType == String) {
-        String? imageUrl = newAlbum.images![0].text! as String;
+  if (newAlbum.image!.isNotEmpty) {
+    if (newAlbum.image![0].text!.isNotEmpty) {
+      var imagetext = newAlbum.image![0].text!;
+      if(newAlbum.image![0].text!.runtimeType == String) {
+        String? imageUrl = newAlbum.image![0].text! as String;
 
         final imageData =
         await NetworkAssetBundle(Uri.parse(imageUrl)).load('');
@@ -113,11 +113,11 @@ Future<Album> _setImageData(Album newAlbum) async{
 
       final image = Image(
         text: imagetext,
-        size: newAlbum.images![0].size!,
+        size: newAlbum.image![0].size!,
       );
 
       images.add(image);
-      newAlbum.images = images;
+      newAlbum.image = images;
     }
   }
 

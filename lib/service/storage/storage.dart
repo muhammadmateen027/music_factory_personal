@@ -84,8 +84,8 @@ class Storage {
     var dbClient = await db;
     // this will insert the Album object to the DB after converting it to a json
     var albumImage;
-    if (album.images![0].text!.isNotEmpty) {
-      albumImage = album.images![0].text! as Uint8List;
+    if (album.image![0].text!.isNotEmpty) {
+      albumImage = album.image![0].text! as Uint8List;
     }
 
     var mapData = {
@@ -95,7 +95,7 @@ class Storage {
       ARTIST_NAME: album.artist!.name,
       ARTIST_URL: album.artist!.url,
       ALBUM_IMAGE: albumImage,
-      ALBUM_IMAGE_SIZE: album.images![0].size
+      ALBUM_IMAGE_SIZE: album.image![0].size
     };
     return await dbClient.insert(TABLE, mapData);
     // return 1;
@@ -202,7 +202,7 @@ Future<List<Album>> _loadListOfImages(List<Map<String, Object?>> result) async{
       playcount: map[PLAY_COUNT],
       url: map[ALBUM_URL],
       artist: artistDetail,
-      images: images,
+      image: images,
     );
 
     albums.add(album);

@@ -25,14 +25,14 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
       final response = await musicService.searchArtist(event.query);
       var artists = Artists.fromJson(response.data);
 
-      if (artists.results!.totalResults == '0') {
+      if (artists.results!.openSearchTotalResults == '0') {
         emit(SearchArtistInitial());
         return;
       }
       emit(ArtistsLoadedState(
         query: event.query,
-        artists: artists.results!.artistmatches!.artist!,
-        currentPage: int.parse(artists.results!.query!.startPage!),
+        artists: artists.results!.artistMatches!.artist!,
+        currentPage: int.parse(artists.results!.openSearchQuery!.startPage!),
       ));
       return;
 
@@ -72,12 +72,12 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
         }
 
         List<Artist>? list = List.of(currentState.artists!)
-          ..addAll(artists.results!.artistmatches!.artist!);
+          ..addAll(artists.results!.artistMatches!.artist!);
 
         emit(ArtistsLoadedState(
           query: currentState.query!,
           artists: list,
-          currentPage: (int.parse(artists.results!.query!.startPage!)),
+          currentPage: (int.parse(artists.results!.openSearchQuery!.startPage!)),
         ));
         return;
       }

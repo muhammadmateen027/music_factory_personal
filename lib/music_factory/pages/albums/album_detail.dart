@@ -17,13 +17,13 @@ class AlbumDetail extends StatelessWidget {
     final theme = Theme.of(context);
     Widget image = const FlutterLogo(size: 200);
 
-    if (album.images!.isNotEmpty) {
-      if (album.images![0].text!.isNotEmpty) {
-        if (album.images![0].text!.runtimeType == String) {
-          image = Image.network(album.images![3].text!);
+    if (album.image!.isNotEmpty) {
+      if (album.image![0].text!.isNotEmpty) {
+        if (album.image![0].text!.runtimeType == String) {
+          image = Image.network(album.image![3].text!);
         } else {
           image = Image.memory(
-            album.images![0].text!,
+            album.image![0].text!,
             width: double.maxFinite,
             height: 200,
             scale: 0.1,

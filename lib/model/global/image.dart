@@ -1,8 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
 
+part 'image.g.dart';
 
-/// text : 'https://lastfm.freetls.fastly.net/i/u/34s/56880ca4c9d742838a96edbd3ead894e.png'
-/// size : 'small'
-
+@JsonSerializable()
 class Image {
   dynamic _text;
   String? _size;
@@ -11,23 +11,12 @@ class Image {
 
   String? get size => _size;
 
-  Image({
-    dynamic text,
-    String? size,
-  }) {
+  Image({dynamic text, String? size}) {
     _text = text;
     _size = size;
   }
 
-  Image.fromJson(dynamic json) {
-    _text = json['#text'] as String;
-    _size = json['size'];
-  }
+  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    var map = <String, dynamic>{};
-    map['text'] = _text;
-    map['size'] = _size;
-    return map;
-  }
+  Map<String, dynamic> toJson() => _$ImageToJson(this);
 }

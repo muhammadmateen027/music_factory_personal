@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:music_factory/model/model.dart' as art;
 import 'package:music_factory/routes/routes.dart';
@@ -10,6 +11,13 @@ class AlbumListItem extends StatelessWidget {
   late ThemeData theme;
   @override
   Widget build(BuildContext context) {
+    Widget image = const FlutterLogo();
+    if (album.image!.isNotEmpty) {
+      if (album.image![2].text!.isNotEmpty) {
+        image = Image.network(album.image![1].text!);
+      }
+    }
+
     return ListTile(
       onTap: () {
         navigationService.pushNamed(RoutesName.albumDetail, arguments: album);
@@ -20,9 +28,7 @@ class AlbumListItem extends StatelessWidget {
         width: 50,
         height: 50,
         child: Center(
-          child: album.images![2].text!.isEmpty
-              ? const FlutterLogo()
-              : Image.network(album.images![1].text!),
+          child: image,
         )
       ),
     );

@@ -1,8 +1,7 @@
-/// text : ''
-/// role : 'request'
-/// searchTerms : 'cher'
-/// startPage : '1'
+import 'package:json_annotation/json_annotation.dart';
+part 'search_query.g.dart';
 
+@JsonSerializable()
 class OpenSearchQuery {
   String? _text;
   String? _role;
@@ -25,20 +24,25 @@ class OpenSearchQuery {
     _startPage = startPage;
   }
 
-  OpenSearchQuery.fromJson(dynamic json) {
-    _text = json['text'];
-    _role = json['role'];
-    _searchTerms = json['searchTerms'];
-    _startPage = json['startPage'];
-  }
 
-  Map<String, dynamic> toJson() {
-    var map = <String, dynamic>{};
-    map['text'] = _text;
-    map['role'] = _role;
-    map['searchTerms'] = _searchTerms;
-    map['startPage'] = _startPage;
-    return map;
-  }
+  factory OpenSearchQuery.fromJson(Map<String, dynamic> json) =>
+      _$OpenSearchQueryFromJson(json);
+  Map<String, dynamic> toJson() => _$OpenSearchQueryToJson(this);
+
+  // OpenSearchQuery.fromJson(dynamic json) {
+  //   _text = json['text'];
+  //   _role = json['role'];
+  //   _searchTerms = json['searchTerms'];
+  //   _startPage = json['startPage'];
+  // }
+  //
+  // Map<String, dynamic> toJson() {
+  //   var map = <String, dynamic>{};
+  //   map['text'] = _text;
+  //   map['role'] = _role;
+  //   map['searchTerms'] = _searchTerms;
+  //   map['startPage'] = _startPage;
+  //   return map;
+  // }
 
 }

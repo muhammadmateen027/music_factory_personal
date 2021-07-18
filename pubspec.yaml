@@ -27,12 +27,14 @@ dependencies:
   sentry_flutter: ^5.1.0
   shimmer: ^2.0.0
   sqflite: ^2.0.0+3
+  json_annotation:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   bloc_test: ^8.0.0
   build_runner: ^2.0.6
+  json_serializable:
   mocktail: ^0.1.0
   very_good_analysis: ^2.1.0
 

@@ -1,67 +1,76 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'matched_artists.dart';
 import 'search_query.dart';
 
-/// query : {'text':'','role':'request','searchTerms':'cher','startPage':'1'}
-/// totalResults : '69649'
-/// startIndex : '0'
-/// itemsPerPage : '30'
-/// artistmatches : {'artist':[{'name':'Cher','listeners':'1286343','mbid':'bfcc6d75-a6a5-4bc6-8282-47aec8531818','url':'https://www.last.fm/music/Cher','streamable':'0','image':[{'#text':'https://lastfm.freetls.fastly.net/i/u/34s/2a96cbd8b46e442fc41c2b86b821562f.png','size':'small'}]}]}
-/// attr : {'que':'cher'}
+part 'artists_result.g.dart';
 
+@JsonSerializable(explicitToJson: true)
 class Results {
   OpenSearchQuery? _openSearchQuery;
-  String? _totalResults;
-  String? _startIndex;
-  String? _itemsPerPage;
-  Artistmatches? _artistmatches;
+  String? _openSearchTotalResults;
+  String? _openSearchStartIndex;
+  String? _openSearchItemsPerPage;
+  Artistmatches? _artistMatches;
 
-  OpenSearchQuery? get query => _openSearchQuery;
+  OpenSearchQuery? get openSearchQuery => _openSearchQuery;
 
-  String? get totalResults => _totalResults;
+  String? get openSearchTotalResults => _openSearchTotalResults;
 
-  String? get startIndex => _startIndex;
+  String? get openSearchStartIndex => _openSearchStartIndex;
 
-  String? get itemsPerPage => _itemsPerPage;
+  String? get openSearchItemsPerPage => _openSearchItemsPerPage;
 
-  Artistmatches? get artistmatches => _artistmatches;
+  Artistmatches? get artistMatches => _artistMatches;
 
   Results({
-    OpenSearchQuery? query,
+    OpenSearchQuery? openSearchQuery,
     String? openSearchTotalResults,
     String? openSearchStartIndex,
     String? openSearchItemsPerPage,
-    Artistmatches? artistmatches,
+    Artistmatches? artistMatches,
   }) {
-    _openSearchQuery = query;
-    _totalResults = openSearchTotalResults;
-    _startIndex = openSearchStartIndex;
-    _itemsPerPage = openSearchItemsPerPage;
-    _artistmatches = artistmatches;
+    _openSearchQuery = openSearchQuery;
+    _openSearchTotalResults = openSearchTotalResults;
+    _openSearchStartIndex = openSearchStartIndex;
+    _openSearchItemsPerPage = openSearchItemsPerPage;
+    _artistMatches = artistMatches;
   }
 
-  Results.fromJson(dynamic json) {
-    _openSearchQuery = json['opensearch:Query'] != null
-        ? OpenSearchQuery.fromJson(json['opensearch:Query'])
-        : null;
-    _totalResults = json['opensearch:totalResults'];
-    _startIndex = json['opensearch:startIndex'];
-    _itemsPerPage = json['opensearch:itemsPerPage'];
-    _artistmatches = json['artistmatches'] != null
-        ? Artistmatches.fromJson(json['artistmatches'])
-        : null;
-  }
+  factory Results.fromJson(Map<String, dynamic> json) =>
+      _$ResultsFromJson(json);
+  Map<String, dynamic> toJson() => _$ResultsToJson(this);
 
-  Map<String, dynamic> toJson() {
-    var map = <String, dynamic>{};
-    if (_openSearchQuery != null) {
-      map['opensearch:Query'] = _openSearchQuery?.toJson();
-    }
-    map['opensearch:totalResults'] = _totalResults;
-    map['opensearch:startIndex'] = _startIndex;
-    map['opensearch:itemsPerPage'] = _itemsPerPage;
-    if (_artistmatches != null) {
-      map['artistmatches'] = _artistmatches?.toJson();
-    }
-    return map;
-  }
 }
+
+//
+// // GENERATED CODE - DO NOT MODIFY BY HAND
+//
+// part of 'artists_result.dart';
+//
+// // **************************************************************************
+// // JsonSerializableGenerator
+// // **************************************************************************
+//
+// Results _$ResultsFromJson(Map<String, dynamic> json) {
+//   return Results(
+//     openSearchQuery: json['opensearch:Query'] == null
+//         ? null
+//         : OpenSearchQuery.fromJson(
+//         json['opensearch:Query'] as Map<String, dynamic>),
+//     openSearchTotalResults: json['opensearch:totalResults'] as String?,
+//     openSearchStartIndex: json['opensearch:startIndex'] as String?,
+//     openSearchItemsPerPage: json['opensearch:itemsPerPage'] as String?,
+//     artistMatches: json['artistmatches'] == null
+//         ? null
+//         : Artistmatches.fromJson(json['artistmatches'] as Map<String, dynamic>),
+//   );
+// }
+//
+// Map<String, dynamic> _$ResultsToJson(Results instance) => <String, dynamic>{
+//   'opensearch:Query': instance.openSearchQuery?.toJson(),
+//   'opensearch:totalResults': instance.openSearchTotalResults,
+//   'opensearch:startIndex': instance.openSearchStartIndex,
+//   'opensearch:itemsPerPage': instance.openSearchItemsPerPage,
+//   'artistmatches': instance.artistMatches?.toJson(),
+// };
+

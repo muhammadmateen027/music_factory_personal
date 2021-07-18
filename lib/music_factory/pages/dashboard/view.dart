@@ -56,9 +56,9 @@ class _DashboardPageState extends State<DashboardPage> {
                 return ListView.builder(
                   itemCount: state.albums.length,
                   itemBuilder: (_, index) {
-                    if (state.albums[index].images!.isNotEmpty) {
+                    if (state.albums[index].image!.isNotEmpty) {
                       image = Image.memory(
-                        state.albums[index].images![0].text!,
+                        state.albums[index].image![0].text!,
                       );
                     }
 

@@ -1,18 +1,16 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'artist_detail.g.dart';
+
+@JsonSerializable()
 class ArtistDetail {
   String? name;
   String? url;
 
   ArtistDetail({this.name, this.url});
 
-  ArtistDetail.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    url = json['url'];
-  }
+  factory ArtistDetail.fromJson(Map<String, dynamic> json) =>
+      _$ArtistDetailFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['name'] = this.name;
-    data['url'] = this.url;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$ArtistDetailToJson(this);
 }
