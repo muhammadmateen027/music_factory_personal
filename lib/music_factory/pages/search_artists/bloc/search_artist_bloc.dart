@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:music_factory/model/model.dart';
 import 'package:music_factory/repository/repository.dart';
@@ -62,7 +63,7 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
           (currentState.currentPage! + 1),
         );
 
-        Artists? artists = Artists.fromJson(response.data);
+        var artists = await compute(_parseArtist, response.data);
         if (artists.results == null) {
           emit(const ArtistsLoadedState(
             reachedMaximum: true,
@@ -87,4 +88,8 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
       return;
     }
   }
+}
+// A function that converts a response body into a TopAlbumsModel
+Artists _parseArtist(dynamic responseBody) {
+  return Artists.fromJson(responseBody);
 }

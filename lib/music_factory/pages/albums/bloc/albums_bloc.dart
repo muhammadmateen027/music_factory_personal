@@ -30,7 +30,7 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
           page,
         );
 
-        var topAlbumsModel = await compute(parseUserDetail, response.data);
+        var topAlbumsModel = await compute(_parseTopAlbum, response.data);
 
         if (topAlbumsModel.topalbums == null) {
           return;
@@ -44,7 +44,7 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
       }
 
       final response = await musicService.loadTopTags(event.artist.name!);
-      var topAlbumsModel = await compute(parseUserDetail, response.data);
+      var topAlbumsModel = await compute(_parseTopAlbum, response.data);
 
       emit(TopTagsLoaded(
         album: topAlbumsModel.topalbums!.album,
@@ -58,6 +58,6 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
 }
 
 // A function that converts a response body into a TopAlbumsModel
-TopAlbumsModel parseUserDetail(dynamic responseBody) {
+TopAlbumsModel _parseTopAlbum(dynamic responseBody) {
   return TopAlbumsModel.fromJson(responseBody);
 }
