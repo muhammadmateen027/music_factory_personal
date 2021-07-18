@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hive/hive.dart';
 import 'package:music_factory/repository/repository.dart';
 import 'package:music_factory/service/service.dart';
 import 'package:path_provider/path_provider.dart';
@@ -50,10 +49,10 @@ class Initialization {
 
     // Initialize database
     final appDocumentDir = await getApplicationDocumentsDirectory();
-    Hive.init(appDocumentDir.path);
-    // Inject service
+    // Hive.init(appDocumentDir.path);
+    // // Inject service
     locator.registerLazySingleton<StorageService>(() => Storage());
-    locator<StorageService>().registerAlbumAdapter();
+    // locator<StorageService>().registerAlbumAdapter();
 
   }
 

@@ -1,20 +1,11 @@
-import 'package:hive/hive.dart';
 import 'artist_detail.dart';
 import 'image.dart';
 
-part 'album.g.dart';
-
-@HiveType(typeId: 0)
-class Album extends HiveObject {
-  @HiveField(0)
+class Album {
   String? name;
-  @HiveField(1)
   int? playcount;
-  @HiveField(2)
   String? url;
-  @HiveField(3)
   ArtistDetail? artist;
-  @HiveField(4)
   List<Image>? image;
 
   Album({this.name, this.playcount, this.url, this.artist, this.image});
