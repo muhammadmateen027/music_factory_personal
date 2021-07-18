@@ -8,6 +8,8 @@ abstract class DashboardState {
 
 class DashboardInitial extends DashboardState {}
 
+class EmptyAlbums extends DashboardState {}
+
 class DashboardLoading extends DashboardState {}
 
 class AlbumLoaded extends DashboardState {

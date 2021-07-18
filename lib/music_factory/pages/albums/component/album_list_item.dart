@@ -20,9 +20,9 @@ class AlbumListItem extends StatelessWidget {
         width: 50,
         height: 50,
         child: Center(
-          child: album.image![2].text!.isEmpty
+          child: album.images![2].text!.isEmpty
               ? const FlutterLogo()
-              : Image.network(album.image![1].text!),
+              : Image.network(album.images![1].text!),
         )
       ),
     );

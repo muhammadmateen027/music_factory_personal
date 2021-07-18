@@ -1,3 +1,4 @@
+
 import 'artist_detail.dart';
 import 'image.dart';
 
@@ -6,9 +7,9 @@ class Album {
   int? playcount;
   String? url;
   ArtistDetail? artist;
-  List<Image>? image;
+  List<Image>? images;
 
-  Album({this.name, this.playcount, this.url, this.artist, this.image});
+  Album({this.name, this.playcount, this.url, this.artist, this.images});
 
   Album.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -16,9 +17,9 @@ class Album {
     url = json['url'];
     artist = json['artist'] != null ? ArtistDetail.fromJson(json['artist']) : null;
     if (json['image'] != null) {
-      image = [];
+      images = [];
       json['image'].forEach((v) {
-        image?.add(new Image.fromJson(v));
+        images?.add(Image.fromJson(v));
       });
     }
   }
@@ -31,8 +32,8 @@ class Album {
     if (this.artist != null) {
       data['artist'] = this.artist?.toJson();
     }
-    if (this.image != null) {
-      data['image'] = this.image?.map((v) => v.toJson()).toList();
+    if (this.images != null) {
+      data['image'] = this.images?.map((v) => v.toJson()).toList();
     }
     return data;
   }

@@ -9,7 +9,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:music_factory/repository/repository.dart';
 import 'package:music_factory/service/service.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'app_bloc_observer.dart';
 
@@ -46,13 +45,6 @@ class Initialization {
     locator.registerLazySingleton<MusicService>(
       () => MusicRepository(client: NetworkClient(dio: _dio)),
     );
-
-    // Initialize database
-    final appDocumentDir = await getApplicationDocumentsDirectory();
-    // Hive.init(appDocumentDir.path);
-    // // Inject service
-    locator.registerLazySingleton<StorageService>(() => Storage());
-    // locator<StorageService>().registerAlbumAdapter();
 
   }
 

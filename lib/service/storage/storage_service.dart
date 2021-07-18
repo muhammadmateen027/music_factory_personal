@@ -22,7 +22,8 @@ abstract class StorageService {
 
   Future<void> deleteAll();
 
-  Future<void> closeHiveBoxes();
+  Future<Database> get db;
 
-  void registerAlbumAdapter();
+
+  Future<void> closeHiveBoxes();
 }

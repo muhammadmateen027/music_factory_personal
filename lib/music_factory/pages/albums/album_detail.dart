@@ -30,15 +30,24 @@ class AlbumDetail extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   BlocBuilder<DashboardBloc, DashboardState>(
+                    buildWhen: (pre, curr) {
+                      if (curr is AlbumDetailLoaded) {
+                        return true;
+                      }
+                      if (pre is AlbumDetailLoaded) {
+                        return true;
+                      }
+                      return true;
+                    },
                     builder: (_, state) {
                       if (state is AlbumDetailLoaded) {
                         return Column(
                           children: [
                             Container(
                               alignment: Alignment.center,
-                              child: state.album.image![3].text!.isEmpty
+                              child: state.album.images![3].text!.isEmpty
                                   ? const FlutterLogo(size: 200)
-                                  : Image.network(state.album.image![3].text!),
+                                  : Image.network(state.album.images![3].text!),
                             ),
                             const SizedBox(height: 30),
                             Text(

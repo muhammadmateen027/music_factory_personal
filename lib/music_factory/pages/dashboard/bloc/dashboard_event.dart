@@ -7,6 +7,7 @@ abstract class DashboardEvent {
 }
 
 class LoadAlbums extends DashboardEvent {}
+class DeleteAlbums extends DashboardEvent {}
 
 class SaveAlbum extends DashboardEvent {
   const SaveAlbum(this.album);

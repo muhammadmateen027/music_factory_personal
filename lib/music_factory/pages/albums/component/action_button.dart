@@ -15,9 +15,7 @@ class ActionButton extends StatelessWidget {
         return Center(
           child: OutlinedButton.icon(
             onPressed: () {
-              print('--------1-----------');
               context.read<DashboardBloc>().add(SaveAlbum(album));
-              print('--------2-----------');
             },
             icon: const Icon(Icons.save),
             label: const Text('Save'),
