@@ -1,11 +1,28 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:music_factory/model/model.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 part 'storage_service.dart';
+
+// Database name
+const String DB_NAME = 'music.albums.db';
+
+//Table name
+const String TABLE = 'albums';
+
+// Columns
+const String ID = '_id';
+const String ALBUM_NAME = 'album_name';
+const String PLAY_COUNT = 'playcount';
+const String ALBUM_URL = 'album_url';
+const String ARTIST_NAME = 'artist_name';
+const String ARTIST_URL = 'artist_url';
+const String ALBUM_IMAGE = 'album_image';
+const String ALBUM_IMAGE_SIZE = 'album_image_size';
 
 class Storage {
   // make this a singleton class
@@ -24,22 +41,6 @@ class Storage {
   }
 
 // only have a single app-wide reference to the database
-
-  // Database name
-  static const String DB_NAME = 'music.albums.db';
-
-  //Table name
-  static const String TABLE = 'albums';
-
-  // Columns
-  static const String ID = '_id';
-  static const String ALBUM_NAME = 'album_name';
-  static const String PLAY_COUNT = 'playcount';
-  static const String ALBUM_URL = 'album_url';
-  static const String ARTIST_NAME = 'artist_name';
-  static const String ARTIST_URL = 'artist_url';
-  static const String ALBUM_IMAGE = 'album_image';
-  static const String ALBUM_IMAGE_SIZE = 'album_image_size';
 
   // Initialize the Database
   Future<Database> get db async {
@@ -87,8 +88,6 @@ class Storage {
       albumImage = album.images![0].text! as Uint8List;
     }
 
-    print(albumImage.runtimeType);
-
     var mapData = {
       ALBUM_NAME: album.name,
       PLAY_COUNT: album.playcount,
@@ -124,31 +123,8 @@ class Storage {
       return albums;
     }
 
-    for (var index = 0; index < result.length; index++) {
-      List<Image> images = [];
-      if (result[index][ALBUM_IMAGE] != null) {
-        final image = Image(
-          text: result[index][ALBUM_IMAGE],
-          size: result[index][ALBUM_IMAGE_SIZE],
-        );
-        images.add(image);
-      }
+    albums = await  compute(_loadListOfImages, result);
 
-      final artistDetail = ArtistDetail(
-        name: result[index][ARTIST_NAME],
-        url: result[index][ARTIST_URL],
-      );
-
-      var album = Album(
-        name: result[index][ALBUM_NAME],
-        playcount: result[index][PLAY_COUNT],
-        url: result[index][ALBUM_URL],
-        artist: artistDetail,
-        images: images,
-      );
-
-      albums.add(album);
-    }
 
     return albums;
   }
@@ -200,4 +176,37 @@ class Storage {
     await dbClient.delete(TABLE);
     return;
   }
+}
+
+Future<List<Album>> _loadListOfImages(List<Map<String, Object?>> result) async{
+  List<Album>? albums = [];
+  for (var index = 0; index < result.length; index++) {
+    List<Image>? images = [];
+    Map map = result[index];
+
+    if (result[index][ALBUM_IMAGE] != null) {
+      final image = Image(
+        text: map[ALBUM_IMAGE],
+        size: map[ALBUM_IMAGE_SIZE],
+      );
+      images.add(image);
+    }
+
+    final artistDetail = ArtistDetail(
+      name: map[ARTIST_NAME],
+      url: map[ARTIST_URL],
+    );
+
+    var album = Album(
+      name: map[ALBUM_NAME]!,
+      playcount: map[PLAY_COUNT],
+      url: map[ALBUM_URL],
+      artist: artistDetail,
+      images: images,
+    );
+
+    albums.add(album);
+  }
+
+  return albums;
 }
