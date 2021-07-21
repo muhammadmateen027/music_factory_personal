@@ -5,8 +5,6 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-part 'storage_service.dart';
-
 // Database name
 const String DB_NAME = 'apps_factory.db';
 
