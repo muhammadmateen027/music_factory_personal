@@ -97,7 +97,11 @@ class Storage {
       ALBUM_IMAGE: albumImage,
       ALBUM_IMAGE_SIZE: album.image![0].size
     };
-    return await dbClient.insert(TABLE, mapData);
+    return await dbClient.insert(
+      TABLE,
+      mapData,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
     // return 1;
   }
 
@@ -123,8 +127,7 @@ class Storage {
       return albums;
     }
 
-    albums = await  compute(_loadListOfImages, result);
-
+    albums = await compute(_loadListOfImages, result);
 
     return albums;
   }
@@ -152,11 +155,8 @@ class Storage {
 
   Future<void> deleteAlbum(Album album) async {
     var dbClient = await db;
-    await dbClient.delete(
-      TABLE,
-        where: '$ALBUM_NAME = ?',
-        whereArgs: [album.name]
-    );
+    await dbClient
+        .delete(TABLE, where: '$ALBUM_NAME = ?', whereArgs: [album.name]);
     return;
   }
 
@@ -178,7 +178,7 @@ class Storage {
   }
 }
 
-Future<List<Album>> _loadListOfImages(List<Map<String, Object?>> result) async{
+Future<List<Album>> _loadListOfImages(List<Map<String, Object?>> result) async {
   List<Album>? albums = [];
   for (var index = 0; index < result.length; index++) {
     List<Image>? images = [];
