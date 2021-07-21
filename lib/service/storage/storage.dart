@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:music_factory/model/model.dart';
@@ -9,10 +8,10 @@ import 'package:sqflite/sqflite.dart';
 part 'storage_service.dart';
 
 // Database name
-const String DB_NAME = 'music.albums.db';
+const String DB_NAME = 'apps_factory.db';
 
 //Table name
-const String TABLE = 'albums';
+const String TABLE = 'music_album';
 
 // Columns
 const String ID = '_id';
@@ -21,8 +20,16 @@ const String PLAY_COUNT = 'playcount';
 const String ALBUM_URL = 'album_url';
 const String ARTIST_NAME = 'artist_name';
 const String ARTIST_URL = 'artist_url';
-const String ALBUM_IMAGE = 'album_image';
-const String ALBUM_IMAGE_SIZE = 'album_image_size';
+
+const String IMAGE_ONE = 'image_one';
+const String IMAGE_TWO = 'image_two';
+const String IMAGE_THREE = 'image_three';
+const String IMAGE_FOUR = 'image_four';
+
+const String IMAGE_SMALL = 'small_image';
+const String IMAGE_MEDIUM = 'image_medium';
+const String IMAGE_LARGE = 'image_large';
+const String IMAGE__EXTRA_LARGE = 'image_extra_large';
 
 class Storage {
   // make this a singleton class
@@ -65,8 +72,14 @@ class Storage {
         '$ALBUM_URL TEXT, '
         '$ARTIST_NAME TEXT, '
         '$ARTIST_URL TEXT, '
-        '$ALBUM_IMAGE BLOB, '
-        '$ALBUM_IMAGE_SIZE TEXT)');
+        '$IMAGE_ONE TEXT, '
+        '$IMAGE_SMALL TEXT,'
+        '$IMAGE_TWO TEXT, '
+        '$IMAGE_MEDIUM TEXT,'
+        '$IMAGE_THREE TEXT, '
+        '$IMAGE_LARGE TEXT,'
+        '$IMAGE_FOUR TEXT, '
+        '$IMAGE__EXTRA_LARGE TEXT )');
   }
 
   Future<void> delete(Album album) async {
@@ -82,21 +95,12 @@ class Storage {
 
   Future<int> insert(Album album) async {
     var dbClient = await db;
-    // this will insert the Album object to the DB after converting it to a json
-    var albumImage;
-    if (album.image![0].text!.isNotEmpty) {
-      albumImage = album.image![0].text! as Uint8List;
-    }
 
-    var mapData = {
-      ALBUM_NAME: album.name,
-      PLAY_COUNT: album.playcount,
-      ALBUM_URL: album.url,
-      ARTIST_NAME: album.artist!.name,
-      ARTIST_URL: album.artist!.url,
-      ALBUM_IMAGE: albumImage,
-      ALBUM_IMAGE_SIZE: album.image![0].size
-    };
+    // AS MAP and List isn't supported in SQFLite https://github.com/tekartik/sqflite/blob/master/sqflite/doc/supported_types.md#supported-types
+    // We need to split and store each item one by one in a  column
+
+    var mapData = await compute(_getTableData, album);
+
     return await dbClient.insert(
       TABLE,
       mapData,
@@ -107,34 +111,19 @@ class Storage {
 
   Future<List<Album>> queryAllRows() async {
     var dbClient = await db;
-    List<Album> albums = [];
+    List<Album> albums = List<Album>.empty(growable: true);
 
     // specify the column names you want in the result set
-    List<Map<String, dynamic>> result = await dbClient.query(
-      TABLE,
-      columns: [
-        ALBUM_NAME,
-        PLAY_COUNT,
-        ALBUM_URL,
-        ARTIST_NAME,
-        ARTIST_URL,
-        ALBUM_IMAGE,
-        ALBUM_IMAGE_SIZE,
-      ],
-    );
+    List<Map<String, dynamic>> queryResult =
+        await dbClient.rawQuery('SELECT * FROM $TABLE');
 
-    if (result.isEmpty) {
+    if (queryResult.isEmpty) {
       return albums;
     }
 
-    albums = await compute(_loadListOfImages, result);
+    albums = await compute(_albumsFromResult, queryResult);
 
     return albums;
-  }
-
-  Future<int> queryRowCount() {
-    // TODO: implement queryRowCount
-    throw UnimplementedError();
   }
 
   Future<bool> isExists(Album album) async {
@@ -142,8 +131,8 @@ class Storage {
 
     List<Map<String, dynamic>> queryResult = await dbClient.query(
       TABLE,
-      columns: [ALBUM_NAME, ARTIST_NAME],
-      where: "$ALBUM_NAME = ?",
+      columns: [ALBUM_NAME],
+      where: '$ALBUM_NAME = ?',
       whereArgs: [album.name],
     );
 
@@ -155,52 +144,46 @@ class Storage {
 
   Future<void> deleteAlbum(Album album) async {
     var dbClient = await db;
-    await dbClient
-        .delete(TABLE, where: '$ALBUM_NAME = ?', whereArgs: [album.name]);
+    await dbClient.delete(
+      TABLE,
+      where: '$ALBUM_NAME = ?',
+      whereArgs: [album.name],
+    );
     return;
   }
 
-  Future<void> update(Album album) async {
-    var dbClient = await db;
-    await dbClient
-        .delete(TABLE, where: '$ALBUM_NAME = ?', whereArgs: [album.name]);
-  }
-
-  Future<void> closeHiveBoxes() async {
+  Future<void> closeDatabase() async {
     var dbClient = await db;
     return dbClient.close();
   }
 
-  Future<void> deleteAll() async {
+  Future<void> deleteTable() async {
     var dbClient = await db;
     await dbClient.delete(TABLE);
     return;
   }
 }
 
-Future<List<Album>> _loadListOfImages(List<Map<String, Object?>> result) async {
+Future<List<Album>> _albumsFromResult(List<Map<String, Object?>> result) async {
   List<Album>? albums = [];
   for (var index = 0; index < result.length; index++) {
-    List<Image>? images = [];
-    Map map = result[index];
+    Map<String, dynamic> map = result[index];
 
-    if (result[index][ALBUM_IMAGE] != null) {
-      final image = Image(
-        text: map[ALBUM_IMAGE],
-        size: map[ALBUM_IMAGE_SIZE],
-      );
-      images.add(image);
-    }
-
-    final artistDetail = ArtistDetail(
+    var artistDetail = ArtistDetail(
       name: map[ARTIST_NAME],
       url: map[ARTIST_URL],
     );
 
+    List<Image> images = [];
+    images.add(Image(text: map[IMAGE_ONE], size: map[IMAGE_SMALL]));
+    images.add(Image(text: map[IMAGE_TWO], size: map[IMAGE_MEDIUM]));
+    images.add(Image(text: map[IMAGE_THREE], size: map[IMAGE_LARGE]));
+    images.add(Image(text: map[IMAGE_FOUR], size: map[IMAGE__EXTRA_LARGE]));
+
     var album = Album(
-      name: map[ALBUM_NAME]!,
-      playcount: map[PLAY_COUNT],
+      name: map[ALBUM_NAME],
       url: map[ALBUM_URL],
+      playcount: map[PLAY_COUNT],
       artist: artistDetail,
       image: images,
     );
@@ -209,4 +192,46 @@ Future<List<Album>> _loadListOfImages(List<Map<String, Object?>> result) async {
   }
 
   return albums;
+}
+
+Map<String, dynamic> _getTableData(Album album) {
+  var tableData = {
+    ALBUM_NAME: album.name,
+    PLAY_COUNT: album.playcount,
+    ALBUM_URL: album.url,
+    ARTIST_NAME: album.artist!.name,
+    ARTIST_URL: album.artist!.url,
+    IMAGE_ONE: null,
+    IMAGE_TWO: null,
+    IMAGE_THREE: null,
+    IMAGE_FOUR: null,
+    IMAGE_SMALL: null,
+    IMAGE_MEDIUM: null,
+    IMAGE_LARGE: null,
+    IMAGE__EXTRA_LARGE: null
+  };
+
+  if (album.image != null) {
+    if (album.image![0].text != '') {
+      tableData[IMAGE_ONE] = album.image![0].text;
+      tableData[IMAGE_SMALL] = album.image![0].size;
+    }
+
+    if (album.image![1].text != '') {
+      tableData[IMAGE_TWO] = album.image![1].text;
+      tableData[IMAGE_MEDIUM] = album.image![1].size;
+    }
+
+    if (album.image![2].text != '') {
+      tableData[IMAGE_THREE] = album.image![2].text;
+      tableData[IMAGE_LARGE] = album.image![2].size;
+    }
+
+    if (album.image![3].text != '') {
+      tableData[IMAGE_FOUR] = album.image![3].text;
+      tableData[IMAGE__EXTRA_LARGE] = album.image![3].size;
+    }
+  }
+
+  return tableData;
 }

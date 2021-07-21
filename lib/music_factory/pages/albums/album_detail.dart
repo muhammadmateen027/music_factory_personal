@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/model/model.dart' as art;
@@ -15,23 +16,6 @@ class AlbumDetail extends StatelessWidget {
     context.read<DashboardBloc>().add(LoadButtonState(album));
 
     final theme = Theme.of(context);
-    Widget image = const FlutterLogo(size: 200);
-
-    if (album.image!.isNotEmpty) {
-      if (album.image![0].text!.isNotEmpty) {
-        if (album.image![0].text!.runtimeType == String) {
-          image = Image.network(album.image![3].text!);
-        } else {
-          image = Image.memory(
-            album.image![0].text!,
-            width: double.maxFinite,
-            height: 200,
-            scale: 0.1,
-          );
-        }
-      }
-    }
-
 
     return Material(
       color: Colors.green,
@@ -51,7 +35,11 @@ class AlbumDetail extends StatelessWidget {
                     children: [
                       Container(
                         alignment: Alignment.center,
-                        child: image,
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          imageUrl: album.image![3].text!,
+                        ),
                       ),
                       const SizedBox(height: 30),
                       Text(

@@ -1,9 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:music_factory/model/model.dart';
 import 'package:music_factory/repository/repository.dart';
@@ -11,8 +8,6 @@ import 'package:music_factory/service/service.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';
-
-final _dbHelper = Storage.instance;
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc({required this.musicService}) : super(DashboardInitial()) {
@@ -26,6 +21,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<DeleteItem>(_deleteAlbum);
   }
 
+  final _dbHelper = Storage.instance;
   final MusicService musicService;
 
   void _loadAlbums(LoadAlbums event, Emit<DashboardState> emit) async {
@@ -35,38 +31,28 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
   void _deleteDatabase(TruncateTable event, Emit<DashboardState> emit) async {
     emit(DashboardLoading());
-    await _dbHelper.deleteAll();
+    await _dbHelper.deleteTable();
     _fetchAlbums();
   }
 
   void _albumDetail(LoadButtonState event, Emit<DashboardState> emit) async {
 
     if (await _dbHelper.isExists(event.album)) {
-      log('Item exists');
       emit(AlbumExistState());
       return;
     }
-    log('Item Not exists');
     emit(AlbumNotExistState());
   }
 
   void _deleteAlbum(DeleteItem event, Emit<DashboardState> emit) async {
-
-    log('--------------------');
     await _dbHelper.delete(event.album);
+    _fetchAlbums();
     emit(AlbumNotExistState());
   }
 
   void _saveAlbum(SaveAlbum event, Emit<DashboardState> emit) async {
-    Album? newAlbum = event.album;
 
-    if (await _dbHelper.isExists(event.album)) {
-      log('Item exists');
-      return;
-    }
-    log('Item Not exists');
-    newAlbum = await compute(_setImageData, newAlbum);
-    await _dbHelper.insert(newAlbum);
+    await _dbHelper.insert(event.album);
 
     _fetchAlbums();
 
@@ -79,8 +65,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   }
 
   void _fetchAlbums() async {
-    print('------------');
-
     var albums = await _dbHelper.queryAllRows();
     if (albums.isEmpty) {
       emit(EmptyAlbums());
@@ -94,32 +78,4 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   Future<void> close() async {
     return super.close();
   }
-}
-
-Future<Album> _setImageData(Album newAlbum) async{
-  List<Image>? images = [];
-  if (newAlbum.image!.isNotEmpty) {
-    if (newAlbum.image![0].text!.isNotEmpty) {
-      var imagetext = newAlbum.image![0].text!;
-      if(newAlbum.image![0].text!.runtimeType == String) {
-        String? imageUrl = newAlbum.image![0].text! as String;
-
-        final imageData =
-        await NetworkAssetBundle(Uri.parse(imageUrl)).load('');
-        final bytes = imageData.buffer.asUint8List();
-
-        imagetext = bytes;
-      }
-
-      final image = Image(
-        text: imagetext,
-        size: newAlbum.image![0].size!,
-      );
-
-      images.add(image);
-      newAlbum.image = images;
-    }
-  }
-
-  return newAlbum;
 }

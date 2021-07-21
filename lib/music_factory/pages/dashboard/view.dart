@@ -1,15 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 import 'package:music_factory/routes/routes.dart';
 
-class DashboardPage extends StatefulWidget {
+class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
 
-  _DashboardPageState createState() => _DashboardPageState();
-}
-
-class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -51,17 +48,9 @@ class _DashboardPageState extends State<DashboardPage> {
             },
             builder: (_, state) {
               if (state is AlbumLoaded) {
-                Widget image = const FlutterLogo();
-
                 return ListView.builder(
                   itemCount: state.albums.length,
                   itemBuilder: (_, index) {
-                    if (state.albums[index].image!.isNotEmpty) {
-                      image = Image.memory(
-                        state.albums[index].image![0].text!,
-                      );
-                    }
-
                     return ListTile(
                       onTap: () {
                         navigationService.pushNamed(
@@ -73,7 +62,12 @@ class _DashboardPageState extends State<DashboardPage> {
                       leading: SizedBox(
                         width: 50,
                         height: 50,
-                        child: Center(child: image),
+                        child: Center(
+                            child: CachedNetworkImage(
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          imageUrl: state.albums[index].image![2].text,
+                        )),
                       ),
                     );
                   },
@@ -93,11 +87,5 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    context.read<DashboardBloc>().add(LoadAlbums());
-    super.initState();
   }
 }
