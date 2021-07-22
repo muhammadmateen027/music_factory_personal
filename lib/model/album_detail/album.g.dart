@@ -6,8 +6,8 @@ part of 'album.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Album _$AlbumFromJson(Map<String, dynamic> json) {
-  return Album(
+AlbumData _$AlbumFromJson(Map<String, dynamic> json) {
+  return AlbumData(
     listeners: json['listeners'] as String?,
     playcount: json['playcount'] as String?,
     wiki: json['wiki'] == null
@@ -29,7 +29,7 @@ Album _$AlbumFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AlbumToJson(Album instance) => <String, dynamic>{
+Map<String, dynamic> _$AlbumToJson(AlbumData instance) => <String, dynamic>{
       'listeners': instance.listeners,
       'playcount': instance.playcount,
       'wiki': instance.wiki?.toJson(),
@@ -37,7 +37,7 @@ Map<String, dynamic> _$AlbumToJson(Album instance) => <String, dynamic>{
       'image': instance.image?.map((e) => e.toJson()).toList(),
       'tags': instance.tags?.toJson(),
       'url': instance.url,
-      'artist': instance.artist,
+      'artist': instance.artistName,
       'name': instance.name,
       'mbid': instance.mbid,
     };

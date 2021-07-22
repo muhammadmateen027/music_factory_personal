@@ -8,7 +8,7 @@ import '../global/global.dart';
 part 'album.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Album {
+class AlbumData {
   String? _listeners;
   String? _playcount;
   Wiki? _wiki;
@@ -34,13 +34,13 @@ class Album {
 
   String? get url => _url;
 
-  String? get artist => _artist;
+  String? get artistName => _artist;
 
   String? get name => _name;
 
   String? get mbid => _mbid;
 
-  Album(
+  AlbumData(
       {String? listeners,
       String? playcount,
       Wiki? wiki,
@@ -63,7 +63,7 @@ class Album {
     _mbid = mbid;
   }
 
-  factory Album.fromJson(Map<String, dynamic> json) => _$AlbumFromJson(json);
+  factory AlbumData.fromJson(Map<String, dynamic> json) => _$AlbumFromJson(json);
 
   Map<String, dynamic> toJson() => _$AlbumToJson(this);
 }
