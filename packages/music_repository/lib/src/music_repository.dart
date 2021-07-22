@@ -50,4 +50,17 @@ class MusicRepository implements MusicService {
     return await client.get(url!, '', queryParameters: queryParameters);
   }
 
+  @override
+  Future<Response> loadAlbumDetail(String albumName, String artistName) async{
+    var queryParameters = <String, String>{
+      'method': 'album.getinfo',
+      'album': albumName,
+      'artist': artistName,
+      'format': 'json',
+      'api_key': dotenv.env['API_KEY']!
+    };
+    var url = dotenv.env['API_URL'];
+    return await client.get(url!, '', queryParameters: queryParameters);
+  }
+
 }

@@ -6,4 +6,6 @@ abstract class MusicService {
   Future<Response> searchArtist(String artistName, [int index = 1]);
 
   Future<Response> loadTopTags(String artistName, [int index = 1]);
+
+  Future<Response> loadAlbumDetail(String albumName, String artistName);
 }
