@@ -1,17 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
-
-import '../global/global.dart';
-
+import 'album.dart';
 part 'album_detail.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class AlbumDetail {
-  Album? _album;
+  AlbumData? _album;
 
-  Album? get album => _album;
+  AlbumData? get album => _album;
 
   AlbumDetail({
-      Album? album}){
+    AlbumData? album}){
     _album = album;
 }
 

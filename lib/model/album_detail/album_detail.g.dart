@@ -10,7 +10,7 @@ AlbumDetail _$AlbumDetailFromJson(Map<String, dynamic> json) {
   return AlbumDetail(
     album: json['album'] == null
         ? null
-        : Album.fromJson(json['album'] as Map<String, dynamic>),
+        : AlbumData.fromJson(json['album'] as Map<String, dynamic>),
   );
 }
 
