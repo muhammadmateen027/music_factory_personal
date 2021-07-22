@@ -216,7 +216,7 @@ packages:
     source: hosted
     version: "2.0.2"
   dio:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: dio
       url: "https://pub.dartlang.org"
@@ -286,7 +286,7 @@ packages:
     source: hosted
     version: "3.1.2"
   flutter_dotenv:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_dotenv
       url: "https://pub.dartlang.org"
@@ -440,12 +440,26 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.4"
+  music_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/music_repository"
+      relative: true
+    source: path
+    version: "1.0.0"
   nested:
     dependency: transitive
     description:
       name: nested
       url: "https://pub.dartlang.org"
     source: hosted
+    version: "1.0.0"
+  network:
+    dependency: "direct main"
+    description:
+      path: "packages/network"
+      relative: true
+    source: path
     version: "1.0.0"
   node_preamble:
     dependency: transitive
@@ -518,7 +532,7 @@ packages:
     source: hosted
     version: "1.8.0"
   path_provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
@@ -705,7 +719,7 @@ packages:
     source: hosted
     version: "1.8.1"
   sqflite:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: sqflite
       url: "https://pub.dartlang.org"
@@ -725,6 +739,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
+  storage:
+    dependency: "direct main"
+    description:
+      path: "packages/storage"
+      relative: true
+    source: path
+    version: "1.0.0"
   stream_channel:
     dependency: transitive
     description:
