@@ -51,7 +51,7 @@ class DashboardPage extends StatelessWidget {
                 return ListView.builder(
                   itemCount: state.albums.length,
                   itemBuilder: (_, index) {
-                    return ListItem(album: state.albums[index]);
+                    return AlbumListItem(album: state.albums[index]);
                   },
                 );
               }

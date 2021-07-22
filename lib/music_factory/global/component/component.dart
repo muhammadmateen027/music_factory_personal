@@ -1,1 +1,1 @@
-export 'list_item.dart';
+export 'album_list_item.dart';

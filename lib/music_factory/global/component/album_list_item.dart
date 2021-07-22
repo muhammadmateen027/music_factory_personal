@@ -4,8 +4,8 @@ import 'package:music_factory/routes/routes.dart';
 
 import '../widget/widget.dart';
 
-class ListItem extends StatelessWidget {
-  const ListItem({Key? key, required this.album}) : super(key: key);
+class AlbumListItem extends StatelessWidget {
+  const AlbumListItem({Key? key, required this.album}) : super(key: key);
   final Album album;
 
   @override
