@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:music_factory/music_factory/global/global.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 import 'package:music_factory/routes/routes.dart';
 
@@ -51,25 +51,7 @@ class DashboardPage extends StatelessWidget {
                 return ListView.builder(
                   itemCount: state.albums.length,
                   itemBuilder: (_, index) {
-                    return ListTile(
-                      onTap: () {
-                        navigationService.pushNamed(
-                          RoutesName.albumDetail,
-                          arguments: state.albums[index],
-                        );
-                      },
-                      title: Text(state.albums[index].name!),
-                      leading: SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: Center(
-                            child: CachedNetworkImage(
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          imageUrl: state.albums[index].image![2].text,
-                        )),
-                      ),
-                    );
+                    return ListItem(album: state.albums[index]);
                   },
                 );
               }
