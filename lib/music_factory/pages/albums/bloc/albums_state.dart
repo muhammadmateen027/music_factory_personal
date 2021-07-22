@@ -21,3 +21,12 @@ class TopTagsLoaded extends AlbumsState {
   @override
   List<Object> get props => [album!, attr!];
 }
+
+class AlbumDetailLoaded extends AlbumsState {
+  const AlbumDetailLoaded({required this.albumData});
+
+  final AlbumData albumData;
+
+  @override
+  List<Object> get props => [albumData];
+}
