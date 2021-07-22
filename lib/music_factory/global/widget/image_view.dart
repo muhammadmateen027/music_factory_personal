@@ -8,13 +8,16 @@ class ImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      placeholder: (context, url) => const CircularProgressIndicator(),
+      placeholder: (context, url) => const Center(
+        child: CircularProgressIndicator(),
+      ),
       errorWidget: (_, message, state) {
         return const Icon(
           Icons.error,
           color: Colors.red,
         );
       },
+      fit: BoxFit.cover,
       imageUrl: imageUrl,
     );
   }
