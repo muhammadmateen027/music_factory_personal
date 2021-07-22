@@ -2,10 +2,13 @@ import 'dart:developer';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/base_page/base_page.dart';
 import 'package:music_factory/music_factory/global/global.dart';
+
+import 'bloc/albums_bloc.dart';
 
 class AlbumDetailPage extends BasePage {
   AlbumDetailPage({Key? key, required this.album}) : super(key: key);
@@ -20,6 +23,13 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
   final double expandedHeight = 200;
   var imageUrl =
       'https://scontent.fkul15-1.fna.fbcdn.net/v/t1.6435-9/133578332_3508428369239793_4754740507169319985_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=nKVj5PBpri8AX-cTAt1&_nc_ht=scontent.fkul15-1.fna&oh=13ede5164a6fa849ccea03996a1685ac&oe=60FE09BB';
+
+  @override
+  void initState() {
+    context.read<AlbumsBloc>().add(LoadAlbumDetail(widget.album));
+    super.initState();
+  }
+
 
   @override
   Widget body(BuildContext context) {

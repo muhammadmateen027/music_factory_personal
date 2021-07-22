@@ -15,3 +15,11 @@ class LoadTopTags extends AlbumsEvent {
   @override
   List<Object> get props => [artist];
 }
+class LoadAlbumDetail extends AlbumsEvent {
+  const LoadAlbumDetail(this.album);
+
+  final Album album;
+
+  @override
+  List<Object> get props => [album];
+}

@@ -25,6 +25,9 @@ class App extends StatelessWidget {
                 ..add(LoadAlbums());
             },
           ),
+          BlocProvider<AlbumsBloc>(
+            create: (_) => AlbumsBloc(locator<MusicService>()),
+          ),
         ],
         child: MaterialApp(
           theme: ThemeData(

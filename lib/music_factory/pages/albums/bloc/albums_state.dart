@@ -9,7 +9,7 @@ abstract class AlbumsState {
 
 class AlbumsInitial extends AlbumsState {}
 
-class SearchArtistLoading extends AlbumsState {}
+class AlbumsLoading extends AlbumsState {}
 
 class TopTagsLoaded extends AlbumsState {
   const TopTagsLoaded({this.album, this.attr});
