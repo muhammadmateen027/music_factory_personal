@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:music_factory/model/model.dart';
-import 'package:music_factory/repository/repository.dart';
-import 'package:music_factory/service/service.dart';
+import 'package:music_repository/repository.dart';
+import 'package:storage/storage.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';

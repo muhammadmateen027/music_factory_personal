@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 import 'package:music_factory/music_factory/pages/albums/albums.dart';
-import 'package:music_factory/repository/repository.dart';
+import 'package:music_repository/repository.dart';
 
 import 'routes_name.dart';
 import 'transition_animation/transition_animation.dart';

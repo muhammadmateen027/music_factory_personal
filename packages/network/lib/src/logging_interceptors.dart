@@ -2,7 +2,8 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:music_factory/utility/utility.dart';
+
+import 'exceptions/exceptions.dart';
 
 class LoggingInterceptors extends Interceptor {
   int currentRequests = 0;

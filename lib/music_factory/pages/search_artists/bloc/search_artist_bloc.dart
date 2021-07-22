@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:music_factory/model/model.dart';
-import 'package:music_factory/repository/repository.dart';
-import 'package:music_factory/utility/utility.dart';
+import 'package:music_repository/repository.dart';
+import 'package:network/network.dart';
 
 part 'search_artist_event.dart';
 part 'search_artist_state.dart';

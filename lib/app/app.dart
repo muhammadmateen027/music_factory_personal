@@ -6,8 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:music_factory/config/config.dart';
 import 'package:music_factory/l10n/l10n.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
-import 'package:music_factory/repository/repository.dart';
 import 'package:music_factory/routes/routes.dart';
+import 'package:music_repository/repository.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);

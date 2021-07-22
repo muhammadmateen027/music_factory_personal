@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:music_factory/utility/utility.dart';
+import 'package:network/network.dart';
 
 class NetworkClient {
   NetworkClient({required this.dio});
