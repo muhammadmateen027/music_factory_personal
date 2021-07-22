@@ -1,0 +1,19 @@
+name: storage
+description: Dart package which will manage sqflite as a database
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=2.12.0-0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  path_provider: ^2.0.2
+  sqflite: ^2.0.0+3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.1.1
+  very_good_analysis: ^2.1.0
