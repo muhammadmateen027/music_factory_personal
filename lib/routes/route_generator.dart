@@ -33,7 +33,7 @@ class RouteGenerator {
         return AppRoutes.slideUpRoute(page);
 
       case RoutesName.albumDetail:
-        return AppRoutes.scale(AlbumDetail(album: args as Album));
+        return AppRoutes.scale(AlbumDetailPage(album: args as Album));
 
       default:
         return _errorRoute();
