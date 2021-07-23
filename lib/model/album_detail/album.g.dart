@@ -7,6 +7,13 @@ part of 'album.dart';
 // **************************************************************************
 
 AlbumData _$AlbumFromJson(Map<String, dynamic> json) {
+  Tags? tags;
+  if (json['tags'].runtimeType == String) {
+    tags = null;
+  } else {
+    tags = Tags.fromJson(json['tags'] as Map<String, dynamic>);
+  }
+
   return AlbumData(
     listeners: json['listeners'] as String?,
     playcount: json['playcount'] as String?,
@@ -19,9 +26,7 @@ AlbumData _$AlbumFromJson(Map<String, dynamic> json) {
     image: (json['image'] as List<dynamic>?)
         ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
         .toList(),
-    tags: json['tags'] == null
-        ? null
-        : Tags.fromJson(json['tags'] as Map<String, dynamic>),
+    tags: tags,
     url: json['url'] as String?,
     artist: json['artist'] as String?,
     name: json['name'] as String?,
