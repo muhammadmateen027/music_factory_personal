@@ -1,8 +1,9 @@
+
 import 'package:json_annotation/json_annotation.dart';
 
 import 'tag.dart';
-/// tag : [{"name":"pop","url":"https://www.last.fm/tag/pop"},{"name":"dance","url":"https://www.last.fm/tag/dance"},{"name":"90s","url":"https://www.last.fm/tag/90s"},{"name":"1998","url":"https://www.last.fm/tag/1998"},{"name":"cher","url":"https://www.last.fm/tag/cher"}]
 
+/// tag : [{"name":"pop","url":"https://www.last.fm/tag/pop"},{"name":"dance","url":"https://www.last.fm/tag/dance"},{"name":"90s","url":"https://www.last.fm/tag/90s"},{"name":"1998","url":"https://www.last.fm/tag/1998"},{"name":"cher","url":"https://www.last.fm/tag/cher"}]
 part 'tags.g.dart';
 
 @JsonSerializable(explicitToJson: true)
