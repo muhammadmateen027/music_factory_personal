@@ -22,8 +22,7 @@ class MusicRepository implements MusicService {
   }
 
   @override
-  Future<Response> searchArtist(String artistName, [int index = 1]) async{
-
+  Future<Response> searchArtist(String artistName, [int index = 1]) async {
     var queryParameters = <String, String>{
       'method': 'artist.search',
       'format': 'json',
@@ -36,22 +35,20 @@ class MusicRepository implements MusicService {
   }
 
   @override
-  Future<Response> loadTopTags(String artistName, [int index = 1]) async{
-
+  Future<Response> loadTopTags(String artistName, [int index = 1]) async {
     var queryParameters = <String, String>{
       'method': 'artist.gettopalbums',
       'artist': artistName,
       'format': 'json',
       'api_key': dotenv.env['API_KEY']!,
       'page': '$index'
-
     };
     var url = dotenv.env['API_URL'];
     return await client.get(url!, '', queryParameters: queryParameters);
   }
 
   @override
-  Future<Response> loadAlbumDetail(String albumName, String artistName) async{
+  Future<Response> loadAlbumDetail(String albumName, String artistName) async {
     var queryParameters = <String, String>{
       'method': 'album.getinfo',
       'album': albumName,
@@ -60,7 +57,11 @@ class MusicRepository implements MusicService {
       'api_key': dotenv.env['API_KEY']!
     };
     var url = dotenv.env['API_URL'];
-    return await client.get(url!, '', queryParameters: queryParameters);
+    return await client.get(
+      url!,
+      '',
+      queryParameters: queryParameters,
+      options: Options(extra: {'customProgress': false}),
+    );
   }
-
 }
