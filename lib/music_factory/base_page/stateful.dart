@@ -21,9 +21,10 @@ mixin BasicPage<Page extends BasePage> on BaseState<Page> {
           child: Scaffold(
             backgroundColor: Theme.of(context).colorScheme.onBackground,
             appBar: addAppBar()? AppBar(
+              elevation: 0.0,
               title: Text(screenName()),
               actions: appBarActions(),
-              backgroundColor: Theme.of(context).colorScheme.background,
+              backgroundColor: Theme.of(context).colorScheme.primary,
             ) : null,
             bottomNavigationBar: BottomAppBar(
               color: Colors.transparent,

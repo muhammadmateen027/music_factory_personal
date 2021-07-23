@@ -17,7 +17,7 @@ class ImageView extends StatelessWidget {
           color: Colors.red,
         );
       },
-      fit: BoxFit.cover,
+      fit: BoxFit.fitWidth,
       imageUrl: imageUrl,
     );
   }

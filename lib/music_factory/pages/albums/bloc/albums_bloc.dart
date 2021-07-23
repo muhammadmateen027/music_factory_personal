@@ -58,6 +58,7 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
   }
 
   void _loadAlbumDetail(LoadAlbumDetail event, Emit<AlbumsState> emit) async {
+    emit(AlbumsLoading());
     try {
       final response = await musicService.loadAlbumDetail(
         event.album.name!,

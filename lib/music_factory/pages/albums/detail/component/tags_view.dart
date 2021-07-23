@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +18,6 @@ class TagsView extends StatelessWidget {
       },
       builder: (_, state) {
         if (state is AlbumDetailLoaded) {
-          log((state.albumData.tags!.toJson().toString()).toString());
           if (state.albumData.tags == null) {
             return Container();
           }
