@@ -7,11 +7,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_factory/model/album_detail/detail.dart';
 import 'package:music_repository/repository.dart';
 import 'package:network/network.dart';
 
 import 'app_bloc_observer.dart';
 
+const String musicAlbumBoxName = 'music-album';
 GetIt locator = GetIt.instance;
 
 class Initialization {
@@ -23,6 +26,11 @@ class Initialization {
 
     // Load environment file
     await dotenv.load(fileName: ".env");
+
+    await Hive.initFlutter();
+    Hive.registerAdapter<AlbumData>(AlbumDataAdapter());
+
+    await Hive.openBox<AlbumData>(musicAlbumBoxName);
 
     // Initialize EasyLoading
     _configEasyLoading();

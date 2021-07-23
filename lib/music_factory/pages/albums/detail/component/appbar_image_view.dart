@@ -10,7 +10,6 @@ class AppbarImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       width: double.maxFinite,
       child: Stack(
@@ -36,7 +35,7 @@ class AppbarImageView extends StatelessWidget {
                 return SizedBox(
                   height: 350,
                   width: double.maxFinite,
-                  child: ImageView(imageUrl: state.albumData.image![2].text),
+                  child: ImageView(imageUrl: state.albumData.image![2].text!),
                 );
               }
               return const Center(child: CircularProgressIndicator());

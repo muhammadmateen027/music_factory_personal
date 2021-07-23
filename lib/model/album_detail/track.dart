@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../global/artist_detail.dart';
@@ -5,12 +6,18 @@ import 'streamable.dart';
 
 part 'track.g.dart';
 
+@HiveType(typeId: 3)
 @JsonSerializable(explicitToJson: true)
-class Track {
+class Track extends HiveObject {
+  @HiveField(0)
   ArtistDetail? _artist;
+  @HiveField(1)
   int? _duration;
+  @HiveField(2)
   String? _url;
+  @HiveField(3)
   String? _name;
+  @HiveField(4)
   Streamable? _streamable;
 
   ArtistDetail? get artist => _artist;

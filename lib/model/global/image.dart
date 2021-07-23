@@ -1,17 +1,21 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'image.g.dart';
 
+@HiveType(typeId: 6)
 @JsonSerializable()
 class Image {
-  dynamic _text;
+  @HiveField(0)
+  String? _text;
+  @HiveField(1)
   String? _size;
 
-  dynamic get text => _text;
+  String? get text => _text;
 
   String? get size => _size;
 
-  Image({dynamic text, String? size}) {
+  Image({String? text, String? size}) {
     _text = text;
     _size = size;
   }

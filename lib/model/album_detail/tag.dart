@@ -1,10 +1,14 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'tag.g.dart';
 
+@HiveType(typeId: 8)
 @JsonSerializable()
 class Tag {
+  @HiveField(0)
   String? _name;
+  @HiveField(1)
   String? _url;
 
   String? get name => _name;

@@ -21,7 +21,7 @@ class AlbumListItem extends StatelessWidget {
       leading: SizedBox(
         width: 50,
         height: 50,
-        child: Center(child: ImageView(imageUrl: album.image![1].text)),
+        child: Center(child: ImageView(imageUrl: album.image![1].text!)),
       ),
     );
   }

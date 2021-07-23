@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'wiki.dart';
@@ -7,17 +8,28 @@ import '../global/global.dart';
 
 part 'album.g.dart';
 
+@HiveType(typeId: 0)
 @JsonSerializable(explicitToJson: true)
-class AlbumData {
+class AlbumData extends HiveObject {
+  @HiveField(0)
   String? _listeners;
+  @HiveField(1)
   String? _playcount;
+  @HiveField(2)
   Wiki? _wiki;
+  @HiveField(3)
   Tracks? _tracks;
+  @HiveField(4)
   List<Image>? _image;
+  @HiveField(5)
   Tags? _tags;
+  @HiveField(6)
   String? _url;
+  @HiveField(7)
   String? _artist;
+  @HiveField(8)
   String? _name;
+  @HiveField(9)
   String? _mbid;
 
   String? get listeners => _listeners;
@@ -63,7 +75,8 @@ class AlbumData {
     _mbid = mbid;
   }
 
-  factory AlbumData.fromJson(Map<String, dynamic> json) => _$AlbumFromJson(json);
+  factory AlbumData.fromJson(Map<String, dynamic> json) =>
+      _$AlbumDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AlbumToJson(this);
+  Map<String, dynamic> toJson() => _$AlbumDataToJson(this);
 }

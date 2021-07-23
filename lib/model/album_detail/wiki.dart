@@ -1,11 +1,16 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'wiki.g.dart';
 
+@HiveType(typeId: 1)
 @JsonSerializable()
 class Wiki {
+  @HiveField(0)
   String? _published;
+  @HiveField(1)
   String? _content;
+  @HiveField(2)
   String? _summary;
 
   String? get published => _published;
