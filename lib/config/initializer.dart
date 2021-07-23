@@ -9,6 +9,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_factory/model/album_detail/detail.dart';
+import 'package:music_factory/model/global/artist_detail.dart';
+import 'package:music_factory/model/global/image.dart' as img;
 import 'package:music_repository/repository.dart';
 import 'package:network/network.dart';
 
@@ -29,6 +31,14 @@ class Initialization {
 
     await Hive.initFlutter();
     Hive.registerAdapter<AlbumData>(AlbumDataAdapter());
+    Hive.registerAdapter<Wiki>(WikiAdapter());
+    Hive.registerAdapter<Tracks>(TracksAdapter());
+    Hive.registerAdapter<Track>(TrackAdapter());
+    Hive.registerAdapter<Tags>(TagsAdapter());
+    Hive.registerAdapter<Tag>(TagAdapter());
+    Hive.registerAdapter<ArtistDetail>(ArtistDetailAdapter());
+    Hive.registerAdapter<Streamable>(StreamableAdapter());
+    Hive.registerAdapter<img.Image>(img.ImageAdapter());
 
     await Hive.openBox<AlbumData>(musicAlbumBoxName);
 

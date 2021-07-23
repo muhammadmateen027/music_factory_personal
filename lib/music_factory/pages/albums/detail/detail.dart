@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/model/model.dart' as alb;
+import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/base_page/base_page.dart';
 
 import '../bloc/albums_bloc.dart';
@@ -27,7 +28,7 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
     super.initState();
   }
   late String label;
-
+  late AlbumData albumData;
 
   @override
   Widget body(BuildContext context) {
