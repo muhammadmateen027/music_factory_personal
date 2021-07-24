@@ -38,10 +38,11 @@ class DashboardPage extends StatelessWidget {
       body: ValueListenableBuilder(
         valueListenable: Hive.box<AlbumData>(musicAlbumBoxName).listenable(),
         builder: (context, Box<AlbumData> box, _) {
-          if (box.values.isEmpty)
-            return Center(
+          if (box.values.isEmpty) {
+            return const Center(
               child: Text("No contacts"),
             );
+          }
           return ListView.builder(
             itemCount: box.values.length,
             itemBuilder: (context, index) {

@@ -1,9 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_factory/config/config.dart';
-import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/global/global.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 
@@ -12,11 +9,6 @@ class AlbumInfoView extends StatelessWidget {
 
   late ThemeData theme;
 
-
-  void onFormSubmit(AlbumData albumData) {
-    Box<AlbumData> albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
-    albumBox.add(albumData);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +21,6 @@ class AlbumInfoView extends StatelessWidget {
           BlocConsumer<AlbumsBloc, AlbumsState>(
             listener: (_, state) {
               if (state is AlbumDetailLoaded){
-                onFormSubmit(state.albumData);
               }
             },
             buildWhen: (pre, curr) {

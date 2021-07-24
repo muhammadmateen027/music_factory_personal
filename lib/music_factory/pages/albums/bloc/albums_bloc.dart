@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
+import 'package:music_factory/config/config.dart';
 import 'package:music_factory/model/model.dart';
 import 'package:music_repository/repository.dart';
 import 'package:network/network.dart';
@@ -13,6 +17,8 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
   AlbumsBloc(this.musicService) : super(AlbumsInitial()) {
     on<LoadTopTags>(_loadTopAlbums);
     on<LoadAlbumDetail>(_loadAlbumDetail);
+
+    on<SaveAlbumDetailEvent>(_saveAlbum);
   }
 
   final MusicService musicService;
@@ -73,6 +79,39 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
     } on NetworkException {
       return;
     }
+  }
+
+  void _saveAlbum(SaveAlbumDetailEvent event, Emit<AlbumsState> emit) {
+    if (state is AlbumDetailLoaded) {
+      final currentState = (state as AlbumDetailLoaded);
+      AlbumData? albumData = _checkIfAlbumExists(currentState.albumData);
+
+
+      if(albumData?.isInBox == null) {
+        _saveAlbumInBox(currentState.albumData);
+      }
+    }
+  }
+
+  AlbumData? _checkIfAlbumExists(AlbumData albumData) {
+    log('---------------3------------------');
+    Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
+    log('---------------4------------------');
+    String? boxKey = albumData.mbid!;
+    if (boxKey.isEmpty){
+      boxKey = albumData.url;
+    }
+
+    return albumBox.get(boxKey);
+  }
+
+  Future<void> _saveAlbumInBox(AlbumData albumData) async {
+    Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
+    String? boxKey = albumData.mbid!;
+    if (boxKey.isEmpty){
+      boxKey = albumData.url;
+    }
+    return await albumBox.put(boxKey, albumData);
   }
 }
 

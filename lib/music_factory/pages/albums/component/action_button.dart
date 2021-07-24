@@ -10,39 +10,36 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashboardBloc, DashboardState>(
+    return BlocBuilder<AlbumsBloc, AlbumsState>(
       buildWhen: (pre, curr) {
-        if (curr is AlbumExistState) {
-          return true;
-        }
-        if (curr is AlbumNotExistState) {
+        if (curr is AlbumDetailLoaded) {
           return true;
         }
         return false;
       },
       builder: (_, state) {
-        if (state is AlbumExistState) {
-          return Center(
-            child: MaterialButton(
-              color: Theme.of(context).errorColor,
-              onPressed: () {
-                context.read<DashboardBloc>().add(DeleteItem(album));
+        // if (state is AlbumDetailLoaded) {
+        //   return Center(
+        //     child: MaterialButton(
+        //       color: Theme.of(context).errorColor,
+        //       onPressed: () {
+        //         context.read<DashboardBloc>().add(DeleteItem(album));
+        //
+        //       },
+        //       textColor: Theme.of(context).colorScheme.background,
+        //       textTheme: Theme.of(context).buttonTheme.textTheme,
+        //       child: const Text(
+        //         'Delete',
+        //       ),
+        //     ),
+        //   );
+        // }
 
-              },
-              textColor: Theme.of(context).colorScheme.background,
-              textTheme: Theme.of(context).buttonTheme.textTheme,
-              child: const Text(
-                'Delete',
-              ),
-            ),
-          );
-        }
-
-        if (state is AlbumNotExistState) {
+        if (state is AlbumDetailLoaded) {
           return Center(
             child: OutlinedButton.icon(
               onPressed: () {
-                context.read<DashboardBloc>().add(SaveAlbum(album));
+                context.read<AlbumsBloc>().add(SaveAlbumDetailEvent());
               },
               icon: const Icon(Icons.save),
               label: const Text('Save'),

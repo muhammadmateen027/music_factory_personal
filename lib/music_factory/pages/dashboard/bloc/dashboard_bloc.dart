@@ -15,10 +15,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
     on<LoadAlbums>(_loadAlbums);
     on<TruncateTable>(_deleteDatabase);
-    on<LoadButtonState>(_albumDetail);
-
-    on<SaveAlbum>(_saveAlbum);
-    on<DeleteItem>(_deleteAlbum);
   }
 
   final _dbHelper = Storage.instance;
@@ -35,29 +31,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     _fetchAlbums();
   }
 
-  void _albumDetail(LoadButtonState event, Emit<DashboardState> emit) async {
-
-    if (await _dbHelper.isExists(event.album)) {
-      emit(AlbumExistState());
-      return;
-    }
-    emit(AlbumNotExistState());
-  }
-
-  void _deleteAlbum(DeleteItem event, Emit<DashboardState> emit) async {
-    await _dbHelper.delete(event.album);
-    _fetchAlbums();
-    emit(AlbumNotExistState());
-  }
-
-  void _saveAlbum(SaveAlbum event, Emit<DashboardState> emit) async {
-
-    await _dbHelper.insert(event.album);
-
-    _fetchAlbums();
-
-    emit(AlbumExistState());
-  }
 
   Future<File> getImageFromNetwork(String url) async {
     File file = await DefaultCacheManager().getSingleFile(url);

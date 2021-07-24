@@ -23,3 +23,5 @@ class LoadAlbumDetail extends AlbumsEvent {
   @override
   List<Object> get props => [album];
 }
+
+class SaveAlbumDetailEvent extends AlbumsEvent {}
