@@ -11,66 +11,63 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Contacts App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Music factory'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                navigationService.pushNamed(RoutesName.searchPage);
-              },
-              icon: const Icon(Icons.search),
-            ),
-            IconButton(
-              onPressed: () {
-                context.read<DashboardBloc>().add(TruncateTable());
-              },
-              icon: const Icon(Icons.delete),
-            ),
-            IconButton(
-              onPressed: () {
-                context.read<DashboardBloc>().add(LoadAlbums());
-              },
-              icon: const Icon(Icons.refresh),
-            ),
-          ],
-        ),
-        body: ValueListenableBuilder(
-          valueListenable: Hive.box<AlbumData>(musicAlbumBoxName).listenable(),
-          builder: (context, Box<AlbumData> box, _) {
-            if (box.values.isEmpty)
-              return Center(
-                child: Text("No contacts"),
-              );
-            return ListView.builder(
-              itemCount: box.values.length,
-              itemBuilder: (context, index) {
-                AlbumData? albumData = box.getAt(index);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Music factory'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              navigationService.pushNamed(RoutesName.searchPage);
+            },
+            icon: const Icon(Icons.search),
+          ),
+          IconButton(
+            onPressed: () {
+              context.read<DashboardBloc>().add(TruncateTable());
+            },
+            icon: const Icon(Icons.delete),
+          ),
+          IconButton(
+            onPressed: () {
+              context.read<DashboardBloc>().add(LoadAlbums());
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
+      ),
+      body: ValueListenableBuilder(
+        valueListenable: Hive.box<AlbumData>(musicAlbumBoxName).listenable(),
+        builder: (context, Box<AlbumData> box, _) {
+          if (box.values.isEmpty)
+            return Center(
+              child: Text("No contacts"),
+            );
+          return ListView.builder(
+            itemCount: box.values.length,
+            itemBuilder: (context, index) {
+              AlbumData? albumData = box.getAt(index);
 
-                return Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: InkWell(
-                    onLongPress: () {
-                      /* ... */
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(height: 5),
-                          Text(albumData!.name!),
-                        ],
-                      ),
+              return Card(
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  onLongPress: () {
+                    /* ... */
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(height: 5),
+                        Text(albumData!.name!),
+                      ],
                     ),
                   ),
-                );
-              },
-            );
-          },
-        ),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
