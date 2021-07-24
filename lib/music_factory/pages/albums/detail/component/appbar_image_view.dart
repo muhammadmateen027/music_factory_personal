@@ -11,6 +11,7 @@ class AppbarImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Theme.of(context).primaryColor,
       width: double.maxFinite,
       child: Stack(
         children: [
@@ -41,9 +42,9 @@ class AppbarImageView extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             },
           ),
-          Container(
-            color: Colors.grey.withOpacity(0.4),
-          )
+          // Container(
+          //   color: Colors.grey.withOpacity(0.4),
+          // )
         ],
       ),
     );

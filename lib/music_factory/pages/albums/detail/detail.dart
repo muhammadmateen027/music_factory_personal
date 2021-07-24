@@ -34,6 +34,7 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
+            backgroundColor: Theme.of(context).primaryColor,
             expandedHeight: 350.0,
             floating: false,
             pinned: true,

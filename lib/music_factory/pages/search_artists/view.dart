@@ -24,9 +24,13 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Theme.of(context).colorScheme.primary,
       child: SafeArea(
         child: Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.onBackground,
           appBar: AppBar(
+            elevation: 0.0,
+            backgroundColor: Theme.of(context).colorScheme.primary,
             title: const Text('Search'),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(50.0),

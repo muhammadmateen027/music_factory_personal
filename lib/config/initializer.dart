@@ -10,6 +10,8 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_factory/hive_service/app_storage.dart';
 import 'package:music_factory/model/album_detail/detail.dart';
+import 'package:music_factory/model/global/artist_detail.dart';
+import 'package:music_factory/model/global/image.dart' as img;
 import 'package:music_repository/repository.dart';
 import 'package:network/network.dart';
 
@@ -28,6 +30,16 @@ class Initialization {
     await dotenv.load(fileName: ".env");
 
     await Hive.initFlutter();
+    Hive
+      ..registerAdapter<AlbumData>(AlbumDataAdapter())
+      ..registerAdapter<Wiki>(WikiAdapter())
+      ..registerAdapter<Tracks>(TracksAdapter())
+      ..registerAdapter<Track>(TrackAdapter())
+      ..registerAdapter<Tags>(TagsAdapter())
+      ..registerAdapter<Tag>(TagAdapter())
+      ..registerAdapter<ArtistDetail>(ArtistDetailAdapter())
+      ..registerAdapter<Streamable>(StreamableAdapter())
+      ..registerAdapter<img.Image>(img.ImageAdapter());
     await Hive.openBox<AlbumData>(musicAlbumBoxName);
 
     // Initialize EasyLoading
@@ -53,7 +65,7 @@ class Initialization {
         () => MusicRepository(client: NetworkClient(dio: _dio)),
       )
       ..registerLazySingleton<StorageService>(
-        () => AppStorage()..registerAdapters(),
+        () => AppStorage(),
       );
   }
 
