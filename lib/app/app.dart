@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:music_factory/config/config.dart';
+import 'package:music_factory/hive_service/app_storage.dart';
 import 'package:music_factory/l10n/l10n.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 import 'package:music_factory/routes/routes.dart';
@@ -16,7 +17,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final routeGenerator = RouteGenerator(locator<MusicService>());
     return RepositoryProvider.value(
-      value: locator<MusicService>(),
+      value: [
+        locator<MusicService>(),
+        locator<StorageService>()
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<DashboardBloc>(
@@ -26,7 +30,10 @@ class App extends StatelessWidget {
             },
           ),
           BlocProvider<AlbumsBloc>(
-            create: (_) => AlbumsBloc(locator<MusicService>()),
+            create: (_) => AlbumsBloc(
+              musicService: locator<MusicService>(),
+              storageService: locator<StorageService>()
+            ),
           ),
         ],
         child: MaterialApp(

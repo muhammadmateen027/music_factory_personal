@@ -1,8 +1,5 @@
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_factory/config/config.dart';
 import 'package:music_factory/model/model.dart';
 import 'package:music_repository/repository.dart';
 
@@ -17,8 +14,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   }
 
   final MusicService musicService;
-  ValueListenable<Box<AlbumData>>? albumsListener =
-  Hive.box<AlbumData>(musicAlbumBoxName).listenable();
+  // ValueListenable<Box<AlbumData>>? albumsListener =
+  // Hive.box<AlbumData>(musicAlbumBoxName).listenable();
 
   void _loadAlbums(LoadAlbums event, Emit<DashboardState> emit) async {
     emit(DashboardLoading());
@@ -27,25 +24,25 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
 
   Future<void> _deleteItems(event, emit) async {
-    Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
-    return albumBox.deleteFromDisk();
+    // Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
+    // return albumBox.deleteFromDisk();
   }
 
   Iterable<AlbumData> _fetchAlbums() {
     var albums = <AlbumData>[];
-    Box<AlbumData>? box = Hive.box<AlbumData>(musicAlbumBoxName);
-
-    if (albumsListener!.value.isEmpty) {
-      return albums;
-    }
-
-    for (int index=0; index < albumsListener!.value.length; index++) {
-      AlbumData? albumData = box.get(index);
-      if (albumData != null) {
-        albums.add(albumData);
-      }
-
-    }
+    // Box<AlbumData>? box = Hive.box<AlbumData>(musicAlbumBoxName);
+    //
+    // if (albumsListener!.value.isEmpty) {
+    //   return albums;
+    // }
+    //
+    // for (int index=0; index < albumsListener!.value.length; index++) {
+    //   AlbumData? albumData = box.get(index);
+    //   if (albumData != null) {
+    //     albums.add(albumData);
+    //   }
+    //
+    // }
     return albums;
   }
 

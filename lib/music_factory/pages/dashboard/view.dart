@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_factory/config/config.dart';
 import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/global/widget/image_view.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
@@ -38,7 +37,7 @@ class DashboardPage extends StatelessWidget {
         ],
       ),
       body: ValueListenableBuilder(
-        valueListenable: Hive.box<AlbumData>(musicAlbumBoxName).listenable(),
+        valueListenable: Hive.box<AlbumData>('music-album').listenable(),
         builder: (context, Box<AlbumData> box, _) {
           if (box.values.isEmpty) {
             return const Center(
@@ -60,6 +59,7 @@ class DashboardPage extends StatelessWidget {
                         albumName: albumData!.name,
                         artistName: albumData.artistName,
                         mbid: albumData.mbid,
+                        url: albumData.url,
                       ),
                     );
                   },

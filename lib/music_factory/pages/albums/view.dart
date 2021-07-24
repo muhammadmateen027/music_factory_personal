@@ -1,20 +1,24 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/model/model.dart';
+import 'package:music_factory/music_factory/base_page/base_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'bloc/albums_bloc.dart';
 import 'component/component.dart';
 
-class TopAlbumsPage extends StatefulWidget {
-  const TopAlbumsPage({Key? key, required this.artist}) : super(key: key);
+class TopAlbumsPage extends BasePage {
+  TopAlbumsPage({Key? key, required this.artist}) : super(key: key);
   final Artist artist;
 
   @override
   _AlbumsPageState createState() => _AlbumsPageState();
 }
 
-class _AlbumsPageState extends State<TopAlbumsPage> {
+class _AlbumsPageState extends BaseState<TopAlbumsPage> with BasicPage {
+
   late RefreshController _refreshController;
 
   @override
@@ -25,16 +29,10 @@ class _AlbumsPageState extends State<TopAlbumsPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.artist.name!),
-        ),
-        body: _getBody(),
-      ),
-    );
+  Widget body(BuildContext context) {
+    return _getBody();
   }
+
 
   Widget _getBody() {
     return BlocConsumer<AlbumsBloc, AlbumsState>(
@@ -69,6 +67,17 @@ class _AlbumsPageState extends State<TopAlbumsPage> {
       //   }
       //   return false;
       // },
+      listenWhen: (pre, curr) {
+        log(pre.toString());
+        log(curr.toString());
+        return true;
+      },
+      buildWhen: (pre, curr) {
+        if(curr is TopTagsLoaded) {
+          return true;
+        }
+        return false;
+      },
       builder: (context, state) {
         if (state is TopTagsLoaded) {
           _refreshController.loadComplete();
@@ -102,4 +111,14 @@ class _AlbumsPageState extends State<TopAlbumsPage> {
     context.read<AlbumsBloc>().add(LoadTopTags(widget.artist));
     return;
   }
+
+  @override
+  bool addAppBar() => true;
+
+  @override
+  List<Widget>? appBarActions() => [];
+
+
+  @override
+  String screenName() => widget.artist.name!;
 }

@@ -8,15 +8,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_factory/hive_service/app_storage.dart';
 import 'package:music_factory/model/album_detail/detail.dart';
-import 'package:music_factory/model/global/artist_detail.dart';
-import 'package:music_factory/model/global/image.dart' as img;
 import 'package:music_repository/repository.dart';
 import 'package:network/network.dart';
 
 import 'app_bloc_observer.dart';
 
-const String musicAlbumBoxName = 'music-album';
 GetIt locator = GetIt.instance;
 
 class Initialization {
@@ -30,16 +28,6 @@ class Initialization {
     await dotenv.load(fileName: ".env");
 
     await Hive.initFlutter();
-    Hive.registerAdapter<AlbumData>(AlbumDataAdapter());
-    Hive.registerAdapter<Wiki>(WikiAdapter());
-    Hive.registerAdapter<Tracks>(TracksAdapter());
-    Hive.registerAdapter<Track>(TrackAdapter());
-    Hive.registerAdapter<Tags>(TagsAdapter());
-    Hive.registerAdapter<Tag>(TagAdapter());
-    Hive.registerAdapter<ArtistDetail>(ArtistDetailAdapter());
-    Hive.registerAdapter<Streamable>(StreamableAdapter());
-    Hive.registerAdapter<img.Image>(img.ImageAdapter());
-
     await Hive.openBox<AlbumData>(musicAlbumBoxName);
 
     // Initialize EasyLoading
@@ -60,10 +48,13 @@ class Initialization {
     }
 
     // dependency injection for your repository
-    locator.registerLazySingleton<MusicService>(
-      () => MusicRepository(client: NetworkClient(dio: _dio)),
-    );
-
+    locator
+      ..registerLazySingleton<MusicService>(
+        () => MusicRepository(client: NetworkClient(dio: _dio)),
+      )
+      ..registerLazySingleton<StorageService>(
+        () => AppStorage()..registerAdapters(),
+      );
   }
 
   static void _configEasyLoading() {

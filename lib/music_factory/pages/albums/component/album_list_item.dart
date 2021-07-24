@@ -27,6 +27,7 @@ class AlbumListItem extends StatelessWidget {
             albumName: album.name!,
             artistName: album.artist!.name,
             mbid: album.mbid,
+            url: album.url,
           ),
         );
       },

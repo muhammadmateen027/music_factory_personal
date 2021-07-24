@@ -27,10 +27,7 @@ class RouteGenerator {
         return AppRoutes.slideUpRoute(page);
 
       case RoutesName.albumsPage:
-        Widget page = BlocProvider<AlbumsBloc>(
-          create: (_) => AlbumsBloc(musicService),
-          child: TopAlbumsPage(artist: args as Artist),
-        );
+        Widget page = TopAlbumsPage(artist: args as Artist);
         return AppRoutes.slideUpRoute(page);
 
       case RoutesName.albumDetail:
