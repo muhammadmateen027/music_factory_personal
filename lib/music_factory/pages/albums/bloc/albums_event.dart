@@ -24,4 +24,4 @@ class LoadAlbumDetail extends AlbumsEvent {
   List<Object> get props => [album];
 }
 
-class SaveAlbumDetailEvent extends AlbumsEvent {}
+class SaveDeleteAlbumEvent extends AlbumsEvent {}

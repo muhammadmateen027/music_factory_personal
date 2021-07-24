@@ -1,12 +1,12 @@
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:music_factory/music_factory/global/global.dart';
-import 'package:music_factory/music_factory/music_factory.dart';
+import 'package:music_factory/model/model.dart';
 
 class AlbumInfoView extends StatelessWidget {
-  AlbumInfoView({Key? key}) : super(key: key);
+  AlbumInfoView({Key? key, required this.albumData}) : super(key: key);
 
+  final AlbumData albumData;
   late ThemeData theme;
 
 
@@ -18,38 +18,10 @@ class AlbumInfoView extends StatelessWidget {
       width: double.maxFinite,
       child: Stack(
         children: [
-          BlocConsumer<AlbumsBloc, AlbumsState>(
-            listener: (_, state) {
-              if (state is AlbumDetailLoaded){
-              }
-            },
-            buildWhen: (pre, curr) {
-              if (curr is AlbumDetailLoaded) {
-                return true;
-              }
-              if (curr is AlbumsLoading) {
-                return true;
-              }
-              return false;
-            },
-            builder: (_, state) {
-              if (state is AlbumsLoading) {
-                return _getAlbumInfo(
-                  albumName: 'album name',
-                  listener: '0',
-                  playCount: '0',
-                ).getShimmerEffect();
-              }
-              if (state is AlbumDetailLoaded) {
-                return _getAlbumInfo(
-                  albumName: state.albumData.name,
-                  listener: state.albumData.listeners,
-                  playCount: state.albumData.playcount,
-                );
-              }
-
-              return const SizedBox();
-            },
+          _getAlbumInfo(
+            albumName: albumData.name,
+            listener: albumData.listeners,
+            playCount: albumData.playcount,
           ),
           Container(color: Colors.grey.withOpacity(0.4))
         ],

@@ -1,54 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:music_factory/music_factory/music_factory.dart';
+import 'package:music_factory/model/model.dart';
 
 class DescriptionView extends StatelessWidget {
-  const DescriptionView({Key? key}) : super(key: key);
-
+  const DescriptionView({Key? key, required this.albumData}) : super(key: key);
+  final AlbumData albumData;
+  
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return BlocBuilder<AlbumsBloc, AlbumsState>(
-      buildWhen: (pre, curr) {
-        if (curr is AlbumDetailLoaded) {
-          return true;
-        }
-        return false;
-      },
-      builder: (_, state) {
-        if (state is AlbumDetailLoaded) {
-          if (state.albumData.wiki == null) {
-            return const SizedBox();
-          }
+    if (albumData.wiki == null) {
+      return const SizedBox();
+    }
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Description',
-                      style: theme.textTheme.headline6,
-                    ),
-                    Text(
-                      state.albumData.wiki!.published!,
-                      style: theme.textTheme.caption,
-                    ),
-                  ],
-                ),
-                _descriptionView(state.albumData.wiki!.summary!)
-              ],
-            ),
-          );
-        }
-        return const Center(child: CircularProgressIndicator());
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                'Description',
+                style: theme.textTheme.headline6,
+              ),
+              Text(
+                albumData.wiki!.published!,
+                style: theme.textTheme.caption,
+              ),
+            ],
+          ),
+          _descriptionView(albumData.wiki!.summary!)
+        ],
+      ),
     );
   }
 

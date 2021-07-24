@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
@@ -10,7 +9,6 @@ import 'package:music_repository/repository.dart';
 import 'package:network/network.dart';
 
 part 'albums_event.dart';
-
 part 'albums_state.dart';
 
 class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
@@ -18,7 +16,7 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
     on<LoadTopTags>(_loadTopAlbums);
     on<LoadAlbumDetail>(_loadAlbumDetail);
 
-    on<SaveAlbumDetailEvent>(_saveAlbum);
+    on<SaveDeleteAlbumEvent>(_saveDeleteAlbum);
   }
 
   final MusicService musicService;
@@ -73,7 +71,11 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
       var albumDetail = await compute(_parseAlbumDetail, response.data);
 
       if (albumDetail.album != null) {
-        emit(AlbumDetailLoaded(albumData: albumDetail.album!));
+
+        emit(AlbumDetailLoaded(
+          albumData: albumDetail.album!,
+          albumExists: _checkIfAlbumExists(albumDetail.album!),
+        ));
       }
       return;
     } on NetworkException {
@@ -81,37 +83,58 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
     }
   }
 
-  void _saveAlbum(SaveAlbumDetailEvent event, Emit<AlbumsState> emit) {
+  void _saveDeleteAlbum(SaveDeleteAlbumEvent event, Emit<AlbumsState> emit) {
     if (state is AlbumDetailLoaded) {
       final currentState = (state as AlbumDetailLoaded);
-      AlbumData? albumData = _checkIfAlbumExists(currentState.albumData);
+      bool? albumExists = _checkIfAlbumExists(currentState.albumData);
 
+      if (albumExists) {
+        _deleteAlbumFromBox(currentState.albumData);
 
-      if(albumData?.isInBox == null) {
-        _saveAlbumInBox(currentState.albumData);
+        emit(AlbumDetailLoaded(
+          albumData: currentState.albumData,
+          albumExists: false,
+        ));
+        return;
       }
+
+      _saveAlbumInBox(currentState.albumData);
+      emit(AlbumDetailLoaded(
+        albumData: currentState.albumData,
+        albumExists: true,
+      ));
     }
   }
 
-  AlbumData? _checkIfAlbumExists(AlbumData albumData) {
-    log('---------------3------------------');
+  bool _checkIfAlbumExists(AlbumData albumData) {
     Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
-    log('---------------4------------------');
     String? boxKey = albumData.mbid!;
-    if (boxKey.isEmpty){
+    if (boxKey.isEmpty) {
       boxKey = albumData.url;
     }
 
-    return albumBox.get(boxKey);
+    if (albumBox.get(boxKey) == null) {
+      return false;
+    }
+    return true;
   }
 
   Future<void> _saveAlbumInBox(AlbumData albumData) async {
     Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
     String? boxKey = albumData.mbid!;
-    if (boxKey.isEmpty){
+    if (boxKey.isEmpty) {
       boxKey = albumData.url;
     }
     return await albumBox.put(boxKey, albumData);
+  }
+
+  Future<void> _deleteAlbumFromBox(AlbumData albumData) async {
+    Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
+    String? boxKey = albumData.mbid!;
+    if (boxKey.isEmpty) {
+      boxKey = albumData.url;
+    }
+    return await albumBox.delete(boxKey);
   }
 }
 

@@ -26,17 +26,6 @@ mixin BasicPage<Page extends BasePage> on BaseState<Page> {
               actions: appBarActions(),
               backgroundColor: Theme.of(context).colorScheme.primary,
             ) : null,
-            bottomNavigationBar: BottomAppBar(
-              color: Colors.transparent,
-              elevation: 0.0,
-              child: Text(
-                'ABCDEFGH',
-                style: Theme.of(context).textTheme.caption!.copyWith(
-                  fontSize: 10.0,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
             body: body(context),
           ),
         ),

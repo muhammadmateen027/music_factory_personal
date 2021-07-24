@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/model/model.dart' as alb;
-import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/base_page/base_page.dart';
 
 import '../bloc/albums_bloc.dart';
@@ -26,7 +25,6 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
   }
 
   late String label;
-  late AlbumData albumData;
 
   @override
   Widget body(BuildContext context) {
@@ -45,11 +43,19 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
               background: AppbarImageView(),
             ),
             actions: [
-              IconButton(
-                onPressed: () {
-                  context.read<AlbumsBloc>().add(SaveAlbumDetailEvent());
+              BlocBuilder<AlbumsBloc, AlbumsState>(
+                builder: (_, state) {
+                  if (state is AlbumDetailLoaded) {
+                    return AlbumDetailAction(
+                      onPressed: () {
+                        context.read<AlbumsBloc>().add(SaveDeleteAlbumEvent());
+                      },
+                      isAlbumExist: state.albumExists,
+                    );
+                  }
+
+                  return const SizedBox();
                 },
-                icon: const Icon(Icons.save),
               )
             ],
           ),
@@ -57,15 +63,33 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
       },
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 0),
-        child: ListView(
-          children: [
-            const SizedBox(height: 8),
-            AlbumInfoView(),
-            const SizedBox(height: 16),
-            const TagsView(),
-            const DescriptionView(),
-            TracksView(),
-          ],
+        child: BlocBuilder<AlbumsBloc, AlbumsState>(
+          buildWhen: (pre, curr) {
+            if (curr is AlbumsLoading) {
+              return true;
+            }
+            if (curr is AlbumDetailLoaded) {
+              return true;
+            }
+            return false;
+          },
+          builder: (_, state) {
+            if (state is AlbumDetailLoaded) {
+              return ListView(
+                children: [
+                  const SizedBox(height: 8),
+                  AlbumInfoView(albumData: state.albumData),
+                  const SizedBox(height: 16),
+                  TagsView(albumData: state.albumData),
+                  DescriptionView(albumData: state.albumData),
+                  TracksView(albumData: state.albumData),
+                  const SizedBox(height: 16),
+                ],
+              );
+            }
+
+            return const SizedBox();
+          },
         ),
       ),
     );

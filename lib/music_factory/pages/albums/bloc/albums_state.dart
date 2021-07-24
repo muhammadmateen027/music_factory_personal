@@ -23,10 +23,11 @@ class TopTagsLoaded extends AlbumsState {
 }
 
 class AlbumDetailLoaded extends AlbumsState {
-  const AlbumDetailLoaded({required this.albumData});
+  const AlbumDetailLoaded({required this.albumData, this.albumExists = false});
 
   final AlbumData albumData;
+  final bool albumExists;
 
   @override
-  List<Object> get props => [albumData];
+  List<Object> get props => [albumData, albumExists];
 }
