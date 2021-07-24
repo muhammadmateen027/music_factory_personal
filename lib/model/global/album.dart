@@ -12,8 +12,9 @@ class Album {
   String? url;
   ArtistDetail? artist;
   List<Image>? image;
+  String? mbid;
 
-  Album({this.name, this.playcount, this.url, this.artist, this.image});
+  Album({this.name, this.playcount, this.url, this.artist, this.image, this.mbid});
   factory Album.fromJson(Map<String, dynamic> json) =>
       _$AlbumFromJson(json);
 

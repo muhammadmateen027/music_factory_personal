@@ -14,7 +14,7 @@ class MusicRepository implements MusicService {
     var queryParameters = <String, String>{
       'method': 'artist.search',
       'format': 'json',
-      'api_key': dotenv.env['API_KEY'].toString(),
+      'api_key': dotenv.env['API_KEY']!,
       'artist': artist
     };
     var url = dotenv.env['API_URL'];
@@ -48,14 +48,23 @@ class MusicRepository implements MusicService {
   }
 
   @override
-  Future<Response> loadAlbumDetail(String albumName, String artistName) async {
+  Future<Response> loadAlbumDetail({
+    String? albumName,
+    String? artistName,
+    String? mbid,
+  }) async {
     var queryParameters = <String, String>{
       'method': 'album.getinfo',
-      'album': albumName,
-      'artist': artistName,
+      'album': albumName ?? '',
+      'artist': artistName ?? '',
       'format': 'json',
       'api_key': dotenv.env['API_KEY']!
     };
+
+    if (albumName == null && artistName == null) {
+      queryParameters['mbid'] = mbid ?? '';
+    }
+
     var url = dotenv.env['API_URL'];
     return await client.get(
       url!,

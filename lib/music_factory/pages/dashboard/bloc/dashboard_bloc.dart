@@ -1,10 +1,10 @@
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter/foundation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_factory/config/config.dart';
 import 'package:music_factory/model/model.dart';
 import 'package:music_repository/repository.dart';
-import 'package:storage/storage.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';
@@ -12,39 +12,41 @@ part 'dashboard_state.dart';
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc({required this.musicService}) : super(DashboardInitial()) {
     // Initialize database
-
     on<LoadAlbums>(_loadAlbums);
-    on<TruncateTable>(_deleteDatabase);
+    on<TruncateTable>(_deleteItems);
   }
 
-  final _dbHelper = Storage.instance;
   final MusicService musicService;
+  ValueListenable<Box<AlbumData>>? albumsListener =
+  Hive.box<AlbumData>(musicAlbumBoxName).listenable();
 
   void _loadAlbums(LoadAlbums event, Emit<DashboardState> emit) async {
     emit(DashboardLoading());
     _fetchAlbums();
   }
 
-  void _deleteDatabase(TruncateTable event, Emit<DashboardState> emit) async {
-    emit(DashboardLoading());
-    await _dbHelper.deleteTable();
-    _fetchAlbums();
+
+  Future<void> _deleteItems(event, emit) async {
+    Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
+    return albumBox.deleteFromDisk();
   }
 
+  Iterable<AlbumData> _fetchAlbums() {
+    var albums = <AlbumData>[];
+    Box<AlbumData>? box = Hive.box<AlbumData>(musicAlbumBoxName);
 
-  Future<File> getImageFromNetwork(String url) async {
-    File file = await DefaultCacheManager().getSingleFile(url);
-    return file;
-  }
-
-  void _fetchAlbums() async {
-    var albums = await _dbHelper.queryAllRows();
-    if (albums.isEmpty) {
-      emit(EmptyAlbums());
-      return;
+    if (albumsListener!.value.isEmpty) {
+      return albums;
     }
 
-    emit(AlbumLoaded(albums: await _dbHelper.queryAllRows()));
+    for (int index=0; index < albumsListener!.value.length; index++) {
+      AlbumData? albumData = box.get(index);
+      if (albumData != null) {
+        albums.add(albumData);
+      }
+
+    }
+    return albums;
   }
 
   @override

@@ -7,5 +7,5 @@ abstract class MusicService {
 
   Future<Response> loadTopTags(String artistName, [int index = 1]);
 
-  Future<Response> loadAlbumDetail(String albumName, String artistName);
+  Future<Response> loadAlbumDetail({String? albumName, String? artistName, String? mbid});
 }

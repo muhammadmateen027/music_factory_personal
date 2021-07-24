@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:music_factory/model/model.dart' as art;
+import 'package:music_factory/music_factory/pages/albums/model/album_detail_model.dart';
 import 'package:music_factory/routes/routes.dart';
 
 class AlbumListItem extends StatelessWidget {
@@ -9,6 +9,7 @@ class AlbumListItem extends StatelessWidget {
   final art.Album album;
 
   late ThemeData theme;
+
   @override
   Widget build(BuildContext context) {
     Widget image = const FlutterLogo();
@@ -20,17 +21,23 @@ class AlbumListItem extends StatelessWidget {
 
     return ListTile(
       onTap: () {
-        navigationService.pushNamed(RoutesName.albumDetail, arguments: album);
+        navigationService.pushNamed(
+          RoutesName.albumDetail,
+          arguments: AlbumDetailModel(
+            albumName: album.name!,
+            artistName: album.artist!.name,
+            mbid: album.mbid,
+          ),
+        );
       },
       title: Text(album.name!),
       subtitle: Text(album.artist!.name!),
       leading: SizedBox(
-        width: 50,
-        height: 50,
-        child: Center(
-          child: image,
-        )
-      ),
+          width: 50,
+          height: 50,
+          child: Center(
+            child: image,
+          )),
     );
   }
 }

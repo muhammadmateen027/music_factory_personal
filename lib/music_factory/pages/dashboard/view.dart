@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_factory/config/config.dart';
 import 'package:music_factory/model/model.dart';
+import 'package:music_factory/music_factory/global/widget/image_view.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
+import 'package:music_factory/music_factory/pages/albums/model/album_detail_model.dart';
 import 'package:music_factory/routes/routes.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -51,16 +53,50 @@ class DashboardPage extends StatelessWidget {
               return Card(
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
-                  onLongPress: () {
-                    /* ... */
+                  onTap: () {
+                    navigationService.pushNamed(
+                      RoutesName.albumDetail,
+                      arguments: AlbumDetailModel(
+                        albumName: albumData!.name,
+                        artistName: albumData.artistName,
+                        mbid: albumData.mbid,
+                      ),
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Column(
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(height: 5),
-                        Text(albumData!.name!),
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: SizedBox(
+                            height: 50,
+                            width: 50,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: ImageView(
+                                imageUrl: albumData!.image![2].text!,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 6),
+                        Flexible(
+                          flex: 6,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(height: 6),
+                              Text(albumData.name!),
+                              SizedBox(width: 6),
+                              Text(
+                                albumData.url!,
+                                style: Theme.of(context).textTheme.caption,
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),

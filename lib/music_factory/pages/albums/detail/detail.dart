@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:music_factory/model/model.dart' as alb;
 import 'package:music_factory/music_factory/base_page/base_page.dart';
+import 'package:music_factory/music_factory/pages/albums/model/album_detail_model.dart';
 
 import '../bloc/albums_bloc.dart';
 import 'component/component.dart';
 
 class AlbumDetailPage extends BasePage {
-  AlbumDetailPage({Key? key, required this.album}) : super(key: key);
-  final alb.Album album;
+  AlbumDetailPage({Key? key, required this.albumDetailModel}) : super(key: key);
+  final AlbumDetailModel albumDetailModel;
 
   @override
   _AlbumDetailPageState createState() => _AlbumDetailPageState();
@@ -20,7 +20,7 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
 
   @override
   void initState() {
-    context.read<AlbumsBloc>().add(LoadAlbumDetail(widget.album));
+    context.read<AlbumsBloc>().add(LoadAlbumDetail(widget.albumDetailModel));
     super.initState();
   }
 
@@ -39,7 +39,7 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: Text(widget.album.artist!.name!),
+              title: Text(widget.albumDetailModel.artistName!),
               background: AppbarImageView(),
             ),
             actions: [

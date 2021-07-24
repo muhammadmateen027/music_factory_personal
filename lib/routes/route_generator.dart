@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 import 'package:music_factory/music_factory/pages/albums/albums.dart';
+import 'package:music_factory/music_factory/pages/albums/model/album_detail_model.dart';
 import 'package:music_repository/repository.dart';
 
 import 'routes_name.dart';
@@ -33,7 +34,9 @@ class RouteGenerator {
         return AppRoutes.slideUpRoute(page);
 
       case RoutesName.albumDetail:
-        return AppRoutes.scale(AlbumDetailPage(album: args as Album));
+        return AppRoutes.scale(
+          AlbumDetailPage(albumDetailModel: args as AlbumDetailModel),
+        );
 
       default:
         return _errorRoute();

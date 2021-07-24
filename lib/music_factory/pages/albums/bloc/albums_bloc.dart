@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 import 'package:music_factory/config/config.dart';
 import 'package:music_factory/model/model.dart';
+import 'package:music_factory/music_factory/pages/albums/model/album_detail_model.dart';
 import 'package:music_repository/repository.dart';
 import 'package:network/network.dart';
 
@@ -65,13 +66,13 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
     emit(AlbumsLoading());
     try {
       final response = await musicService.loadAlbumDetail(
-        event.album.name!,
-        event.album.artist!.name!,
+        artistName: event.albumDetailModel.artistName,
+        albumName: event.albumDetailModel.albumName,
+        mbid: event.albumDetailModel.mbid,
       );
       var albumDetail = await compute(_parseAlbumDetail, response.data);
 
       if (albumDetail.album != null) {
-
         emit(AlbumDetailLoaded(
           albumData: albumDetail.album!,
           albumExists: _checkIfAlbumExists(albumDetail.album!),
@@ -87,6 +88,7 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
     if (state is AlbumDetailLoaded) {
       final currentState = (state as AlbumDetailLoaded);
       bool? albumExists = _checkIfAlbumExists(currentState.albumData);
+      
 
       if (albumExists) {
         _deleteAlbumFromBox(currentState.albumData);
@@ -103,15 +105,14 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
         albumData: currentState.albumData,
         albumExists: true,
       ));
+      return;
     }
   }
 
   bool _checkIfAlbumExists(AlbumData albumData) {
     Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
-    String? boxKey = albumData.mbid!;
-    if (boxKey.isEmpty) {
-      boxKey = albumData.url;
-    }
+    String? boxKey = _getKey(albumData);
+
 
     if (albumBox.get(boxKey) == null) {
       return false;
@@ -121,20 +122,24 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
 
   Future<void> _saveAlbumInBox(AlbumData albumData) async {
     Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
-    String? boxKey = albumData.mbid!;
-    if (boxKey.isEmpty) {
-      boxKey = albumData.url;
-    }
+
+    String? boxKey = _getKey(albumData);
+
     return await albumBox.put(boxKey, albumData);
   }
 
   Future<void> _deleteAlbumFromBox(AlbumData albumData) async {
     Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
-    String? boxKey = albumData.mbid!;
-    if (boxKey.isEmpty) {
-      boxKey = albumData.url;
-    }
+    String? boxKey = _getKey(albumData);
+
     return await albumBox.delete(boxKey);
+  }
+
+  String _getKey(AlbumData albumData) {
+    if(albumData.mbid != null) {
+      return albumData.mbid!;
+    }
+    return albumData.url!;
   }
 }
 

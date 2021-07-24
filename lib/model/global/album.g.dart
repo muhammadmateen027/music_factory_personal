@@ -11,6 +11,7 @@ Album _$AlbumFromJson(Map<String, dynamic> json) {
     name: json['name'] as String?,
     playcount: json['playcount'] as int?,
     url: json['url'] as String?,
+    mbid: json['mbid'] as String?,
     artist: json['artist'] == null
         ? null
         : ArtistDetail.fromJson(json['artist'] as Map<String, dynamic>),
