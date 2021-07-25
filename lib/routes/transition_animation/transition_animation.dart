@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class AppRoutes {
-  AppRoutes._();
+class PageTransition {
+  PageTransition._();
 
   static PageRouteBuilder slide(Widget page) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final begin = const Offset(0.0, 1.0);
-        final end = Offset.zero;
-        final curve = Curves.ease;
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
 
         final tween = Tween(begin: begin, end: end).chain(
           CurveTween(curve: curve),
@@ -27,8 +27,8 @@ class AppRoutes {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final begin = const Offset(-1, 0);
-        final end = Offset.zero;
+        const begin = Offset(-1, 0);
+        const end = Offset.zero;
 
         final tween = Tween(begin: begin, end: end);
 
@@ -44,8 +44,8 @@ class AppRoutes {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final begin = const Offset(0, 1);
-        final end = Offset.zero;
+        const begin = Offset(0, 1);
+        const end = Offset.zero;
 
         final tween = Tween(begin: begin, end: end);
 
@@ -61,8 +61,8 @@ class AppRoutes {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final begin = Offset(0, -1.0);
-        final end = Offset.zero;
+        const begin = Offset(0, -1.0);
+        const end = Offset.zero;
 
         final tween = Tween(begin: begin, end: end);
 
@@ -78,8 +78,8 @@ class AppRoutes {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final begin = const Offset(1, 1);
-        final end = Offset.zero;
+        const begin = Offset(1, 1);
+        const end = Offset.zero;
 
         final tween = Tween(begin: begin, end: end);
 
@@ -95,8 +95,8 @@ class AppRoutes {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final begin = const Offset(1, 0);
-        final end = Offset(0, 0);
+        const begin = Offset(1, 0);
+        const end = Offset(0, 0);
 
         final tween = Tween(begin: begin, end: end);
 
@@ -112,8 +112,8 @@ class AppRoutes {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final begin = 0.0;
-        final end = 1.0;
+        const begin = 0.0;
+        const end = 1.0;
 
         final tween = Tween(begin: begin, end: end);
 
@@ -146,14 +146,14 @@ class AppRoutes {
         return Stack(
           children: <Widget>[
             SlideTransition(
-              position: new Tween<Offset>(
+              position: Tween<Offset>(
                 begin: const Offset(0.0, 0.0),
                 end: const Offset(-1.0, 0.0),
               ).animate(animation),
               child: exitPage,
             ),
             SlideTransition(
-              position: new Tween<Offset>(
+              position: Tween<Offset>(
                 begin: const Offset(1.0, 0.0),
                 end: Offset.zero,
               ).animate(animation),

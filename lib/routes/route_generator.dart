@@ -17,20 +17,20 @@ class RouteGenerator {
     final args = setting.arguments;
     switch (setting.name) {
       case RoutesName.initial:
-        return AppRoutes.slideUpRoute(const DashboardPage());
+        return PageTransition.slideUpRoute(const DashboardPage());
       case RoutesName.searchPage:
         Widget page = BlocProvider<ArtistBloc>(
           create: (_) => ArtistBloc(musicService: musicService),
           child: SearchArtistPage(),
         );
-        return AppRoutes.slideUpRoute(page);
+        return PageTransition.slideUpRoute(page);
 
       case RoutesName.albumsPage:
         Widget page = TopAlbumsPage(artist: args as Artist);
-        return AppRoutes.slideUpRoute(page);
+        return PageTransition.slideUpRoute(page);
 
       case RoutesName.albumDetail:
-        return AppRoutes.scale(
+        return PageTransition.scale(
           AlbumDetailPage(albumDetailModel: args as AlbumDetailModel),
         );
 
