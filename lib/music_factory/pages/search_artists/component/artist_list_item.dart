@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:music_factory/model/global/artist.dart';
 import 'package:music_factory/routes/routes.dart';
+import 'package:music_repository/repository.dart' hide Image;
 
 class ArtistListItem extends StatelessWidget {
   const ArtistListItem({Key? key, required this.artist}) : super(key: key);

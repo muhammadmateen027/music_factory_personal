@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:music_factory/model/model.dart';
 import 'package:music_factory/routes/routes.dart';
+import 'package:music_repository/repository.dart';
 
 import '../widget/widget.dart';
 

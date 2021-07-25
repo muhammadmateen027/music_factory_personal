@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/global/widget/label_with_value.dart';
+import 'package:music_repository/repository.dart';
 
 class TracksView extends StatelessWidget {
   const TracksView({Key? key, required this.albumData}) : super(key: key);

@@ -3,11 +3,10 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
-import 'package:music_factory/hive_service/app_storage.dart';
-import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/pages/albums/model/album_detail_model.dart';
 import 'package:music_repository/repository.dart';
 import 'package:network/network.dart';
+import 'package:storage/storage.dart';
 
 part 'albums_event.dart';
 

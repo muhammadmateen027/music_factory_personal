@@ -1,16 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
-import 'package:music_factory/model/model.dart';
 import 'package:music_repository/repository.dart';
 import 'package:network/network.dart';
 
 part 'search_artist_event.dart';
+
 part 'search_artist_state.dart';
 
 class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
-  ArtistBloc({required this.musicService})
-      : super(SearchArtistInitial()) {
+  ArtistBloc({required this.musicService}) : super(SearchArtistInitial()) {
     on<SearchArtists>(_searchArtist);
     on<LoadArtists>(_loadArtist);
   }
@@ -36,8 +35,6 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
         currentPage: int.parse(artists.results!.openSearchQuery!.startPage!),
       ));
       return;
-
-
     } on NetworkException {
       emit(const SearchArtistFailure('Unable to load'));
       return;
@@ -48,7 +45,7 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
     try {
       if (state is ArtistsLoadedState) {
         var currentState = (state as ArtistsLoadedState);
-        if(currentState.reachedMaximum) {
+        if (currentState.reachedMaximum) {
           emit(ArtistsListEnds());
           return;
         }
@@ -78,17 +75,18 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
         emit(ArtistsLoadedState(
           query: currentState.query!,
           artists: list,
-          currentPage: (int.parse(artists.results!.openSearchQuery!.startPage!)),
+          currentPage:
+              (int.parse(artists.results!.openSearchQuery!.startPage!)),
         ));
         return;
       }
-
     } on NetworkException {
       emit(const SearchArtistFailure('Unable to load'));
       return;
     }
   }
 }
+
 // A function that converts a response body into a TopAlbumsModel
 Artists _parseArtist(dynamic responseBody) {
   return Artists.fromJson(responseBody);

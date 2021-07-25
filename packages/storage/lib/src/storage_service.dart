@@ -1,4 +1,4 @@
-part of 'app_storage.dart';
+part of 'storage.dart';
 
 abstract class StorageService {
 

@@ -1,7 +1,7 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:music_factory/model/model.dart';
+import 'package:music_repository/repository.dart';
 
 class AlbumInfoView extends StatelessWidget {
   AlbumInfoView({Key? key, required this.albumData}) : super(key: key);

@@ -9,11 +9,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  path_provider: ^2.0.2
-  sqflite: ^2.0.0+3
+  music_repository:
+    path: ../music_repository
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^1.1.0
   mocktail: ^0.1.1
   very_good_analysis: ^2.1.0

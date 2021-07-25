@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/global/widget/image_view.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 import 'package:music_factory/music_factory/pages/albums/model/album_detail_model.dart';
 import 'package:music_factory/routes/routes.dart';
+import 'package:music_repository/repository.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);

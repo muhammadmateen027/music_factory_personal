@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 import 'package:music_factory/music_factory/pages/albums/albums.dart';
 import 'package:music_factory/music_factory/pages/albums/model/album_detail_model.dart';

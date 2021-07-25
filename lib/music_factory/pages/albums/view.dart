@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:music_factory/model/model.dart';
 import 'package:music_factory/music_factory/base_page/base_page.dart';
+import 'package:music_repository/repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'bloc/albums_bloc.dart';

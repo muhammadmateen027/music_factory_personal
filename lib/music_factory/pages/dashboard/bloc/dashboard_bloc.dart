@@ -1,6 +1,5 @@
 
 import 'package:bloc/bloc.dart';
-import 'package:music_factory/model/model.dart';
 import 'package:music_repository/repository.dart';
 
 part 'dashboard_event.dart';

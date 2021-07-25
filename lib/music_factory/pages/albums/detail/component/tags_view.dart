@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:music_factory/model/model.dart';
+import 'package:music_repository/repository.dart';
 
 class TagsView extends StatelessWidget {
   const TagsView({Key? key, required this.albumData}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:music_factory/model/model.dart';
+import 'package:music_repository/repository.dart';
 
 class DescriptionView extends StatelessWidget {
   const DescriptionView({Key? key, required this.albumData}) : super(key: key);

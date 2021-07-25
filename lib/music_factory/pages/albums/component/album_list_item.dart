@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:music_factory/model/model.dart' as art;
 import 'package:music_factory/music_factory/pages/albums/model/album_detail_model.dart';
 import 'package:music_factory/routes/routes.dart';
+import 'package:music_repository/repository.dart' hide Image;
 
 class AlbumListItem extends StatelessWidget {
   AlbumListItem({Key? key, required this.album}) : super(key: key);
 
-  final art.Album album;
+  final Album album;
 
   late ThemeData theme;
 

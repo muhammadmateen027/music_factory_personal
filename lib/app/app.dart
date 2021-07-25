@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:music_factory/config/config.dart';
-import 'package:music_factory/hive_service/app_storage.dart';
 import 'package:music_factory/l10n/l10n.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 import 'package:music_factory/routes/routes.dart';
 import 'package:music_repository/repository.dart';
+import 'package:storage/storage.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);

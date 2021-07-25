@@ -2,18 +2,15 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Image;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_factory/hive_service/app_storage.dart';
-import 'package:music_factory/model/album_detail/detail.dart';
-import 'package:music_factory/model/global/artist_detail.dart';
-import 'package:music_factory/model/global/image.dart' as img;
 import 'package:music_repository/repository.dart';
 import 'package:network/network.dart';
+import 'package:storage/storage.dart';
 
 import 'app_bloc_observer.dart';
 
@@ -39,7 +36,7 @@ class Initialization {
       ..registerAdapter<Tag>(TagAdapter())
       ..registerAdapter<ArtistDetail>(ArtistDetailAdapter())
       ..registerAdapter<Streamable>(StreamableAdapter())
-      ..registerAdapter<img.Image>(img.ImageAdapter());
+      ..registerAdapter<Image>(ImageAdapter());
     await Hive.openBox<AlbumData>(musicAlbumBoxName);
 
     // Initialize EasyLoading
