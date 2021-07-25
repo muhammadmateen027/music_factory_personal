@@ -14,17 +14,17 @@ class AlbumDetailAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Icon? icon = const Icon(Icons.save, color: Colors.white);
+    var topicIcons = {
+      '_default': const Icon(Icons.save, color: Colors.white),
+      'delete': const Icon(Icons.delete, color: Colors.red),
+    };
+
+    var icon = topicIcons['_default']!;
+
     if (isAlbumExist) {
-      icon = const Icon(
-        Icons.delete,
-        color: Colors.red,
-      );
+      icon = topicIcons['delete']!;
     }
 
-    return IconButton(
-      onPressed: onPressed,
-      icon: icon,
-    );
+    return IconButton(onPressed: onPressed, icon: icon);
   }
 }
