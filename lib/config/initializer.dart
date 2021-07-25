@@ -37,7 +37,7 @@ class Initialization {
       ..registerAdapter<ArtistDetail>(ArtistDetailAdapter())
       ..registerAdapter<Streamable>(StreamableAdapter())
       ..registerAdapter<Image>(ImageAdapter());
-    await Hive.openBox<AlbumData>(musicAlbumBoxName);
+    await Hive.openBox<AlbumData>(albumBoxName);
 
     // Initialize EasyLoading
     _configEasyLoading();
@@ -62,7 +62,7 @@ class Initialization {
         () => MusicRepository(client: NetworkClient(dio: _dio)),
       )
       ..registerLazySingleton<StorageService>(
-        () => AppStorage(),
+        () => Storage(),
       );
   }
 

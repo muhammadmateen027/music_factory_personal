@@ -1,14 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:music_repository/repository.dart';
 
 part 'storage_service.dart';
 
-const String musicAlbumBoxName = 'music-album';
-
-class AppStorage implements StorageService {
+class Storage implements StorageService {
   @override
   bool checkIfAlbumExists(AlbumData albumData) {
-    Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
+    Box<AlbumData>? albumBox = Hive.box<AlbumData>(albumBoxName);
     String? boxKey = _getKey(albumData);
 
     if (albumBox.get(boxKey) == null) {
@@ -19,20 +18,20 @@ class AppStorage implements StorageService {
 
   @override
   Future<void> deleteAlbumFromBox(AlbumData albumData) async {
-    Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
+    Box<AlbumData>? albumBox = Hive.box<AlbumData>(albumBoxName);
     String? boxKey = _getKey(albumData);
     return await albumBox.delete(boxKey);
   }
 
   @override
   AlbumData? loadAlbumData(String key) {
-    Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
+    Box<AlbumData>? albumBox = Hive.box<AlbumData>(albumBoxName);
     return albumBox.get(key);
   }
 
   @override
   Future<void> saveAlbumInBox(AlbumData albumData) async {
-    Box<AlbumData>? albumBox = Hive.box<AlbumData>(musicAlbumBoxName);
+    Box<AlbumData>? albumBox = Hive.box<AlbumData>(albumBoxName);
 
     String? boxKey = _getKey(albumData);
 
@@ -46,17 +45,27 @@ class AppStorage implements StorageService {
     return albumData.url!;
   }
 
-  @override
-  Future<void> registerAdapters() async {
-    Hive
-      ..registerAdapter<AlbumData>(AlbumDataAdapter())
-      ..registerAdapter<Wiki>(WikiAdapter())
-      ..registerAdapter<Tracks>(TracksAdapter())
-      ..registerAdapter<Track>(TrackAdapter())
-      ..registerAdapter<Tags>(TagsAdapter())
-      ..registerAdapter<Tag>(TagAdapter())
-      ..registerAdapter<ArtistDetail>(ArtistDetailAdapter())
-      ..registerAdapter<Streamable>(StreamableAdapter())
-      ..registerAdapter<Image>(ImageAdapter());
+  Future<List<AlbumData>> loadAlbums() async {
+    Box<AlbumData>? albumBox = Hive.box<AlbumData>(albumBoxName);
+    var albums = <AlbumData>[];
+
+    if (albumBox.values.isEmpty) {
+      return albums;
+    }
+
+    albums = await compute(_loadAlbums, albumBox);
+
+    return albums;
   }
+}
+
+Future<List<AlbumData>> _loadAlbums(Box<AlbumData> albumBox) async {
+  var albums = <AlbumData>[];
+
+  for (int index = 0; index < albumBox.values.length; index++) {
+    AlbumData? albumData = albumBox.getAt(index);
+    albums.add(albumData!);
+  }
+
+  return albums;
 }
