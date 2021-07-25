@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:hive/hive.dart';
 import 'package:music_repository/repository.dart';
 
@@ -53,19 +53,10 @@ class Storage implements StorageService {
       return albums;
     }
 
-    albums = await compute(_loadAlbums, albumBox);
+    for(AlbumData? albumData in albumBox.values) {
+      albums.add(albumData!);
+    }
 
     return albums;
   }
-}
-
-Future<List<AlbumData>> _loadAlbums(Box<AlbumData> albumBox) async {
-  var albums = <AlbumData>[];
-
-  for (int index = 0; index < albumBox.values.length; index++) {
-    AlbumData? albumData = albumBox.getAt(index);
-    albums.add(albumData!);
-  }
-
-  return albums;
 }

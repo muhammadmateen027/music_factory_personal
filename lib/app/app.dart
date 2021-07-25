@@ -23,12 +23,6 @@ class App extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<DashboardBloc>(
-            create: (_) {
-              return DashboardBloc(musicService: locator<MusicService>())
-                ..add(LoadAlbums());
-            },
-          ),
           BlocProvider<AlbumsBloc>(
             create: (_) => AlbumsBloc(
               musicService: locator<MusicService>(),
