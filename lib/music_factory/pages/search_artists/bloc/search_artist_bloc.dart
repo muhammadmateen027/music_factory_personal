@@ -17,6 +17,11 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
   final MusicService musicService;
 
   void _searchArtist(SearchArtists event, Emit<ArtistState> emit) async {
+    if (event.query.isEmpty) {
+      emit(SearchArtistInitial());
+      return;
+    }
+
     try {
       if (state is ArtistsLoadedState) {
         emit(SearchArtistInitial());
