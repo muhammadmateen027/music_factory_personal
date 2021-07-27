@@ -1,6 +1,7 @@
-
 import 'package:bloc/bloc.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:music_factory/music_factory/pages/albums/model/album_detail_model.dart';
 import 'package:music_repository/repository.dart';
@@ -8,6 +9,7 @@ import 'package:network/network.dart';
 import 'package:storage/storage.dart';
 
 part 'albums_event.dart';
+
 part 'albums_state.dart';
 
 class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
@@ -70,7 +72,8 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
         ),
       );
       return;
-    } on NetworkException {
+    } on NetworkException catch (err) {
+      BotToast.showText(text: err.getDetail(), contentColor: Colors.red);
       return;
     }
   }
@@ -92,13 +95,14 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
         ));
       }
       return;
-    } on NetworkException {
+    } on NetworkException catch (err) {
       //If network is not available then load data from the detail page
       var albumData = storageService.loadAlbumData(
         event.albumDetailModel.url!,
       );
       // if albums are not available, return
       if (albumData == null) {
+        BotToast.showText(text: err.getDetail(), contentColor: Colors.red);
         return;
       }
 
