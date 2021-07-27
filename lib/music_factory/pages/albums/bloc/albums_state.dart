@@ -11,8 +11,9 @@ class AlbumsInitial extends AlbumsState {}
 
 class AlbumsLoading extends AlbumsState {}
 
-class TopTagsLoaded extends AlbumsState {
-  const TopTagsLoaded({this.album, this.attr});
+// When app successfully loads album, this state will be used to update the UI
+class AlbumsLoaded extends AlbumsState {
+  const AlbumsLoaded({this.album, this.attr});
 
   final List<Album>? album;
   final Attr? attr;
@@ -22,6 +23,7 @@ class TopTagsLoaded extends AlbumsState {
   List<Object> get props => [album!, attr!];
 }
 
+// Use AlbumDetailLoaded to update the UI accordingly
 class AlbumDetailLoaded extends AlbumsState {
   const AlbumDetailLoaded({required this.albumData, this.albumExists = false});
 

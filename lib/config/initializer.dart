@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Image;
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
@@ -12,20 +9,19 @@ import 'package:music_repository/repository.dart';
 import 'package:network/network.dart';
 import 'package:storage/storage.dart';
 
-import 'app_bloc_observer.dart';
-
 GetIt locator = GetIt.instance;
 
 class Initialization {
   // check either it's debug or release mode
   static const bool enableLogging = !kDebugMode;
 
-  static init() async {
+  static Future<void>init() async {
     WidgetsFlutterBinding.ensureInitialized();
 
     // Load environment file
     await dotenv.load(fileName: ".env");
 
+    // Initialise and register adapters with Hive
     await Hive.initFlutter();
     Hive
       ..registerAdapter<AlbumData>(AlbumDataAdapter())
@@ -40,23 +36,21 @@ class Initialization {
     await Hive.openBox<AlbumData>(albumBoxName);
 
     // Initialize EasyLoading
+    // NOTE: It's a way how usually we handle things in interceptors
+    // and builders
     _configEasyLoading();
 
     final _dio = Dio();
-    // enable logs and bloc observer in staging and development
-    if (kDebugMode) {
-      Bloc.observer = AppBlocObserver();
-      FlutterError.onError = (details) {
-        log(details.exceptionAsString(), stackTrace: details.stack);
-      };
+    _dio.interceptors.add(
+      LogInterceptor(requestBody: true, responseBody: true),
+    );
 
-      _dio.interceptors.add(
-        LogInterceptor(requestBody: true, responseBody: true),
-      );
+    // enable network interceptor for logs in debug mode
+    if (kDebugMode) {
       _dio.interceptors.add(LoggingInterceptors());
     }
 
-    // dependency injection for your repository
+    // dependency injection as a lazy singleton class for repository
     locator
       ..registerLazySingleton<MusicService>(
         () => MusicRepository(client: NetworkClient(dio: _dio)),
@@ -66,6 +60,7 @@ class Initialization {
       );
   }
 
+  // Initialize a full screen loader in the app
   static void _configEasyLoading() {
     EasyLoading.instance
       ..loadingStyle = EasyLoadingStyle.custom

@@ -23,7 +23,7 @@ class _AlbumsPageState extends BaseState<TopAlbumsPage> with BasicPage {
 
   @override
   void initState() {
-    context.read<AlbumsBloc>().add(LoadTopTags(widget.artist));
+    context.read<AlbumsBloc>().add(LoadTopAlbums(widget.artist));
     _refreshController = RefreshController();
     super.initState();
   }
@@ -73,13 +73,13 @@ class _AlbumsPageState extends BaseState<TopAlbumsPage> with BasicPage {
         return true;
       },
       buildWhen: (pre, curr) {
-        if(curr is TopTagsLoaded) {
+        if(curr is AlbumsLoaded) {
           return true;
         }
         return false;
       },
       builder: (context, state) {
-        if (state is TopTagsLoaded) {
+        if (state is AlbumsLoaded) {
           _refreshController.loadComplete();
           return _getList(state);
         }
@@ -89,7 +89,7 @@ class _AlbumsPageState extends BaseState<TopAlbumsPage> with BasicPage {
     );
   }
 
-  Widget _getList(TopTagsLoaded state) {
+  Widget _getList(AlbumsLoaded state) {
     return SmartRefresher(
       enablePullDown: false,
       enablePullUp: true,
@@ -108,7 +108,7 @@ class _AlbumsPageState extends BaseState<TopAlbumsPage> with BasicPage {
 
   void loadRequests() {
     _refreshController.requestLoading();
-    context.read<AlbumsBloc>().add(LoadTopTags(widget.artist));
+    context.read<AlbumsBloc>().add(LoadTopAlbums(widget.artist));
     return;
   }
 

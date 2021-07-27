@@ -23,6 +23,7 @@ class App extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          // Provide bloc so it can be accessed anywhere in the application
           BlocProvider<AlbumsBloc>(
             create: (_) => AlbumsBloc(
               musicService: locator<MusicService>(),
@@ -39,9 +40,12 @@ class App extends StatelessWidget {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
           ],
+          // Added builder for toast and loading indicator
           builder: EasyLoading.init(builder: BotToastInit()),
           supportedLocales: AppLocalizations.supportedLocales,
+          // Set initial route name
           initialRoute: RoutesName.initial,
+          //register navigator key to access in the app
           navigatorKey: navigationService.navigationKey,
           onGenerateRoute: routeGenerator.generateRoute,
         ),

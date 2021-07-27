@@ -4,14 +4,11 @@ import 'package:music_factory/music_factory/global/global.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 
 class AppbarImageView extends StatelessWidget {
-  AppbarImageView({Key? key}) : super(key: key);
-  var imageUrl =
-      'https://scontent.fkul15-1.fna.fbcdn.net/v/t1.6435-9/133578332_3508428369239793_4754740507169319985_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=nKVj5PBpri8AX-cTAt1&_nc_ht=scontent.fkul15-1.fna&oh=13ede5164a6fa849ccea03996a1685ac&oe=60FE09BB';
+  const AppbarImageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).primaryColor,
+    return SizedBox(
       width: double.maxFinite,
       child: Stack(
         children: [

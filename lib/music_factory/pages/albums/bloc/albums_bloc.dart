@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
@@ -9,32 +8,40 @@ import 'package:network/network.dart';
 import 'package:storage/storage.dart';
 
 part 'albums_event.dart';
-
 part 'albums_state.dart';
 
 class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
   AlbumsBloc({required this.musicService, required this.storageService})
       : super(AlbumsInitial()) {
-    on<LoadTopTags>(_loadTopAlbums);
+    // Load top album event
+    on<LoadTopAlbums>(_loadTopAlbums);
+
+    // Load album detail
     on<LoadAlbumDetail>(_loadAlbumDetail);
 
+    // Save album in the hive storage
     on<SaveDeleteAlbumEvent>(_saveDeleteAlbum);
   }
 
   final MusicService musicService;
   final StorageService storageService;
 
-  void _loadTopAlbums(LoadTopTags event, Emit<AlbumsState> emit) async {
+  void _loadTopAlbums(LoadTopAlbums event, Emit<AlbumsState> emit) async {
     try {
-      if (state is TopTagsLoaded) {
-        final currentState = (state as TopTagsLoaded);
+      // check if the current state is Top Tags loaded then load rest of the
+      // tags
+      if (state is AlbumsLoaded) {
+        // cast state as TopTagsLoaded to access variables
+        final currentState = (state as AlbumsLoaded);
         var page = (int.parse(currentState.attr!.page!) + 1);
 
+        // if page is equal or greater than total page then return otherwise
+        // load next page
         if (page >= int.parse(currentState.attr!.totalPages!)) {
           return;
         }
 
-        final response = await musicService.loadTopTags(
+        final response = await musicService.loadTopAlbums(
           event.artist.name!,
           page,
         );
@@ -45,19 +52,23 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
           return;
         }
 
+        // add new albums in the previous list
         List<Album>? list = List.of(currentState.album!)
           ..addAll(topAlbumsModel.topalbums!.album!);
 
-        emit(TopTagsLoaded(album: list, attr: topAlbumsModel.topalbums!.attr));
+        emit(AlbumsLoaded(album: list, attr: topAlbumsModel.topalbums!.attr));
         return;
       }
 
-      final response = await musicService.loadTopTags(event.artist.name!);
+      final response = await musicService.loadTopAlbums(event.artist.name!);
       var topAlbumsModel = await compute(_parseTopAlbum, response.data);
 
-      emit(TopTagsLoaded(
+      emit(
+        AlbumsLoaded(
           album: topAlbumsModel.topalbums!.album,
-          attr: topAlbumsModel.topalbums!.attr));
+          attr: topAlbumsModel.topalbums!.attr,
+        ),
+      );
       return;
     } on NetworkException {
       return;
@@ -82,13 +93,15 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
       }
       return;
     } on NetworkException {
-      log(event.albumDetailModel.mbid!);
-      AlbumData? albumData = storageService.loadAlbumData(
+      //If network is not available then load data from the detail page
+      var albumData = storageService.loadAlbumData(
         event.albumDetailModel.url!,
       );
+      // if albums are not available, return
       if (albumData == null) {
         return;
       }
+
       emit(AlbumDetailLoaded(
         albumData: albumData,
         albumExists: true,
@@ -97,14 +110,19 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
     }
   }
 
+  // check if album already exists then delete otherwise save
   void _saveDeleteAlbum(SaveDeleteAlbumEvent event, Emit<AlbumsState> emit) {
+    // check current state
     if (state is AlbumDetailLoaded) {
+      // cast state as AlbumDetailLoaded to access variables
       final currentState = (state as AlbumDetailLoaded);
+      // check either albums exists or not
       bool? albumExists = storageService.checkIfAlbumExists(
         currentState.albumData,
       );
 
       if (albumExists) {
+        // if exists, delete and update album detail status
         storageService.deleteAlbumFromBox(currentState.albumData);
 
         emit(AlbumDetailLoaded(
@@ -114,6 +132,7 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
         return;
       }
 
+      // if album not exists in storage, save the album and update button
       storageService.saveAlbumInBox(currentState.albumData);
       emit(AlbumDetailLoaded(
         albumData: currentState.albumData,
@@ -129,7 +148,7 @@ TopAlbumsModel _parseTopAlbum(dynamic responseBody) {
   return TopAlbumsModel.fromJson(responseBody);
 }
 
-// A function that converts a response body into a TopAlbumsModel
+// A function that converts a response body into a AlbumDetail
 AlbumDetail _parseAlbumDetail(dynamic responseBody) {
   return AlbumDetail.fromJson(responseBody);
 }
