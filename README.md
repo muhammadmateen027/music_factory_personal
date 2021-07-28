@@ -44,6 +44,7 @@ The solution is designed so a user can access saved albums without internet. The
 - `lib` will contains view(pages, widgets, components), BLoC, configuration, etc.
 - `packages` will keep network, database, and repository layer
 
+### State management
 ![coverage][state_management] ![coverage][bloc_version] ![coverage][override_bloc_version]
   - We have used `BLoC's 7.0.0` version as State management library. But as `Bloc` team is working on newer version 
     that will help to remove boilerplate of writing `mapEventsToSate` an bloc will look like this:
@@ -61,7 +62,7 @@ The solution is designed so a user can access saved albums without internet. The
     }
     ```
 
-
+### Offline storage
 ![coverage][database] ![coverage][hive] 
 - We have used [Hive](https://docs.hivedb.dev/#/) as a local storage because it's light weight offline storage.
     * Hive requires a `key` and `value` to save a value.
@@ -90,6 +91,7 @@ The solution is designed so a user can access saved albums without internet. The
 > If user don't have internet, the app will load image from local cache and if there's internet, 
 > url will be refreshed.
 
+### Log controller
 ![coverage][sentry_io]
 - We have used [Sentry.io](https://sentry.io/welcome/) to log all errors and issues in a server.
 
