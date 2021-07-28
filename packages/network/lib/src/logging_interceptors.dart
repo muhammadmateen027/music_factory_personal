@@ -1,28 +1,24 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+/// A sub-class of the Interceptor to do some custom actions
 class LoggingInterceptors extends Interceptor {
-  int currentRequests = 0;
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (options.extra['customProgress'] == false) {
-      return super.onRequest(options, handler);
+    /// will check the condition to show full page loading progress
+    if (options.extra['customProgress'] ?? true) {
+      EasyLoading.show(maskType: EasyLoadingMaskType.black);
     }
 
-    ++currentRequests;
-    EasyLoading.show(maskType: EasyLoadingMaskType.black);
     super.onRequest(options, handler);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    if (response.extra['customProgress'] == false) {
-      return super.onResponse(response, handler);
-    }
-
-    --currentRequests;
-    if (0 >= currentRequests) {
+    /// in response we will check if customProgress is enabled then we will
+    /// dismiss
+    if (response.extra['customProgress'] ?? true) {
       EasyLoading.dismiss();
     }
     super.onResponse(response, handler);
@@ -30,13 +26,10 @@ class LoggingInterceptors extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    --currentRequests;
-    if (0 >= currentRequests) {
+    /// in response we will check if customProgress is enabled then we will
+    /// dismiss if there's any error
+    if (err.response!.extra['customProgress'] ?? true) {
       EasyLoading.dismiss();
-    }
-
-    if (err.response!.extra['customProgress'] == false) {
-      return super.onError(err, handler);
     }
 
     super.onError(err, handler);

@@ -237,7 +237,7 @@ packages:
     source: hosted
     version: "5.0.0"
   flutter_easyloading:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_easyloading
       url: "https://pub.dartlang.org"

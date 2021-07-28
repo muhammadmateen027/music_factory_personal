@@ -4,7 +4,10 @@ import 'package:music_repository/repository.dart';
 
 part 'storage_service.dart';
 
+/// This class will implement the function of StorageService. We will try to
+/// hide function methods and access will be available from StorageService class
 class Storage implements StorageService {
+  /// Pass the AlbumData and check either exists in the Hive or not
   @override
   bool checkIfAlbumExists(AlbumData albumData) {
     Box<AlbumData>? albumBox = Hive.box<AlbumData>(albumBoxName);
@@ -16,6 +19,7 @@ class Storage implements StorageService {
     return true;
   }
 
+  /// Function will be used to delete item from the box if exists
   @override
   Future<void> deleteAlbumFromBox(AlbumData albumData) async {
     Box<AlbumData>? albumBox = Hive.box<AlbumData>(albumBoxName);
@@ -23,12 +27,15 @@ class Storage implements StorageService {
     return await albumBox.delete(boxKey);
   }
 
+  /// When we require to load Album detail of specific album,
+  /// pass the Key to this function and get detail if exists
   @override
   AlbumData? loadAlbumData(String key) {
     Box<AlbumData>? albumBox = Hive.box<AlbumData>(albumBoxName);
     return albumBox.get(key);
   }
 
+  /// Save album in the Hive box
   @override
   Future<void> saveAlbumInBox(AlbumData albumData) async {
     Box<AlbumData>? albumBox = Hive.box<AlbumData>(albumBoxName);
@@ -45,6 +52,8 @@ class Storage implements StorageService {
     return albumData.url!;
   }
 
+  /// Load all available albums from the hive. It'll gives the list of AlbumData
+  /// and can be accessed inside bloc
   Future<List<AlbumData>> loadAlbums() async {
     Box<AlbumData>? albumBox = Hive.box<AlbumData>(albumBoxName);
     var albums = <AlbumData>[];
