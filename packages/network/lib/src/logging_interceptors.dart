@@ -1,3 +1,4 @@
+
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -27,8 +28,8 @@ class LoggingInterceptors extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     /// in response we will check if customProgress is enabled then we will
-    /// dismiss if there's any error
-    if (err.response!.extra['customProgress'] ?? true) {
+    /// dismiss
+    if(EasyLoading.isShow) {
       EasyLoading.dismiss();
     }
 
