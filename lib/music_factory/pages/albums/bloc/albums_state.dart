@@ -9,6 +9,8 @@ abstract class AlbumsState {
 
 class AlbumsInitial extends AlbumsState {}
 
+class EmptyAlbum extends AlbumsState {}
+
 class AlbumsLoading extends AlbumsState {}
 
 // When app successfully loads album, this state will be used to update the UI

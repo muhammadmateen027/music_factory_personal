@@ -65,6 +65,9 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
         padding: const EdgeInsets.symmetric(horizontal: 0),
         child: BlocBuilder<AlbumsBloc, AlbumsState>(
           buildWhen: (pre, curr) {
+            if(curr is EmptyAlbum) {
+              return true;
+            }
             if (curr is AlbumsLoading) {
               return true;
             }
@@ -85,6 +88,12 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
                   TracksView(albumData: state.albumData),
                   const SizedBox(height: 16),
                 ],
+              );
+            }
+
+            if (state is EmptyAlbum) {
+              return const Center(
+                child: Text('Album detail is not available.'),
               );
             }
 

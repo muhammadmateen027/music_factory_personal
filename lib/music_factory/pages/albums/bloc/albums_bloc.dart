@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -27,6 +28,7 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
 
   final MusicService musicService;
   final StorageService storageService;
+  final Connectivity connectivity = Connectivity();
 
   void _loadTopAlbums(LoadTopAlbums event, Emit<AlbumsState> emit) async {
     try {
@@ -80,6 +82,31 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
 
   void _loadAlbumDetail(LoadAlbumDetail event, Emit<AlbumsState> emit) async {
     emit(AlbumsLoading());
+
+    var connectivityResult = await connectivity.checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      BotToast.showText(
+        text: 'Internet is not available',
+        contentColor: Colors.red,
+      );
+
+      //If network is not available then load data from the detail page
+      var albumData = storageService.loadAlbumData(
+        event.albumDetailModel.url!,
+      );
+      // if albums are not available, return
+      if (albumData == null) {
+        emit(EmptyAlbum());
+        return;
+      }
+
+      emit(AlbumDetailLoaded(
+        albumData: albumData,
+        albumExists: true,
+      ));
+      return;
+    }
+
     try {
       final response = await musicService.loadAlbumDetail(
         artistName: event.albumDetailModel.artistName,
@@ -95,21 +122,7 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
         ));
       }
       return;
-    } on NetworkException catch (err) {
-      //If network is not available then load data from the detail page
-      var albumData = storageService.loadAlbumData(
-        event.albumDetailModel.url!,
-      );
-      // if albums are not available, return
-      if (albumData == null) {
-        BotToast.showText(text: err.getDetail(), contentColor: Colors.red);
-        return;
-      }
-
-      emit(AlbumDetailLoaded(
-        albumData: albumData,
-        albumExists: true,
-      ));
+    } on NetworkException {
       return;
     }
   }
