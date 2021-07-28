@@ -16,12 +16,12 @@
 
 In this project we will discuss:
 
-- [x] Problem
-- [x] Solution
-- [x] Flavours
-- [x] Dependencies
-- [ ] Tests
-- [ ] Translation
+- [x] [Problem](#problem)
+- [x] [Solution](#solution)
+- [x] [Flavours](#flavours-)
+- [x] [Dependencies](#dependencies)
+- [ ] [Tests](#tests-)
+- [ ] [Translation](#working-with-translations-)
 
 ## Problem
 
@@ -30,10 +30,10 @@ should be able to search for artists, pick one of their top albums and save it l
 
 This application should have 3 screen
 
--[x] Dashboard
--[x] Search (Search artists and show in the list)
--[x] Albums (Load albums that related to artist)
--[x] Album detail (It should show Album detail, either fetched from api or loaded from local). There should an option to
+- [x] Dashboard
+- [x] Search (Search artists and show in the list)
+- [x] Albums (Load albums that related to artist)
+- [x] Album detail (It should show Album detail, either fetched from api or loaded from local). There should an option to
  delete or save album locally.
 
 You can create your API key on the following website:
