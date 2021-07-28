@@ -52,7 +52,7 @@ class AlbumListItem extends StatelessWidget {
                     Text(albumData.name!),
                     const SizedBox(width: 6),
                     Text(
-                      albumData.wiki!.summary!,
+                      (albumData.wiki == null) ? '' : albumData.wiki!.summary!,
                       style: Theme.of(context).textTheme.caption,
                       maxLines: 2,
                     ),
