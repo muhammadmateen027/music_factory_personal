@@ -15,12 +15,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     albumsBlocSubscription = albumsBloc.stream.listen((albumState) async{
       if (albumState is AlbumDetailLoaded) {
         List<AlbumData>? albums = await service.loadAlbums();
-        if (albums.isEmpty) {
-          emit(DashboardInitial());
-          return;
-        }
-
-        emit(AlbumsLoaded(albums: await service.loadAlbums()));
+        emit(AlbumsLoaded(albums: albums));
       }
     });
 
@@ -39,7 +34,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       return;
     }
 
-    emit(AlbumsLoaded(albums: await service.loadAlbums()));
+    emit(AlbumsLoaded(albums: albums));
   }
 
   @override
