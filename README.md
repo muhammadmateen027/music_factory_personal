@@ -11,11 +11,10 @@
 ![coverage][coverage_badge]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 ---
-
 # Getting Started 🚀
 In this project we will discuss:
 
-- [x] Solution
+- [x] Problem
 - [x] Solution
 - [x] Flavours
 - [x] Dependencies
@@ -42,8 +41,8 @@ https://www.last.fm/api/authentication
 
 The solution is designed so a user can access saved albums without internet. The detail is given below:
 
-- `lib` folder and it'll contain view, bloc, configuration, etc.
-- `packages` keeps network, database, and repository layer
+- `lib` will contains view(pages, widgets, components), BLoC, configuration, etc.
+- `packages` will keep network, database, and repository layer
 
 ![coverage][state_management] ![coverage][bloc_version] ![coverage][override_bloc_version]
   - We have used `BLoC's 7.0.0` version as State management library. But as `Bloc` team is working on newer version 
