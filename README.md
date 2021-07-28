@@ -19,8 +19,8 @@ In this project we will discuss:
 - [x] Solution
 - [x] Flavours
 - [x] Dependencies
-- [ ] Translation
 - [ ] Tests
+- [ ] Translation
 
 ## Problem
 Develop a music management app with Flutter (iOS and Android) based on the
