@@ -30,7 +30,7 @@ class RouteGenerator {
         return PageTransition.slideUpRoute(page);
 
       case RoutesName.albumDetail:
-        return PageTransition.scale(
+        return PageTransition.slideUpRoute(
           AlbumDetailPage(albumDetailModel: args as AlbumDetailModel),
         );
 

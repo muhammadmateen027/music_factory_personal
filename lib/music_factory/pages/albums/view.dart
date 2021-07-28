@@ -73,13 +73,13 @@ class _AlbumsPageState extends BaseState<TopAlbumsPage> with BasicPage {
         return true;
       },
       buildWhen: (pre, curr) {
-        if(curr is AlbumsLoaded) {
+        if(curr is AlbumsFetched) {
           return true;
         }
         return false;
       },
       builder: (context, state) {
-        if (state is AlbumsLoaded) {
+        if (state is AlbumsFetched) {
           _refreshController.loadComplete();
           return _getList(state);
         }
@@ -89,7 +89,7 @@ class _AlbumsPageState extends BaseState<TopAlbumsPage> with BasicPage {
     );
   }
 
-  Widget _getList(AlbumsLoaded state) {
+  Widget _getList(AlbumsFetched state) {
     return SmartRefresher(
       enablePullDown: false,
       enablePullUp: true,

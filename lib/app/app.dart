@@ -16,20 +16,24 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final routeGenerator = RouteGenerator(locator<MusicService>());
+
+    // get a variable instance of the AlbumsBloc and pass to the providers
+    final bloc = AlbumsBloc(
+      musicService: locator<MusicService>(),
+      storageService: locator<StorageService>(),
+    );
     return RepositoryProvider.value(
-      value: [
-        locator<MusicService>(),
-        locator<StorageService>()
-      ],
+      value: [locator<MusicService>(), locator<StorageService>()],
       child: MultiBlocProvider(
         providers: [
-          // Provide bloc so it can be accessed anywhere in the application
-          BlocProvider<AlbumsBloc>(
-            create: (_) => AlbumsBloc(
-              musicService: locator<MusicService>(),
-              storageService: locator<StorageService>()
-            ),
+          BlocProvider(
+            create: (_) => DashboardBloc(
+              albumsBloc: bloc,
+              service: locator<StorageService>(),
+            )..add(LoadAlbums()),
           ),
+          // Provide bloc so it can be accessed anywhere in the application
+          BlocProvider<AlbumsBloc>(create: (_) => bloc),
         ],
         child: MaterialApp(
           theme: ThemeData(

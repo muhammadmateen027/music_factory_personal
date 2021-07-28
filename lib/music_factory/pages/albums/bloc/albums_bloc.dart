@@ -32,9 +32,9 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
     try {
       // check if the current state is Top Tags loaded then load rest of the
       // tags
-      if (state is AlbumsLoaded) {
+      if (state is AlbumsFetched) {
         // cast state as TopTagsLoaded to access variables
-        final currentState = (state as AlbumsLoaded);
+        final currentState = (state as AlbumsFetched);
         var page = (int.parse(currentState.attr!.page!) + 1);
 
         // if page is equal or greater than total page then return otherwise
@@ -58,7 +58,7 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
         List<Album>? list = List.of(currentState.album!)
           ..addAll(topAlbumsModel.topalbums!.album!);
 
-        emit(AlbumsLoaded(album: list, attr: topAlbumsModel.topalbums!.attr));
+        emit(AlbumsFetched(album: list, attr: topAlbumsModel.topalbums!.attr));
         return;
       }
 
@@ -66,7 +66,7 @@ class AlbumsBloc extends Bloc<AlbumsEvent, AlbumsState> {
       var topAlbumsModel = await compute(_parseTopAlbum, response.data);
 
       emit(
-        AlbumsLoaded(
+        AlbumsFetched(
           album: topAlbumsModel.topalbums!.album,
           attr: topAlbumsModel.topalbums!.attr,
         ),
