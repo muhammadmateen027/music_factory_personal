@@ -29,8 +29,8 @@ class SearchBar extends StatelessWidget {
           decoration: InputDecoration(
             border: InputBorder.none,
             isDense: true,
-            contentPadding: EdgeInsets.only(top: 14),
-            hintText: 'Search jobs here',
+            contentPadding: const EdgeInsets.only(top: 14),
+            hintText: 'Search here',
             suffixIcon: IconButton(
               icon: Icon(
                 Icons.search,
