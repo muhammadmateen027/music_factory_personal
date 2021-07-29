@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../global/global.dart';
 import 'component/component.dart';
 
 class SearchArtistPage extends StatefulWidget {
@@ -23,27 +24,22 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Theme.of(context).colorScheme.primary,
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.onBackground,
-          appBar: AppBar(
-            elevation: 0.0,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            title: const Text('Search'),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(50.0),
-              child: BlocProvider.value(
-                value: _artistBloc,
-                child: SearchBar(),
-              ),
-            ),
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.onBackground,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Text('Search'),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50.0),
+          child: BlocProvider.value(
+            value: _artistBloc,
+            child: SearchBar(),
           ),
-          body: _getBody(),
         ),
       ),
-    );
+      body: _getBody(),
+    ).addSafeArea(backgroundColor: Theme.of(context).colorScheme.primary);
   }
 
   Widget _getBody() {

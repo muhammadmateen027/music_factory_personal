@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/music_factory/base_page/base_page.dart';
@@ -35,43 +33,7 @@ class _AlbumsPageState extends BaseState<TopAlbumsPage> with BasicPage {
 
 
   Widget _getBody() {
-    return BlocConsumer<AlbumsBloc, AlbumsState>(
-      listener: (_, state) {
-        // if (state is SearchArtistFailure) {
-        //   _refreshController.loadComplete();
-        // }
-        // if (state is SearchArtistInitial) {
-        //   _refreshController.resetNoData();
-        // }
-        // if (state is ArtistsListEnds) {
-        //   _refreshController.loadComplete();
-        //   return;
-        // }
-        // if (state is ArtistsLoadedState) {
-        //   if (state.artists!.isEmpty) {
-        //     _refreshController.resetNoData();
-        //   }
-        //
-        // }
-      },
-      // buildWhen: (pre, curr) {
-      //   if (curr is SearchArtistInitial) {
-      //     return true;
-      //   }
-      //   if(curr is ArtistsLoadedState) {
-      //     if (curr.reachedMaximum) {
-      //       _refreshController.loadComplete();
-      //       return false;
-      //     }
-      //     return true;
-      //   }
-      //   return false;
-      // },
-      listenWhen: (pre, curr) {
-        log(pre.toString());
-        log(curr.toString());
-        return true;
-      },
+    return BlocBuilder<AlbumsBloc, AlbumsState>(
       buildWhen: (pre, curr) {
         if(curr is AlbumsFetched) {
           return true;

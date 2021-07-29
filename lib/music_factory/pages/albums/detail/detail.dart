@@ -7,7 +7,8 @@ import '../bloc/albums_bloc.dart';
 import 'component/component.dart';
 
 class AlbumDetailPage extends BasePage {
-  AlbumDetailPage({Key? key, required this.albumDetailModel}) : super(key: key);
+  const AlbumDetailPage({Key? key, required this.albumDetailModel})
+      : super(key: key);
   final AlbumDetailModel albumDetailModel;
 
   @override
@@ -65,7 +66,7 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
         padding: const EdgeInsets.symmetric(horizontal: 0),
         child: BlocBuilder<AlbumsBloc, AlbumsState>(
           buildWhen: (pre, curr) {
-            if(curr is EmptyAlbum) {
+            if (curr is EmptyAlbum) {
               return true;
             }
             if (curr is AlbumsLoading) {

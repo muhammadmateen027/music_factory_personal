@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../global/global.dart';
 
 // Write a mixin for a stateful widget to access in the app and can be used
 // rather than writing again and again.
@@ -21,24 +22,19 @@ abstract class BaseState<Page extends BasePage> extends State<Page> {
 mixin BasicPage<Page extends BasePage> on BaseState<Page> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Theme.of(context).colorScheme.primary,
-      child: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: Theme.of(context).colorScheme.onBackground,
-            appBar: addAppBar()? AppBar(
-              elevation: 0.0,
-              title: Text(screenName()),
-              actions: appBarActions(),
-              backgroundColor: Theme.of(context).colorScheme.primary,
-            ) : null,
-            body: body(context),
-          ),
-        ),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.onBackground,
+        appBar: addAppBar()? AppBar(
+          elevation: 0.0,
+          title: Text(screenName()),
+          actions: appBarActions(),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+        ) : null,
+        body: body(context),
       ),
-    );
+    ).addSafeArea(backgroundColor: Theme.of(context).colorScheme.primary);
   }
 
   // Add body of the screen
