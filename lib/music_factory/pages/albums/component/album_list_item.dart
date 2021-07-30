@@ -33,12 +33,7 @@ class AlbumListItem extends StatelessWidget {
       },
       title: Text(album.name!),
       subtitle: Text(album.artist!.name!),
-      leading: SizedBox(
-          width: 50,
-          height: 50,
-          child: Center(
-            child: image,
-          )),
+      leading: SizedBox(width: 50, height: 50, child: Center(child: image)),
     );
   }
 }
