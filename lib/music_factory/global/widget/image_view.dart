@@ -21,11 +21,11 @@ class ImageView extends StatelessWidget {
         ).getShimmerEffect(),
       ),
       errorWidget: (_, message, state) {
-        return Center(
-          child: const SizedBox(
+        return const Center(
+          child: SizedBox(
             width: double.maxFinite,
             height: 300,
-          ).getShimmerEffect(),
+          ),
         );
       },
       fit: BoxFit.fitWidth,
