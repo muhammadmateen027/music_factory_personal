@@ -16,30 +16,34 @@
 
 In this project we will discuss:
 
-- [x] [Problem](#problem)
-- [x] [Solution](#solution)
-- [x] [Flavours](#flavours-)
-- [x] [Dependencies](#dependencies)
-- [ ] [Tests](#tests-)
-- [ ] [Translation](#working-with-translations-)
+- ✅ [Problem](#problem)
+- ✅ [Solution](#solution)
+- ✅ [Flavours](#flavours-)
+- ✅ [Dependencies](#dependencies)
+- ✅ [Translation](#working-with-translations-)
+- 🔲  [Tests](#tests-)
 
-## Problem
+---
+
+## Problem 💥
 
 Develop a music management app with Flutter (iOS and Android) based on the LastFM API. With the help of the app the user
 should be able to search for artists, pick one of their top albums and save it locally.
 
-This application should have 3 screen
+This application should have four (4) screens
 
 - [x] Dashboard
 - [x] Search (Search artists and show in the list)
 - [x] Albums (Load albums that related to artist)
-- [x] Album detail (It should show Album detail, either fetched from api or loaded from local). There should an option to
- delete or save album locally.
+- [x] Album detail (It should show Album detail, either fetched from api or loaded from local). There should an option
+  to delete or save album locally.
 
 You can create your API key on the following website:
 https://www.last.fm/api/authentication
 
-## Solution
+---
+
+## Solution 💪
 
 The solution is designed so a user can access saved albums without internet. The detail is given below:
 
@@ -85,7 +89,8 @@ The solution is designed so a user can access saved albums without internet. The
 
 > 😐The question will be here, how did you save the `Image` in the database for offline usage❓
 > Well the solution is there, and I have 2 choices to save images:
->- ❗ Load image from the `url` and convert into `Unit8List` and save as a `blob`. `SQflite` also allows few data types and to save images you can use only `Blob`. 👎
+>- ❗ Load image from the `url` and convert into `Unit8List` (in different isolates) and save as a `BLOB`. `SQflite` also allows few data types
+   > and to save images you can use only `Blob`. 👎
 >
 >
 >- ✅ I preferred to save `images` as a string. It'll keep the same URL as we load from the detail api.
@@ -98,11 +103,15 @@ The solution is designed so a user can access saved albums without internet. The
 > If user don't have internet, the app will load image from local cache and if there's internet,
 > url will be refreshed.
 
+---
+
 ### Log controller
 
 ![coverage][sentry_io]
 
 - We have used [Sentry.io](https://sentry.io/welcome/) to log all errors and issues in a server.
+
+---
 
 ### Flavours 🚀
 
@@ -135,12 +144,6 @@ $ flutter run --flavor production --target lib/main_production.dart
 ```
 
 _\*Music Factory works on iOS, Android, and Web._
-
----
-
-## Tests 🧪
-
-This section is under development and will be continue after a break.
 
 ---
 
@@ -279,3 +282,9 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 [very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
 
 [very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
+
+---
+
+## Tests 🧪
+
+This section is under development and will be continue after a break.
