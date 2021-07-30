@@ -12,6 +12,9 @@ part 'dashboard_state.dart';
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc({required this.albumsBloc, required this.service})
       : super(DashboardInitial()) {
+
+    // we will listen the streams from AlbumsBloc for AlbumDetailLoaded state
+    // so we can keep refresh our dashboard page
     albumsBlocSubscription = albumsBloc.stream.listen((albumState) async{
       if (albumState is AlbumDetailLoaded) {
         List<AlbumData>? albums = await service.loadAlbums();
@@ -19,6 +22,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       }
     });
 
+    // Function will be called as soon as app starts
+    // this function will load albums from local storage
     on<LoadAlbums>(_loadTopAlbums);
   }
 

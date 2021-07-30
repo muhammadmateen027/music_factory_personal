@@ -10,7 +10,14 @@ part 'search_artist_state.dart';
 
 class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
   ArtistBloc({required this.musicService}) : super(SearchArtistInitial()) {
+
+    // When user hit search button then this function will gives a respective
+    // result. It'll call the api to fetch data
     on<SearchArtists>(_searchArtist);
+
+    // When user try to load more data, this function will be called
+    // First of all. it will check either last state is ArtistsLoadedState
+    // then it'll load more data.
     on<LoadArtists>(_loadArtist);
   }
 
