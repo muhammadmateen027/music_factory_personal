@@ -152,7 +152,8 @@ _\*Music Factory works on iOS, Android, and Web._
 This project relies on [flutter_localizations][flutter_localizations_link] and follows
 the [official internationalization guide for Flutter][internationalization_link].
 
-> In this project we ignored this part but how to use is described below.
+> **Note:** For demo purposes, I have added two locales but have same strings. We can update and even
+> add more locales to support.
 
 ### Adding Strings
 
