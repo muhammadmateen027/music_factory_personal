@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:music_repository/repository.dart';
+import 'package:music_factory/l10n/l10n.dart';
 
 class DescriptionView extends StatelessWidget {
   const DescriptionView({Key? key, required this.albumData}) : super(key: key);
@@ -8,6 +9,7 @@ class DescriptionView extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final theme = Theme.of(context);
 
     if (albumData.wiki == null) {
@@ -24,7 +26,7 @@ class DescriptionView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                'Description',
+                l10n.descriptionLabel,
                 style: theme.textTheme.headline6,
               ),
               Text(

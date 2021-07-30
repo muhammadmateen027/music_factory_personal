@@ -1,7 +1,43 @@
 {
     "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
+    "appName": "Music factory",
+    "@appName": {
+        "description": "Application name."
+    },
+    "albumNotFound": "Album not found",
+    "@albumNotFound": {
+        "description": "Text shown if no saved album available"
+    },
+    "descriptionLabel": "Description",
+    "@descriptionLabel": {
+        "description": "Text will be used as label"
+    },
+    "tracksLabel": "Tracks",
+    "@tracksLabel": {
+        "description": "Text will be used as label in the tracks section"
+    },
+    "durationLabel": "Duration",
+    "@durationLabel": {
+        "description": "Text will be used as label in duration section"
+    },
+    "searchLabel": "Search",
+    "@searchLabel": {
+        "description": "Text will be used as label"
+    },
+    "searchHereHint": "Search here",
+    "@searchHereHint": {
+        "description": "Text will be used as hint inside a text field"
+    },
+    "pageNotAvailableLabel": "Not available",
+    "@pageNotAvailableLabel": {
+        "description": "Text will be shown as a title on the appbar"
+    },
+    "pageNotAvailableDescription": "You requested page is not available at the moment.",
+    "@pageNotAvailableDescription": {
+        "description": "If requested page is not available then this description will be used in a default page."
+    },
+    "artistNotFoundMessage": "No artists",
+    "@artistNotFoundMessage": {
+        "description": "This message will be shown if artist not available or not found"
     }
 }

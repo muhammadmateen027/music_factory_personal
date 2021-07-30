@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:music_factory/l10n/l10n.dart';
 
 import '../../global/global.dart';
 import 'component/component.dart';
@@ -24,12 +25,13 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onBackground,
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('Search'),
+        title: Text(l10n.searchLabel),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(50.0),
           child: BlocProvider.value(
@@ -38,11 +40,11 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
           ),
         ),
       ),
-      body: _getBody(),
+      body: _getBody(l10n),
     ).addSafeArea(backgroundColor: Theme.of(context).colorScheme.primary);
   }
 
-  Widget _getBody() {
+  Widget _getBody(AppLocalizations l10n) {
     return BlocConsumer<ArtistBloc, ArtistState>(
       listener: (_, state) {
         if (state is SearchArtistFailure) {
@@ -77,7 +79,7 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
       },
       builder: (context, state) {
         if (state is SearchArtistInitial) {
-          return const Center(child: Text('no artists'));
+          return Center(child: Text(l10n.artistNotFoundMessage));
         }
 
         if (state is ArtistsLoadedState) {
@@ -99,7 +101,8 @@ class _SearchArtistPageState extends State<SearchArtistPage> {
       enablePullUp: true,
       controller: _refreshController,
       onLoading: loadRequests,
-      child: ListView.builder(
+      child: ListView.separated(
+        separatorBuilder: (_, index) => const SizedBox(height: 4),
         itemBuilder: (BuildContext context, int index) {
           return index >= state.artists!.length
               ? BottomLoader()

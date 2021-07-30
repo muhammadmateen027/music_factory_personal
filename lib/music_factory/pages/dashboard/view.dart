@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/music_factory/music_factory.dart';
 import 'package:music_factory/routes/routes.dart';
+import 'package:music_factory/l10n/l10n.dart';
 
 import '../../global/global.dart';
 import 'component/album_list_item.dart';
@@ -11,10 +12,13 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.0,
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text('Music factory'),
+        title: Text(l10n.appName),
         actions: [
           IconButton(
             onPressed: () {
@@ -34,8 +38,8 @@ class DashboardPage extends StatelessWidget {
               },
             );
           }
-          return const Center(
-            child: Text('No album found'),
+          return Center(
+            child: Text(l10n.albumNotFound),
           );
         },
       ),

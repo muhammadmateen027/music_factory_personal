@@ -39,9 +39,6 @@ class AppbarImageView extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             },
           ),
-          // Container(
-          //   color: Colors.grey.withOpacity(0.4),
-          // )
         ],
       ),
     );
