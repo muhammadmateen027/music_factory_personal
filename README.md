@@ -23,6 +23,17 @@ In this project we will discuss:
 - ✅ [Dependencies](#dependencies)
 - 🔲  [Tests](#tests-)
 
+<table>
+  <tr>
+    <td> <img src="https://user-images.githubusercontent.com/24449076/127726857-b8c9ad96-3064-4d92-81f8-a56c3574b56b.jpg" title="Dashboard" width="200" height="300" /></td>
+    <td> <img src="https://user-images.githubusercontent.com/24449076/127726860-788ef3a3-cd51-4750-970d-7ba4c68d449f.jpg" title="Search artist" width="200" height="300" /></td>
+    <td> <img src="https://user-images.githubusercontent.com/24449076/127726861-79f799c7-dc03-44e8-a330-4f4945ec436e.jpg" title="Albums" width="200" height="300" /></td>
+   </tr> 
+ <tr>
+    <td> <img src="https://user-images.githubusercontent.com/24449076/127726862-06311a2a-4d2b-47dd-9109-fa2dc20022e2.jpg" title="Album detail" width="200" height="300" /></td>
+    <td> <img src="https://user-images.githubusercontent.com/24449076/127726864-8ea4e887-446b-4eb0-8929-e5d108145ca3.jpg" title="Album detail" width="200" height="300" /></td>
+   </tr> 
+</table>
 ---
 
 ## Problem 💥
@@ -256,7 +267,7 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 }
 ```
 ---
-## Dependencies 🧪
+## Dependencies 💉
 We like to highlight some major dependencies:
 - [cached_network_image: ^3.1.0](https://pub.dev/packages/cached_network_image) -- It'll be used for loading image from internet or from local storage
 - [connectivity: ^3.0.6](https://pub.dev/packages/connectivity) -- This package will help to determine whether internet available or not.
