@@ -104,7 +104,7 @@ The solution is designed so a user can access the saved albums without internet.
       this code rather than writing number of lines of code.
 
 > 😐The question will be here, how did you save the `Image` in the database for offline usage❓
-> Well the solution is there, and I have 2 choices to save images:
+> Well the solution is there, and I have 3 choices to save images:
 >- ❗ Load image from the `url` and convert into `Unit8List` (in different isolates) and save as a `BLOB`. `SQflite` also allows few data types
    > and to save images you can use only `Blob`. 👎
 >
@@ -115,10 +115,15 @@ The solution is designed so a user can access the saved albums without internet.
 >  * Used [cached_network_image: ^3.1.0](https://pub.dev/packages/cached_network_image) to load images. It is the wrapper of [flutter_cache_manager](https://pub.dev/packages/flutter_cache_manager) library. Each file have a
    `stalePeriod` and we can increase as per our requirement. We can update the maxAge by overriding `BaseCacheManager`
    but it already has `maxAge = const Duration(days: 30),`.
+>
+> 
+>- 🔲 Save image as a file in the application directory and save reference in the database. Load image from the 
+> directory with the reference. It's same as handling cache so for that purpose I used upper solution.
 
-> If user don't have internet, the app will load image from local cache and if there's internet,
-> url will be refreshed.
-
+> *If user don't have internet, the app will load image from local cache and if there's internet,
+> url will be refreshed.*
+>
+> **Important note:** *Each solution has own advantages and drawbacks.*  
 ---
 
 ### Log controller
@@ -168,8 +173,8 @@ _\*Music Factory works on iOS, Android, and Web._
 This project relies on [flutter_localizations][flutter_localizations_link] and follows
 the [official internationalization guide for Flutter][internationalization_link].
 
-> **Note:** For demo purposes, I have added two locales but have same strings. We can update and even
-> add more locales to support.
+> **Note:** *For demo purposes, I have added two locales but have same strings. We can update and even
+> add more locales to support.*
 
 ### Adding Strings
 
