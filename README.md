@@ -10,7 +10,7 @@
 ![coverage][development] ![coverage][staging] ![coverage][production]
 ![coverage][coverage_badge]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
----
+
 
 # Getting Started 🚀
 
@@ -19,8 +19,8 @@ In this project we will discuss:
 - ✅ [Problem](#problem)
 - ✅ [Solution](#solution)
 - ✅ [Flavours](#flavours-)
-- ✅ [Dependencies](#dependencies)
 - ✅ [Translation](#working-with-translations-)
+- ✅ [Dependencies](#dependencies)
 - 🔲  [Tests](#tests-)
 
 ---
@@ -45,10 +45,15 @@ https://www.last.fm/api/authentication
 
 ## Solution 💪
 
-The solution is designed so a user can access saved albums without internet. The detail is given below:
+The solution is designed so a user can access the saved albums without internet. The detail is given below:
 
 - `lib` will contains view(pages, widgets, components), BLoC, configuration, etc.
 - `packages` will keep network, database, and repository layer
+
+> You will notice a full page loading indicator. It's just for showing that, if we build a common Builder then we can
+> use in Interceptor and can be shown whenever required.
+
+> Purposely missed the theme as I just implemented core functionality.
 
 ### State management
 
@@ -93,10 +98,10 @@ The solution is designed so a user can access saved albums without internet. The
    > and to save images you can use only `Blob`. 👎
 >
 >
->- ✅ I preferred to save `images` as a string. It'll keep the same URL as we load from the detail api.
->
->
->- Used [cached_network_image: ^3.1.0](https://pub.dev/packages/cached_network_image) to load images. It is the wrapper of [flutter_cache_manager](https://pub.dev/packages/flutter_cache_manager) library. Each file have a
+>- ✅ As any management application mostly used while using internet and user should have latest data so I preferred 
+   > to save `images` as a string. It'll update the URL as we load from the detail api otherwise app will load from
+   > local storage.
+>  * Used [cached_network_image: ^3.1.0](https://pub.dev/packages/cached_network_image) to load images. It is the wrapper of [flutter_cache_manager](https://pub.dev/packages/flutter_cache_manager) library. Each file have a
    `stalePeriod` and we can increase as per our requirement. We can update the maxAge by overriding `BaseCacheManager`
    but it already has `maxAge = const Duration(days: 30),`.
 
@@ -222,6 +227,7 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 │   ├── arb
 │   │   ├── app_en.arb
 │   │   └── app_es.arb
+│   │   └── ----------
 ```
 
 2. Add the translated strings to each `.arb` file:
@@ -249,6 +255,23 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
     }
 }
 ```
+---
+## Dependencies 🧪
+We like to highlight some major dependencies:
+- [cached_network_image: ^3.1.0](https://pub.dev/packages/cached_network_image) -- It'll be used for loading image from internet or from local storage
+- [connectivity: ^3.0.6](https://pub.dev/packages/connectivity) -- This package will help to determine whether internet available or not.
+- [dio: ^4.0.0](https://pub.dev/packages/dio) -- A powerful Http client for Dart, which supports Interceptors, Global configuration, FormData, Request Cancellation, File downloading, Timeout etc.
+- [get_it: ^7.1.3](https://pub.dev/packages/get_it) -- This is a simple Service Locator for Dart and Flutter projects with some additional goodies
+- [hive: ^2.0.4](https://pub.dev/packages/hive) -- Hive is a lightweight and blazing fast key-value database written in pure Dart.
+- [pull_to_refresh: ^2.0.0](https://pub.dev/packages/pull_to_refresh) -- A widget provided to the flutter scroll component drop-down refresh and pull up load.support android and ios
+- [sentry_flutter: ^5.1.0](https://pub.dev/packages/sentry_flutter) -- This package includes support to native crashes through Sentry's native SDKs: (Android and iOS). It will capture errors in the native layer, including (Java/Kotlin/C/C++ for Android and Objective-C/Swift for iOS).
+---
+
+## Tests 🧪
+
+This section is under development and will be continue after a break.
+
+
 
 [flutter_version]: https://img.shields.io/badge/flutter-2.2.3-1389FD.svg
 
@@ -283,9 +306,3 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 [very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
 
 [very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
-
----
-
-## Tests 🧪
-
-This section is under development and will be continue after a break.
