@@ -114,7 +114,7 @@ The solution is designed so a user can access the saved albums without internet.
    > local storage.
 >  * Used [cached_network_image: ^3.1.0](https://pub.dev/packages/cached_network_image) to load images. It is the wrapper of [flutter_cache_manager](https://pub.dev/packages/flutter_cache_manager) library. Each file have a
    `stalePeriod` and we can increase as per our requirement. We can update the maxAge by overriding `BaseCacheManager`
-   but it already has `maxAge = const Duration(days: 30),`.
+   but it already has `maxAge`.
 >
 > 
 >- 🔲 Save image as a file in the application directory and save reference in the database. Load image from the 
