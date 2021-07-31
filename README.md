@@ -70,7 +70,7 @@ The solution is designed so a user can access the saved albums without internet.
 
 ![coverage][state_management] ![coverage][bloc_version] ![coverage][override_bloc_version]
 
-- We have used `BLoC's 7.0.0` version as State management library. But as `Bloc` team is working
+- Thir project is using `BLoC's 7.0.0` version as State management library. But as `Bloc` team is working
   on [newer version](https://github.com/felangel/bloc/tree/feat/replace-mapEventToState-with-on%3CE%3E)
   that will help to remove boilerplate of writing `mapEventsToSate` and bloc will look like this:
   ```dart 
@@ -91,7 +91,7 @@ The solution is designed so a user can access the saved albums without internet.
 
 ![coverage][database] ![coverage][hive]
 
-- We have used [Hive](https://docs.hivedb.dev/#/) as a local storage because it's light weight offline storage.
+- This project is using [Hive](https://docs.hivedb.dev/#/) as a local storage because it's light weight offline storage.
     * Hive requires a `key` and `value` to save a value.
         * We used `url` as a `key` because it seems unique rather then `mbid`.
         * Why can't use `mbid` as a key? There were number of cases where `mbid` was `null` or `empty` so we can't relay
@@ -125,7 +125,7 @@ The solution is designed so a user can access the saved albums without internet.
 
 ![coverage][sentry_io]
 
-- We have used [Sentry.io](https://sentry.io/welcome/) to log all errors and issues in a server.
+- [Sentry.io](https://sentry.io/welcome/) is being used to log all errors and issues in a server.
 
 ---
 
