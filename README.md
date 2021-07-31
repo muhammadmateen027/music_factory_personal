@@ -37,8 +37,7 @@ This application should have four (4) screens
 - [x] Album detail (It should show Album detail, either fetched from api or loaded from local). There should an option
   to delete or save album locally.
 
-You can create your API key on the following website:
-https://www.last.fm/api/authentication
+> You can create your API key on the following website: https://www.last.fm/api/authentication
 
 
 <table>
