@@ -22,18 +22,6 @@ In this project we will discuss:
 - ✅ [Translation](#working-with-translations-)
 - ✅ [Dependencies](#dependencies)
 - 🔲  [Tests](#tests-)
-
-<table>
-  <tr>
-    <td> <img src="https://user-images.githubusercontent.com/24449076/127726857-b8c9ad96-3064-4d92-81f8-a56c3574b56b.jpg" title="Dashboard" width="200" height="350" /></td>
-    <td> <img src="https://user-images.githubusercontent.com/24449076/127726860-788ef3a3-cd51-4750-970d-7ba4c68d449f.jpg" title="Search artist" width="200" height="350" /></td>
-    <td> <img src="https://user-images.githubusercontent.com/24449076/127726861-79f799c7-dc03-44e8-a330-4f4945ec436e.jpg" title="Albums" width="200" height="350" /></td>
-   </tr> 
- <tr>
-    <td> <img src="https://user-images.githubusercontent.com/24449076/127726862-06311a2a-4d2b-47dd-9109-fa2dc20022e2.jpg" title="Album detail" width="200" height="350" /></td>
-    <td> <img src="https://user-images.githubusercontent.com/24449076/127726864-8ea4e887-446b-4eb0-8929-e5d108145ca3.jpg" title="Album detail" width="200" height="350" /></td>
-   </tr> 
-</table>
 ---
 
 ## Problem 💥
@@ -51,6 +39,19 @@ This application should have four (4) screens
 
 You can create your API key on the following website:
 https://www.last.fm/api/authentication
+
+
+<table>
+  <tr>
+    <td> <img src="https://user-images.githubusercontent.com/24449076/127726857-b8c9ad96-3064-4d92-81f8-a56c3574b56b.jpg" title="Dashboard" width="180" height="350" /></td>
+    <td> <img src="https://user-images.githubusercontent.com/24449076/127726860-788ef3a3-cd51-4750-970d-7ba4c68d449f.jpg" title="Search artist" width="180" height="350" /></td>
+    <td> <img src="https://user-images.githubusercontent.com/24449076/127726861-79f799c7-dc03-44e8-a330-4f4945ec436e.jpg" title="Albums" width="180" height="350" /></td>
+   </tr> 
+ <tr>
+    <td> <img src="https://user-images.githubusercontent.com/24449076/127726862-06311a2a-4d2b-47dd-9109-fa2dc20022e2.jpg" title="Album detail" width="180" height="350" /></td>
+    <td> <img src="https://user-images.githubusercontent.com/24449076/127726864-8ea4e887-446b-4eb0-8929-e5d108145ca3.jpg" title="Album detail" width="180" height="350" /></td>
+   </tr> 
+</table>
 
 ---
 
