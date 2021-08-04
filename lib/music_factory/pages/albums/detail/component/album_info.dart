@@ -1,7 +1,7 @@
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:music_repository/repository.dart';
+
+import 'album_title.dart';
 
 class AlbumInfoView extends StatelessWidget {
   AlbumInfoView({Key? key, required this.albumData}) : super(key: key);
@@ -46,14 +46,7 @@ class AlbumInfoView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RichText(
-                  text: TextSpan(
-                    text: albumName,
-                    style: theme.textTheme.headline6,
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => print('click'),
-                  ),
-                ),
+                AlbumTitle(albumName: albumName!),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,

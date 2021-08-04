@@ -43,22 +43,6 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
               title: Text(widget.albumDetailModel.artistName!),
               background: const AppbarImageView(),
             ),
-            actions: [
-              BlocBuilder<AlbumsBloc, AlbumsState>(
-                builder: (_, state) {
-                  if (state is AlbumDetailLoaded) {
-                    return AlbumDetailAction(
-                      onPressed: () {
-                        context.read<AlbumsBloc>().add(SaveDeleteAlbumEvent());
-                      },
-                      isAlbumExist: state.albumExists,
-                    );
-                  }
-
-                  return const SizedBox();
-                },
-              )
-            ],
           ),
         ];
       },

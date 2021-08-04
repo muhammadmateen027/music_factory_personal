@@ -14,11 +14,11 @@ class AlbumDetailAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: isAlbumExist
-          ? const Icon(Icons.delete, color: Colors.red)
-          : const Icon(Icons.save, color: Colors.white),
+    return GestureDetector(
+      onTap: onPressed,
+      child: isAlbumExist
+          ? const Icon(Icons.star, color: Colors.orange)
+          : const Icon(Icons.star_border, color: Colors.orange),
     );
   }
 }
