@@ -5,7 +5,7 @@ import 'package:music_factory/routes/routes.dart';
 import 'package:music_factory/l10n/l10n.dart';
 
 import '../../global/global.dart';
-import 'component/album_list_item.dart';
+import 'component/component.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -31,12 +31,7 @@ class DashboardPage extends StatelessWidget {
       body: BlocBuilder<DashboardBloc, DashboardState>(
         builder: (_, state) {
           if (state is AlbumsLoaded) {
-            return ListView.builder(
-              itemCount: state.albums.length,
-              itemBuilder: (context, index) {
-                return AlbumListItem(albumData: state.albums[index]);
-              },
-            );
+            return AlbumsGridView(albums: state.albums);
           }
           return Center(
             child: Text(l10n.albumNotFound),
