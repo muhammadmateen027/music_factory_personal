@@ -44,6 +44,7 @@ class App extends StatelessWidget {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
           ],
+          debugShowCheckedModeBanner: false,
           // Added builder for toast and loading indicator
           builder: EasyLoading.init(builder: BotToastInit()),
           supportedLocales: AppLocalizations.supportedLocales,
