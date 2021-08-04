@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_factory/music_factory/base_page/base_page.dart';
 import 'package:music_factory/music_factory/pages/albums/model/album_detail_model.dart';
+import 'package:music_repository/repository.dart';
 
 import '../bloc/albums_bloc.dart';
 import 'component/component.dart';
@@ -30,16 +31,20 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
   @override
   Widget body(BuildContext context) {
     theme = Theme.of(context);
+    final orientation = MediaQuery.of(context).orientation;
+    final height = MediaQuery.of(context).size.height / 1.2;
 
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
-            expandedHeight: 350.0,
+            expandedHeight:
+                orientation == Orientation.portrait ? 350.0 : height,
             floating: false,
             pinned: true,
+            backgroundColor: theme.primaryColor,
             flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
+              centerTitle: orientation == Orientation.portrait ? true : false,
               title: Text(widget.albumDetailModel.artistName!),
               background: const AppbarImageView(),
             ),
@@ -63,17 +68,9 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
           },
           builder: (_, state) {
             if (state is AlbumDetailLoaded) {
-              return ListView(
-                children: [
-                  const SizedBox(height: 8),
-                  AlbumInfoView(albumData: state.albumData),
-                  const SizedBox(height: 16),
-                  TagsView(albumData: state.albumData),
-                  DescriptionView(albumData: state.albumData),
-                  TracksView(albumData: state.albumData),
-                  const SizedBox(height: 16),
-                ],
-              );
+              return orientation == Orientation.portrait
+                  ? _buildPortrait(state.albumData)
+                  : _buildLandscape(state.albumData);
             }
 
             if (state is EmptyAlbum) {
@@ -86,6 +83,29 @@ class _AlbumDetailPageState extends BaseState<AlbumDetailPage> with BasicPage {
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildLandscape(AlbumData albumData) {
+    return ListView(
+      children: [
+        TagsView(albumData: albumData),
+        DescriptionView(albumData: albumData),
+      ],
+    );
+  }
+
+  Widget _buildPortrait(AlbumData albumData) {
+    return ListView(
+      children: [
+        const SizedBox(height: 8),
+        AlbumInfoView(albumData: albumData),
+        const SizedBox(height: 16),
+        TagsView(albumData: albumData),
+        DescriptionView(albumData: albumData),
+        TracksView(albumData: albumData),
+        const SizedBox(height: 16),
+      ],
     );
   }
 

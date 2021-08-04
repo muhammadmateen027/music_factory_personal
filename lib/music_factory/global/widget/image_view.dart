@@ -13,6 +13,7 @@ class ImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     return CachedNetworkImage(
       placeholder: (context, url) => Center(
         child: const SizedBox(
@@ -28,7 +29,7 @@ class ImageView extends StatelessWidget {
           ),
         );
       },
-      fit: BoxFit.fitWidth,
+      fit: orientation == Orientation.portrait ? BoxFit.fitWidth : BoxFit.fill,
       imageUrl: imageUrl,
     );
   }
